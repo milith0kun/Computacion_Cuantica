@@ -38,12 +38,12 @@ Se implementaron con Qiskit Machine Learning 0.9.0:
 \subsection{Dise\~no del Circuito Cu\'antico}
 El circuito utiliza 4 qubits (uno por caracter\'istica). El feature map ZZFeatureMap codifica las caracter\'isticas mediante rotaciones $R_Z$ e interacciones $R_{ZZ}$ con entrelazamiento lineal. El ansatz RealAmplitudes a\~nade 16 par\'ametros entrenables en 3 capas de rotaciones $R_Y$ y CNOT. La Figura~\ref{fig:circuitos} muestra los circuitos utilizados.
 
-\begin{figure*}[t]
+\begin{figure}[H]
 \centering
-\includegraphics[width=0.95\textwidth]{figuras/circuitos.png}
-\caption{Circuitos cu\'anticos utilizados. Arriba: ZZFeatureMap (reps=2). Centro: RealAmplitudes (reps=3). Abajo: circuito completo.}
+\includegraphics[width=\columnwidth]{figuras/circuitos.png}
+\caption{Circuitos cu\'anticos. Arriba: ZZFeatureMap (reps=2). Centro: RealAmplitudes (reps=3). Abajo: circuito completo.}
 \label{fig:circuitos}
-\end{figure*}
+\end{figure}
 
 \subsection{Experimentos Realizados}
 \begin{enumerate}

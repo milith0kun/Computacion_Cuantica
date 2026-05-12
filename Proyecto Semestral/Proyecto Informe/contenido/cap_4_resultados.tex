@@ -3,12 +3,12 @@
 \subsection{An\'alisis Exploratorio del Dataset}
 El dataset Iris presenta una estructura donde la clase setosa es linealmente separable. Las clases versicolor y virginica presentan solapamiento parcial, particularmente en las dimensiones de s\'epalo (Figura~\ref{fig:eda}).
 
-\begin{figure*}[t]
+\begin{figure}[H]
 \centering
-\includegraphics[width=0.92\textwidth]{figuras/eda_iris.png}
-\caption{Distribuci\'on de las muestras de Iris por pares de caracter\'isticas. Setosa (azul) es claramente separable de versicolor y virginica.}
+\includegraphics[width=\columnwidth]{figuras/eda_iris.png}
+\caption{Distribuci\'on de las muestras de Iris por pares de caracter\'isticas. Setosa (azul) es claramente separable.}
 \label{fig:eda}
-\end{figure*}
+\end{figure}
 
 \subsection{Resultados de Modelos Cl\'asicos}
 Los tres modelos cl\'asicos alcanzaron un accuracy de 93.33\% en el conjunto de test (Tabla~\ref{tab:clasicos}). La validaci\'on cruzada 5-fold confirm\'o la estabilidad de estos resultados.
@@ -65,30 +65,30 @@ QSVC    & Cu\'ant. & 0.778 & 0.777 & 10.63 \\
 \end{tabular}
 \end{table}
 
-\begin{figure*}[t]
+\begin{figure}[H]
 \centering
-\includegraphics[width=0.92\textwidth]{figuras/comparacion_general.png}
-\caption{Izquierda: accuracy por modelo. Derecha: tiempo de entrenamiento (escala logar\'itmica). Azul = cl\'asico, morado = cu\'antico.}
+\includegraphics[width=\columnwidth]{figuras/comparacion_general.png}
+\caption{Izq: accuracy por modelo. Der: tiempo de entrenamiento (escala log). Azul = cl\'asico, morado = cu\'antico.}
 \label{fig:comparacion}
-\end{figure*}
+\end{figure}
 
 \subsection{Matrices de Confusi\'on}
 La Figura~\ref{fig:confusion} muestra las matrices de confusi\'on. El VQC tiene dificultades para distinguir entre las tres clases, mientras que QSVC confunde principalmente versicolor con virginica.
 
-\begin{figure*}[t]
+\begin{figure}[H]
 \centering
-\includegraphics[width=0.92\textwidth]{figuras/matrices_confusion.png}
+\includegraphics[width=\columnwidth]{figuras/matrices_confusion.png}
 \caption{Matrices de confusi\'on para los cinco modelos evaluados sobre el conjunto de test de Iris.}
 \label{fig:confusion}
-\end{figure*}
+\end{figure}
 
 \subsection{Fronteras de Decisi\'on}
-La Figura~\ref{fig:frontera} muestra la frontera de decisi\'on del SVM-RBF en una proyecci\'on PCA bidimensional, donde se aprecian las regiones de clasificaci\'on no lineales.
+La Figura~\ref{fig:frontera} muestra la frontera de decisi\'on del SVM-RBF en una proyecci\'on PCA bidimensional.
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=\columnwidth]{figuras/frontera_decision.png}
-\caption{Frontera de decisi\'on del SVM-RBF proyectada en las dos primeras componentes principales (PCA 2D).}
+\caption{Frontera de decisi\'on del SVM-RBF en PCA 2D.}
 \label{fig:frontera}
 \end{figure}
 
@@ -112,12 +112,12 @@ PauliFeatureMap   & 0.556 & 41 & 61.8 \\
 \end{tabular}
 \end{table}
 
-\begin{figure*}[t]
+\begin{figure}[H]
 \centering
-\includegraphics[width=0.92\textwidth]{figuras/exp1_feature_maps.png}
-\caption{Izquierda: accuracy por feature map. Derecha: curvas de convergencia de la funci\'on de p\'erdida.}
+\includegraphics[width=\columnwidth]{figuras/exp1_feature_maps.png}
+\caption{Izq: accuracy por feature map. Der: curvas de convergencia de la funci\'on de p\'erdida.}
 \label{fig:featuremaps}
-\end{figure*}
+\end{figure}
 
 \subsection{Exp. 2: Profundidad del Ansatz}
 Se vari\'o el n\'umero de repeticiones del ansatz RealAmplitudes (Tabla~\ref{tab:depth}). El accuracy mejor\'o con la profundidad, alcanzando 57.78\% con reps=5 (24 par\'ametros). No se observ\'o barren plateau en este rango.
@@ -139,12 +139,12 @@ Se vari\'o el n\'umero de repeticiones del ansatz RealAmplitudes (Tabla~\ref{tab
 \end{tabular}
 \end{table}
 
-\begin{figure*}[t]
+\begin{figure}[H]
 \centering
-\includegraphics[width=0.92\textwidth]{figuras/exp2_profundidad.png}
-\caption{Izquierda: accuracy vs n\'umero de repeticiones del ansatz. Derecha: convergencia por profundidad.}
+\includegraphics[width=\columnwidth]{figuras/exp2_profundidad.png}
+\caption{Izq: accuracy vs repeticiones del ansatz. Der: convergencia por profundidad.}
 \label{fig:depth}
-\end{figure*}
+\end{figure}
 
 \subsection{Exp. 3: Comparaci\'on de Optimizadores}
 Se compararon tres optimizadores (Tabla~\ref{tab:optimizadores}). COBYLA obtuvo el mejor accuracy (62.22\%) con menor tiempo. L-BFGS-B fue el m\'as lento (204.1s) por el c\'alculo de gradientes.
@@ -165,15 +165,15 @@ L-BFGS-B & 0.578 & 17  & 204.1 \\
 \end{tabular}
 \end{table}
 
-\begin{figure*}[t]
+\begin{figure}[H]
 \centering
-\includegraphics[width=0.92\textwidth]{figuras/exp3_optimizadores.png}
-\caption{Izquierda: accuracy por optimizador. Derecha: curvas de convergencia de la funci\'on de p\'erdida.}
+\includegraphics[width=\columnwidth]{figuras/exp3_optimizadores.png}
+\caption{Izq: accuracy por optimizador. Der: curvas de convergencia.}
 \label{fig:optimizadores}
-\end{figure*}
+\end{figure}
 
 \subsection{Kernel Cu\'antico vs Kernel RBF}
-La Figura~\ref{fig:kernels} muestra los heatmaps de las matrices de kernel. El kernel cu\'antico exhibe una estructura m\'as dispersa y con mayor contraste, reflejando un mapeo diferente al espacio de caracter\'isticas.
+La Figura~\ref{fig:kernels} muestra los heatmaps de las matrices de kernel. El kernel cu\'antico exhibe una estructura m\'as dispersa y con mayor contraste.
 
 \begin{figure}[H]
 \centering
@@ -183,7 +183,7 @@ La Figura~\ref{fig:kernels} muestra los heatmaps de las matrices de kernel. El k
 \end{figure}
 
 \subsection{Varianza del VQC}
-El VQC se ejecut\'o con 5 semillas distintas, obteniendo un accuracy promedio de $0.484 \pm 0.076$ (Figura~\ref{fig:varianza}). Esta varianza alta contrasta con el SVM-RBF ($0.960 \pm 0.039$ en validaci\'on cruzada 5-fold).
+El VQC se ejecut\'o con 5 semillas distintas, obteniendo un accuracy promedio de $0.484 \pm 0.076$ (Figura~\ref{fig:varianza}). Esta varianza alta contrasta con el SVM-RBF ($0.960 \pm 0.039$ en CV 5-fold).
 
 \begin{figure}[H]
 \centering
@@ -193,11 +193,11 @@ El VQC se ejecut\'o con 5 semillas distintas, obteniendo un accuracy promedio de
 \end{figure}
 
 \subsection{MNIST Reducido}
-En el dataset MNIST reducido (clases 0 vs 1), SVM-RBF alcanz\'o 100\% de accuracy mientras que VQC obtuvo 69.44\% (Figura~\ref{fig:mnist}). La tarea binaria es m\'as sencilla, pero el VQC a\'un no iguala al modelo cl\'asico.
+En MNIST reducido (clases 0 vs 1), SVM-RBF alcanz\'o 100\% de accuracy mientras que VQC obtuvo 69.44\% (Figura~\ref{fig:mnist}). La tarea binaria es m\'as sencilla, pero el VQC a\'un no iguala al modelo cl\'asico.
 
-\begin{figure*}[t]
+\begin{figure}[H]
 \centering
-\includegraphics[width=0.92\textwidth]{figuras/exp_mnist.png}
-\caption{Izquierda: accuracy SVM vs VQC en MNIST reducido. Derecha: convergencia del VQC.}
+\includegraphics[width=\columnwidth]{figuras/exp_mnist.png}
+\caption{Izq: accuracy SVM vs VQC en MNIST reducido. Der: convergencia del VQC.}
 \label{fig:mnist}
-\end{figure*}
+\end{figure}

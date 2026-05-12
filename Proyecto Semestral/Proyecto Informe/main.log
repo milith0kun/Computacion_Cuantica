@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.28 (MiKTeX 25.12) (preloaded format=pdflatex 2026.3.10)  12 MAY 2026 05:40
+This is pdfTeX, Version 3.141592653-2.6-1.40.28 (MiKTeX 25.12) (preloaded format=pdflatex 2026.3.10)  12 MAY 2026 05:43
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1516,7 +1516,13 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 File: figuras/circuitos.png Graphic file (type png)
 <use figuras/circuitos.png>
 Package pdftex.def Info: figuras/circuitos.png  used on input line 43.
-(pdftex.def)             Requested size: 470.32239pt x 538.59798pt.
+(pdftex.def)             Requested size: 239.00298pt x 273.68471pt.
+
+Underfull \hbox (badness 3780) in paragraph at lines 44--44
+[]\T1/aer/b/n/9 Figura 1: |\T1/aer/m/n/9 Cir-cui-tos cuán-ti-cos. Arri-ba: ZZ-F
+ea-tu-re-Map
+ []
+
 
 Underfull \hbox (badness 1152) in paragraph at lines 50--51
 []\T1/aer/b/n/10 Feature maps\T1/aer/m/n/10 : ZFea-tu-re-Map, ZZ-Fea-tu-re-Map 
@@ -1534,75 +1540,81 @@ mm/m/it/10 ^^[ \OMS/cmsy/m/n/10 2
 File: figuras/eda_iris.png Graphic file (type png)
 <use figuras/eda_iris.png>
 Package pdftex.def Info: figuras/eda_iris.png  used on input line 8.
-(pdftex.def)             Requested size: 455.47066pt x 280.88673pt.
+(pdftex.def)             Requested size: 239.00298pt x 147.39291pt.
 <figuras/vqc_loss.png, id=309, 631.6398pt x 343.0416pt>
 File: figuras/vqc_loss.png Graphic file (type png)
 <use figuras/vqc_loss.png>
 Package pdftex.def Info: figuras/vqc_loss.png  used on input line 39.
 (pdftex.def)             Requested size: 239.00298pt x 129.8023pt.
-<figuras/comparacion_general.png, id=312, 998.7714pt x 420.1296pt>
+ [3 <./figuras/circuitos.png> <./figuras/eda_iris.png>]
+<figuras/comparacion_general.png, id=329, 998.7714pt x 420.1296pt>
 File: figuras/comparacion_general.png Graphic file (type png)
 <use figuras/comparacion_general.png>
 Package pdftex.def Info: figuras/comparacion_general.png  used on input line 70
 .
-(pdftex.def)             Requested size: 455.47066pt x 191.59518pt.
-<figuras/matrices_confusion.png, id=314, 1676.664pt x 276.0714pt>
+(pdftex.def)             Requested size: 239.00298pt x 100.53186pt.
+<figuras/matrices_confusion.png, id=331, 1676.664pt x 276.0714pt>
 File: figuras/matrices_confusion.png Graphic file (type png)
 <use figuras/matrices_confusion.png>
 Package pdftex.def Info: figuras/matrices_confusion.png  used on input line 80.
 
-(pdftex.def)             Requested size: 455.47066pt x 74.99521pt.
- [3 <./figuras/vqc_loss.png>]
-<figuras/frontera_decision.png, id=335, 626.34pt x 455.301pt>
+(pdftex.def)             Requested size: 239.00298pt x 39.349pt.
+<figuras/frontera_decision.png, id=333, 626.34pt x 455.301pt>
 File: figuras/frontera_decision.png Graphic file (type png)
 <use figuras/frontera_decision.png>
 Package pdftex.def Info: figuras/frontera_decision.png  used on input line 90.
 (pdftex.def)             Requested size: 239.00298pt x 173.7387pt.
-<figuras/exp1_feature_maps.png, id=337, 1000.6986pt x 346.4142pt>
+<figuras/exp1_feature_maps.png, id=335, 1000.6986pt x 346.4142pt>
 File: figuras/exp1_feature_maps.png Graphic file (type png)
 <use figuras/exp1_feature_maps.png>
 Package pdftex.def Info: figuras/exp1_feature_maps.png  used on input line 117.
 
-(pdftex.def)             Requested size: 455.47066pt x 157.67155pt.
-<figuras/exp2_profundidad.png, id=339, 998.7714pt x 346.4142pt>
+(pdftex.def)             Requested size: 239.00298pt x 82.73409pt.
+<figuras/exp2_profundidad.png, id=337, 998.7714pt x 346.4142pt>
 File: figuras/exp2_profundidad.png Graphic file (type png)
 <use figuras/exp2_profundidad.png>
 Package pdftex.def Info: figuras/exp2_profundidad.png  used on input line 144.
-(pdftex.def)             Requested size: 455.47066pt x 157.97813pt.
-
+(pdftex.def)             Requested size: 239.00298pt x 82.89267pt.
+ [4 <./figuras/vqc_loss.png> <./figuras/comparacion_general.png> <./figuras/mat
+rices_confusion.png> <./figuras/frontera_decision.png> <./figuras/exp1_feature_
+maps.png>]
 Underfull \hbox (badness 2343) in paragraph at lines 150--151
 []\T1/aer/m/n/10 Se com-pa-ra-ron tres op-ti-mi-za-do-res (Ta-bla [][]5[][]).
  []
 
-<figuras/exp3_optimizadores.png, id=341, 998.7714pt x 357.0138pt>
+<figuras/exp3_optimizadores.png, id=355, 998.7714pt x 357.0138pt>
 File: figuras/exp3_optimizadores.png Graphic file (type png)
 <use figuras/exp3_optimizadores.png>
 Package pdftex.def Info: figuras/exp3_optimizadores.png  used on input line 170
 .
-(pdftex.def)             Requested size: 455.47066pt x 162.81195pt.
-<figuras/kernels_heatmap.png, id=343, 887.4756pt x 347.8596pt>
+(pdftex.def)             Requested size: 239.00298pt x 85.42902pt.
+<figuras/kernels_heatmap.png, id=357, 887.4756pt x 347.8596pt>
 File: figuras/kernels_heatmap.png Graphic file (type png)
 <use figuras/kernels_heatmap.png>
 Package pdftex.def Info: figuras/kernels_heatmap.png  used on input line 180.
 (pdftex.def)             Requested size: 239.00298pt x 93.67918pt.
-<figuras/boxplots_varianza.png, id=345, 503.9628pt x 328.5876pt>
+<figuras/boxplots_varianza.png, id=359, 503.9628pt x 328.5876pt>
 File: figuras/boxplots_varianza.png Graphic file (type png)
 <use figuras/boxplots_varianza.png>
 Package pdftex.def Info: figuras/boxplots_varianza.png  used on input line 190.
 
 (pdftex.def)             Requested size: 239.00298pt x 155.83003pt.
-<figuras/exp_mnist.png, id=347, 854.2314pt x 346.4142pt>
+
+Underfull \vbox (badness 1968) has occurred while \output is active []
+
+<figuras/exp_mnist.png, id=361, 854.2314pt x 346.4142pt>
 File: figuras/exp_mnist.png Graphic file (type png)
 <use figuras/exp_mnist.png>
 Package pdftex.def Info: figuras/exp_mnist.png  used on input line 200.
-(pdftex.def)             Requested size: 455.47066pt x 184.70338pt.
-) (contenido/cap_5_discusion.tex [4 <./figuras/frontera_decision.png> <./figura
-s/kernels_heatmap.png> <./figuras/boxplots_varianza.png>])
-(contenido/cap_6_conclusiones.tex) (main.bbl [5]
+(pdftex.def)             Requested size: 239.00298pt x 96.92131pt.
+)
+(contenido/cap_5_discusion.tex [5 <./figuras/exp2_profundidad.png> <./figuras/e
+xp3_optimizadores.png> <./figuras/kernels_heatmap.png> <./figuras/boxplots_vari
+anza.png> <./figuras/exp_mnist.png>]) (contenido/cap_6_conclusiones.tex)
+(main.bbl
 LaTeX Font Info:    Trying to load font information for T1+aett on input line 3
 6.
-
-(C:\Users\PC\AppData\Local\Programs\MiKTeX\tex/latex/ae\t1aett.fd
+ (C:\Users\PC\AppData\Local\Programs\MiKTeX\tex/latex/ae\t1aett.fd
 File: t1aett.fd 1997/11/16 Font definitions for T1/aett.
 )
 Underfull \hbox (badness 2165) in paragraph at lines 33--37
@@ -1620,12 +1632,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 33--37
 github . io /
  []
 
-) [6
-
-] [7 <./figuras/circuitos.png>] [8 <./figuras/eda_iris.png> <./figuras/comparac
-ion_general.png> <./figuras/matrices_confusion.png>] [9 <./figuras/exp1_feature
-_maps.png> <./figuras/exp2_profundidad.png> <./figuras/exp3_optimizadores.png>]
- [10 <./figuras/exp_mnist.png>] (main.aux
+) [6] (main.aux
 LaTeX Info: Redefining \. on input line 17.
 LaTeX Info: Redefining \% on input line 17.
 )
@@ -1637,10 +1644,10 @@ Package rerunfilecheck Info: File `main.out' has not changed.
 (rerunfilecheck)             Checksum: 9384E87202EE5CAC7EAA56DB3BE11A91;9773.
  ) 
 Here is how much of TeX's memory you used:
- 36042 strings out of 467871
- 817145 string characters out of 5419828
- 1378564 words of memory out of 5000000
- 64156 multiletter control sequences out of 15000+600000
+ 36035 strings out of 467871
+ 817043 string characters out of 5419828
+ 1374564 words of memory out of 5000000
+ 64153 multiletter control sequences out of 15000+600000
  666710 words of font info for 129 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  99i,12n,108p,749b,609s stack positions out of 10000i,1000n,20000p,200000b,200000s
@@ -1662,9 +1669,9 @@ rs/PC/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmti9.pfb><C
 :/Users/PC/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmtt9.p
 fb><C:/Users/PC/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/symbo
 ls/msbm10.pfb>
-Output written on main.pdf (10 pages, 1461502 bytes).
+Output written on main.pdf (6 pages, 1458136 bytes).
 PDF statistics:
- 519 PDF objects out of 1000 (max. 8388607)
- 131 named destinations out of 1000 (max. 500000)
+ 501 PDF objects out of 1000 (max. 8388607)
+ 127 named destinations out of 1000 (max. 500000)
  537 words of extra memory for PDF output out of 10000 (max. 10000000)
 
