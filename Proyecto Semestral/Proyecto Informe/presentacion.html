@@ -41,19 +41,19 @@
     --font-sans:   "Source Sans 3", system-ui, sans-serif;
     --font-mono:   "JetBrains Mono", "Consolas", monospace;
 
-    /* Sizes (clamp for viewport fit) */
-    --title-size:    clamp(1.7rem, 3.6vw, 3rem);
-    --h2-size:       clamp(1.3rem, 2.6vw, 2.1rem);
-    --h3-size:       clamp(0.95rem, 1.5vw, 1.3rem);
-    --body-size:     clamp(0.78rem, 1.15vw, 1rem);
-    --small-size:    clamp(0.7rem, 0.95vw, 0.85rem);
-    --caption-size:  clamp(0.62rem, 0.85vw, 0.72rem);
+    /* Sizes — calibrados para 1920x1080 (PPT widescreen) */
+    --title-size:    clamp(2rem, 4.2vw, 4rem);
+    --h2-size:       clamp(1.6rem, 3.2vw, 2.8rem);
+    --h3-size:       clamp(1.15rem, 1.9vw, 1.7rem);
+    --body-size:     clamp(1rem, 1.45vw, 1.35rem);
+    --small-size:    clamp(0.9rem, 1.2vw, 1.15rem);
+    --caption-size:  clamp(0.78rem, 1vw, 0.95rem);
 
     /* Spacing */
-    --slide-pad-x:   clamp(2rem, 5vw, 4.5rem);
-    --slide-pad-y:   clamp(1.4rem, 3vw, 2.4rem);
-    --gap:           clamp(0.7rem, 1.5vw, 1.3rem);
-    --gap-sm:        clamp(0.35rem, 0.8vw, 0.7rem);
+    --slide-pad-x:   clamp(2.5rem, 5.8vw, 5.8rem);
+    --slide-pad-y:   clamp(1.6rem, 3vw, 2.8rem);
+    --gap:           clamp(0.9rem, 1.8vw, 1.7rem);
+    --gap-sm:        clamp(0.4rem, 0.9vw, 0.85rem);
 
     /* Motion */
     --ease:     cubic-bezier(0.22, 1, 0.36, 1);
@@ -171,21 +171,24 @@ body {
 }
 
 /* Breakpoints */
-@media (max-height: 700px) {
+@media (max-height: 800px) {
     :root {
-        --slide-pad-x: clamp(1.4rem, 3.5vw, 2.8rem);
-        --slide-pad-y: clamp(1rem, 2vw, 1.5rem);
-        --gap: clamp(0.5rem, 1.1vw, 0.9rem);
-        --title-size: clamp(1.4rem, 3vw, 2.2rem);
-        --h2-size: clamp(1.1rem, 2.3vw, 1.7rem);
+        --slide-pad-x: clamp(1.8rem, 4.5vw, 3.6rem);
+        --slide-pad-y: clamp(1.2rem, 2.4vw, 1.8rem);
+        --gap: clamp(0.7rem, 1.4vw, 1.2rem);
+        --title-size: clamp(1.7rem, 3.6vw, 3rem);
+        --h2-size: clamp(1.35rem, 2.7vw, 2.2rem);
+        --body-size: clamp(0.9rem, 1.3vw, 1.15rem);
     }
 }
-@media (max-height: 600px) {
+@media (max-height: 650px) {
     :root {
-        --slide-pad-x: clamp(1rem, 3vw, 2rem);
-        --gap: clamp(0.35rem, 0.9vw, 0.65rem);
-        --title-size: clamp(1.15rem, 2.7vw, 1.7rem);
-        --body-size: clamp(0.7rem, 1vw, 0.9rem);
+        --slide-pad-x: clamp(1.3rem, 3.5vw, 2.6rem);
+        --slide-pad-y: clamp(0.8rem, 1.8vw, 1.4rem);
+        --gap: clamp(0.45rem, 1.1vw, 0.85rem);
+        --title-size: clamp(1.3rem, 3vw, 2rem);
+        --h2-size: clamp(1.05rem, 2.3vw, 1.6rem);
+        --body-size: clamp(0.78rem, 1.15vw, 1rem);
     }
     .nav-dots, .slide-header .section-tag { display: none; }
 }
@@ -193,6 +196,7 @@ body {
     :root {
         --slide-pad-x: clamp(0.8rem, 2.4vw, 1.4rem);
         --title-size: clamp(1rem, 2.4vw, 1.4rem);
+        --body-size: clamp(0.7rem, 1vw, 0.9rem);
     }
 }
 @media (max-width: 700px) {
@@ -327,11 +331,11 @@ strong { font-weight: 600; color: var(--ink); }
     margin-bottom: clamp(1rem, 2.5vw, 1.8rem);
 }
 .title-slide h1 {
-    font-size: clamp(2rem, 4.5vw, 3.8rem);
+    font-size: clamp(2.5rem, 5.4vw, 5rem);
     font-weight: 400;
     line-height: 1.05;
     max-width: 22ch;
-    margin-bottom: clamp(0.8rem, 1.8vw, 1.4rem);
+    margin-bottom: clamp(1rem, 2vw, 1.8rem);
 }
 .title-slide h1 em {
     font-style: italic;
@@ -340,20 +344,21 @@ strong { font-weight: 600; color: var(--ink); }
 }
 .title-slide .subtitle {
     max-width: 60ch;
-    margin-bottom: clamp(1.6rem, 3.5vw, 2.6rem);
+    font-size: clamp(1.15rem, 1.95vw, 1.7rem);
+    margin-bottom: clamp(2rem, 4vw, 3rem);
 }
 .title-slide .meta-block {
     display: grid;
     grid-template-columns: auto 1fr;
-    gap: 0.4em clamp(1rem, 2vw, 1.5rem);
+    gap: 0.55em clamp(1.4rem, 2.5vw, 2.2rem);
     align-items: center;
-    padding-top: clamp(0.8rem, 1.5vw, 1.2rem);
+    padding-top: clamp(1rem, 1.8vw, 1.5rem);
     border-top: 1px solid var(--rule);
-    font-size: var(--small-size);
+    font-size: clamp(0.95rem, 1.3vw, 1.2rem);
 }
 .title-slide .meta-block .meta-label {
     font-family: var(--font-mono);
-    font-size: var(--caption-size);
+    font-size: clamp(0.78rem, 1vw, 0.95rem);
     text-transform: uppercase;
     letter-spacing: 0.2em;
     color: var(--ink-mute);
@@ -363,11 +368,14 @@ strong { font-weight: 600; color: var(--ink); }
     font-weight: 500;
 }
 .uni-logo {
-    width: clamp(40px, 5.5vw, 70px);
+    width: clamp(110px, 11vw, 180px);
     position: absolute;
-    top: clamp(1.4rem, 2.5vw, 2rem);
-    right: clamp(1.4rem, 2.5vw, 2rem);
-    opacity: 0.95;
+    top: clamp(2rem, 3.5vw, 3rem);
+    right: clamp(2rem, 4vw, 3.5rem);
+    opacity: 1;
+}
+.closing-slide .uni-logo {
+    width: clamp(80px, 8vw, 130px);
 }
 
 /* ===========================================
@@ -392,10 +400,13 @@ strong { font-weight: 600; color: var(--ink); }
 }
 .section-slide h2 {
     color: var(--paper);
-    font-size: clamp(2rem, 5vw, 4rem);
+    font-size: clamp(2.6rem, 6.2vw, 5.4rem);
     font-weight: 400;
     max-width: 18ch;
     line-height: 1.05;
+}
+.section-slide .section-roman {
+    font-size: clamp(1rem, 1.4vw, 1.2rem);
 }
 .section-slide h2 em { color: var(--accent-soft); font-style: italic; }
 .section-slide .slide-header,
@@ -412,7 +423,7 @@ strong { font-weight: 600; color: var(--ink); }
 }
 .content-slide .lead {
     font-family: var(--font-serif);
-    font-size: clamp(0.95rem, 1.5vw, 1.2rem);
+    font-size: clamp(1.1rem, 1.75vw, 1.55rem);
     font-style: italic;
     color: var(--ink-soft);
     font-weight: 300;
@@ -475,11 +486,11 @@ strong { font-weight: 600; color: var(--ink); }
 }
 .stat-card .value {
     font-family: var(--font-serif);
-    font-size: clamp(1.6rem, 3.4vw, 2.6rem);
+    font-size: clamp(1.9rem, 3.8vw, 3.2rem);
     font-weight: 400;
     color: var(--accent);
     line-height: 1;
-    margin-bottom: 0.3em;
+    margin-bottom: 0.35em;
 }
 .stat-card.classical .value { color: var(--classical); }
 .stat-card.quantum .value   { color: var(--quantum); }
@@ -509,11 +520,11 @@ strong { font-weight: 600; color: var(--ink); }
     justify-content: center;
     background: #ffffff;
     border: 1px solid var(--rule);
-    padding: clamp(0.5rem, 1.2vw, 1rem);
+    padding: clamp(0.4rem, 1vw, 0.8rem);
     min-height: 0;
 }
 .figure-frame img {
-    max-height: min(52vh, 460px);
+    max-height: min(62vh, 620px);
     max-width: 100%;
     width: auto;
     height: auto;
@@ -530,7 +541,7 @@ strong { font-weight: 600; color: var(--ink); }
 .figure-caption {
     font-family: var(--font-serif);
     font-style: italic;
-    font-size: var(--small-size);
+    font-size: clamp(0.9rem, 1.2vw, 1.15rem);
     color: var(--ink-soft);
     text-align: center;
     line-height: 1.4;
@@ -558,9 +569,9 @@ strong { font-weight: 600; color: var(--ink); }
     white-space: nowrap;
 }
 .reading-note .rn-text {
-    font-size: var(--small-size);
+    font-size: clamp(0.95rem, 1.3vw, 1.25rem);
     color: var(--ink);
-    line-height: 1.55;
+    line-height: 1.5;
 }
 .reading-note .rn-text strong { color: var(--accent); font-weight: 600; }
 
@@ -571,7 +582,7 @@ strong { font-weight: 600; color: var(--ink); }
     width: 100%;
     border-collapse: collapse;
     font-family: var(--font-mono);
-    font-size: var(--small-size);
+    font-size: clamp(1rem, 1.35vw, 1.3rem);
     background: transparent;
 }
 .data-table th, .data-table td {
@@ -585,7 +596,7 @@ strong { font-weight: 600; color: var(--ink); }
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.1em;
-    font-size: var(--caption-size);
+    font-size: clamp(0.85rem, 1.1vw, 1.05rem);
 }
 .data-table tbody tr { border-bottom: 1px solid var(--rule); }
 .data-table tbody tr:last-child { border-bottom: 2px solid var(--ink); }
@@ -658,10 +669,10 @@ strong { font-weight: 600; color: var(--ink); }
     font-style: italic;
     background: var(--paper-soft);
     border: 1px solid var(--rule);
-    padding: clamp(0.7rem, 1.5vw, 1.1rem) clamp(1rem, 2vw, 1.5rem);
+    padding: clamp(0.8rem, 1.6vw, 1.3rem) clamp(1.1rem, 2.2vw, 1.8rem);
     text-align: center;
     color: var(--ink);
-    font-size: clamp(0.95rem, 1.6vw, 1.25rem);
+    font-size: clamp(1.1rem, 1.85vw, 1.55rem);
     letter-spacing: 0.01em;
 }
 .formula .var { color: var(--accent); }
@@ -708,13 +719,13 @@ strong { font-weight: 600; color: var(--ink); }
 }
 .pipeline .step-title {
     font-family: var(--font-serif);
-    font-size: clamp(0.85rem, 1.4vw, 1.1rem);
+    font-size: clamp(1.05rem, 1.55vw, 1.4rem);
     font-weight: 600;
     color: var(--ink);
-    margin-bottom: 0.3em;
+    margin-bottom: 0.35em;
 }
 .pipeline .step-desc {
-    font-size: var(--caption-size);
+    font-size: clamp(0.85rem, 1.1vw, 1.05rem);
     color: var(--ink-soft);
     line-height: 1.45;
 }
@@ -744,16 +755,16 @@ strong { font-weight: 600; color: var(--ink); }
 }
 .agenda-row .a-title {
     font-family: var(--font-serif);
-    font-size: clamp(0.9rem, 1.4vw, 1.15rem);
+    font-size: clamp(1.1rem, 1.65vw, 1.5rem);
     color: var(--ink);
     font-weight: 500;
     line-height: 1.25;
 }
 .agenda-row .a-sub {
-    font-size: var(--caption-size);
+    font-size: clamp(0.85rem, 1.1vw, 1.1rem);
     color: var(--ink-mute);
     font-family: var(--font-sans);
-    margin-top: 0.15em;
+    margin-top: 0.2em;
 }
 @media (max-width: 800px) { .agenda-grid { grid-template-columns: 1fr; } }
 
@@ -777,9 +788,9 @@ strong { font-weight: 600; color: var(--ink); }
 }
 .callout p {
     font-family: var(--font-serif);
-    font-size: clamp(0.95rem, 1.55vw, 1.25rem);
+    font-size: clamp(1.1rem, 1.8vw, 1.55rem);
     color: var(--ink);
-    line-height: 1.4;
+    line-height: 1.45;
     font-weight: 300;
     font-style: italic;
 }
@@ -805,10 +816,10 @@ strong { font-weight: 600; color: var(--ink); }
 .param-block .pb-row {
     display: grid;
     grid-template-columns: 1fr auto;
-    gap: 0.5em;
-    padding: 0.3em 0;
+    gap: 0.6em;
+    padding: 0.4em 0;
     border-bottom: 1px dotted var(--rule);
-    font-size: var(--small-size);
+    font-size: clamp(0.9rem, 1.2vw, 1.15rem);
 }
 .param-block .pb-row:last-child { border-bottom: none; }
 .param-block .pb-key { color: var(--ink-soft); }
@@ -832,11 +843,11 @@ strong { font-weight: 600; color: var(--ink); }
     margin-bottom: clamp(1.2rem, 2.6vw, 2rem);
 }
 .closing-slide h1 {
-    font-size: clamp(2.4rem, 5.5vw, 4.5rem);
+    font-size: clamp(3rem, 7vw, 6rem);
     font-weight: 400;
     max-width: 14ch;
     line-height: 1.05;
-    margin-bottom: clamp(0.8rem, 1.6vw, 1.3rem);
+    margin-bottom: clamp(1rem, 2vw, 1.6rem);
 }
 .closing-slide h1 em { font-style: italic; color: var(--accent); }
 .closing-slide .closing-tags {
@@ -878,7 +889,7 @@ strong { font-weight: 600; color: var(--ink); }
      01 — PORTADA
      =================================================================== -->
 <section class="slide title-slide">
-    <img src="graficos/escudo.png" alt="UNSAAC" class="uni-logo">
+    <img src="graficos/escudo_transparente.png" alt="UNSAAC" class="uni-logo">
     <div class="slide-content">
         <div class="ribbon reveal"></div>
         <div class="kicker reveal">Proyecto Semestral · Computación Cuántica · 2026</div>
@@ -1786,7 +1797,7 @@ strong { font-weight: 600; color: var(--ink); }
             <div class="figure-block reveal" style="margin: 0">
                 <div class="figure-num">Figura 11</div>
                 <div class="figure-frame">
-                    <img src="figuras/boxplots_varianza.png" alt="Boxplot de varianza del VQC vs SVM-RBF" style="max-height: min(48vh, 380px)">
+                    <img src="figuras/boxplots_varianza.png" alt="Boxplot de varianza del VQC vs SVM-RBF" style="max-height: min(56vh, 520px)">
                 </div>
                 <div class="figure-caption">Distribución de accuracy: VQC (5 semillas) vs SVM-RBF (5-fold CV).</div>
             </div>
@@ -1980,7 +1991,7 @@ strong { font-weight: 600; color: var(--ink); }
      31 — CIERRE / Q&A
      =================================================================== -->
 <section class="slide closing-slide">
-    <img src="graficos/escudo.png" alt="UNSAAC" class="uni-logo">
+    <img src="graficos/escudo_transparente.png" alt="UNSAAC" class="uni-logo">
     <div class="slide-content">
         <div class="ribbon reveal"></div>
         <div class="kicker reveal">Fin de la exposición</div>
