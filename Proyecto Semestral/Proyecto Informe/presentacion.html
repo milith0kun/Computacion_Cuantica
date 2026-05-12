@@ -1,0 +1,2103 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Clasificación Cuántica · VQC y QSVC sobre Iris</title>
+
+<!-- Editorial serif + clean sans + technical mono -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,300..900&family=Source+Sans+3:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+/* ===========================================
+   THEME — ACADEMIC FORMAL
+   Inspired by editorial journal & Beamer.
+   =========================================== */
+:root {
+    /* Paper neutrals */
+    --paper:        #f7f4ec;   /* warm off-white background */
+    --paper-soft:   #efeadd;   /* subtle panel */
+    --rule:         #d6cfba;   /* hairline rule */
+    --rule-strong:  #1d2a3d;   /* strong rule */
+
+    /* Ink */
+    --ink:          #14202e;   /* deep navy ink — primary text */
+    --ink-soft:     #4a5567;   /* secondary text */
+    --ink-mute:     #7a8497;   /* meta / captions */
+
+    /* Single accent (academic burgundy/red) */
+    --accent:       #8a2231;   /* primary accent */
+    --accent-soft:  #b75464;   /* lighter accent */
+
+    /* Data colors (semantic) */
+    --classical:    #1f4e8a;   /* navy blue for classical */
+    --quantum:      #8a2231;   /* burgundy for quantum */
+    --neutral:      #4a5567;
+
+    /* Typography */
+    --font-serif:  "Source Serif 4", "Times New Roman", Georgia, serif;
+    --font-sans:   "Source Sans 3", system-ui, sans-serif;
+    --font-mono:   "JetBrains Mono", "Consolas", monospace;
+
+    /* Sizes (clamp for viewport fit) */
+    --title-size:    clamp(1.7rem, 3.6vw, 3rem);
+    --h2-size:       clamp(1.3rem, 2.6vw, 2.1rem);
+    --h3-size:       clamp(0.95rem, 1.5vw, 1.3rem);
+    --body-size:     clamp(0.78rem, 1.15vw, 1rem);
+    --small-size:    clamp(0.7rem, 0.95vw, 0.85rem);
+    --caption-size:  clamp(0.62rem, 0.85vw, 0.72rem);
+
+    /* Spacing */
+    --slide-pad-x:   clamp(2rem, 5vw, 4.5rem);
+    --slide-pad-y:   clamp(1.4rem, 3vw, 2.4rem);
+    --gap:           clamp(0.7rem, 1.5vw, 1.3rem);
+    --gap-sm:        clamp(0.35rem, 0.8vw, 0.7rem);
+
+    /* Motion */
+    --ease:     cubic-bezier(0.22, 1, 0.36, 1);
+    --t:        0.55s;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+/* ===========================================
+   VIEWPORT BASE (mandatory)
+   =========================================== */
+html, body {
+    height: 100%;
+    overflow-x: hidden;
+}
+html {
+    scroll-snap-type: y mandatory;
+    scroll-behavior: smooth;
+}
+body {
+    font-family: var(--font-sans);
+    color: var(--ink);
+    background: var(--paper);
+    font-size: var(--body-size);
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    font-feature-settings: "ss01" 1, "kern" 1;
+}
+
+.slide {
+    width: 100vw;
+    height: 100vh;
+    height: 100dvh;
+    overflow: hidden;
+    scroll-snap-align: start;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    background: var(--paper);
+}
+
+/* Page frame — la página tiene marco arriba y abajo */
+.slide::before {
+    content: '';
+    position: absolute;
+    top: clamp(1rem, 2vw, 1.6rem);
+    left: var(--slide-pad-x);
+    right: var(--slide-pad-x);
+    height: 1px;
+    background: var(--rule);
+    z-index: 1;
+}
+.slide::after {
+    content: '';
+    position: absolute;
+    bottom: clamp(1rem, 2vw, 1.6rem);
+    left: var(--slide-pad-x);
+    right: var(--slide-pad-x);
+    height: 1px;
+    background: var(--rule);
+    z-index: 1;
+}
+/* Title slide has no top/bottom rules */
+.title-slide::before, .title-slide::after,
+.section-slide::before, .section-slide::after,
+.closing-slide::before, .closing-slide::after {
+    display: none;
+}
+
+.slide-header {
+    position: absolute;
+    top: clamp(0.4rem, 0.9vw, 0.75rem);
+    left: var(--slide-pad-x);
+    right: var(--slide-pad-x);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: var(--font-mono);
+    font-size: var(--caption-size);
+    color: var(--ink-mute);
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    z-index: 5;
+}
+.slide-header .section-tag {
+    color: var(--accent);
+    font-weight: 600;
+}
+.slide-footer {
+    position: absolute;
+    bottom: clamp(0.4rem, 0.9vw, 0.75rem);
+    left: var(--slide-pad-x);
+    right: var(--slide-pad-x);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: var(--font-mono);
+    font-size: var(--caption-size);
+    color: var(--ink-mute);
+    z-index: 5;
+}
+
+.slide-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    max-height: 100%;
+    overflow: hidden;
+    padding: clamp(2.4rem, 4vw, 3.5rem) var(--slide-pad-x);
+    gap: var(--gap);
+    position: relative;
+    z-index: 2;
+}
+
+/* Breakpoints */
+@media (max-height: 700px) {
+    :root {
+        --slide-pad-x: clamp(1.4rem, 3.5vw, 2.8rem);
+        --slide-pad-y: clamp(1rem, 2vw, 1.5rem);
+        --gap: clamp(0.5rem, 1.1vw, 0.9rem);
+        --title-size: clamp(1.4rem, 3vw, 2.2rem);
+        --h2-size: clamp(1.1rem, 2.3vw, 1.7rem);
+    }
+}
+@media (max-height: 600px) {
+    :root {
+        --slide-pad-x: clamp(1rem, 3vw, 2rem);
+        --gap: clamp(0.35rem, 0.9vw, 0.65rem);
+        --title-size: clamp(1.15rem, 2.7vw, 1.7rem);
+        --body-size: clamp(0.7rem, 1vw, 0.9rem);
+    }
+    .nav-dots, .slide-header .section-tag { display: none; }
+}
+@media (max-height: 500px) {
+    :root {
+        --slide-pad-x: clamp(0.8rem, 2.4vw, 1.4rem);
+        --title-size: clamp(1rem, 2.4vw, 1.4rem);
+    }
+}
+@media (max-width: 700px) {
+    :root { --title-size: clamp(1.3rem, 5vw, 2rem); }
+    .two-col, .two-col.image-text { grid-template-columns: 1fr !important; }
+    .stat-row { flex-direction: column; }
+    .pipeline { grid-template-columns: repeat(2, 1fr) !important; }
+    .pipeline .step:not(:last-child)::after { display: none !important; }
+}
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.2s !important;
+    }
+    html { scroll-behavior: auto; }
+}
+
+/* ===========================================
+   TYPOGRAPHY
+   =========================================== */
+h1, h2, h3, h4 {
+    font-family: var(--font-serif);
+    font-weight: 400;
+    line-height: 1.15;
+    letter-spacing: -0.005em;
+    color: var(--ink);
+}
+h1 { font-size: var(--title-size); font-weight: 500; }
+h2 { font-size: var(--h2-size); font-weight: 500; }
+h3 { font-size: var(--h3-size); font-weight: 600; }
+
+em, .italic { font-style: italic; }
+strong { font-weight: 600; color: var(--ink); }
+
+.kicker {
+    font-family: var(--font-mono);
+    font-size: var(--caption-size);
+    text-transform: uppercase;
+    letter-spacing: 0.22em;
+    color: var(--accent);
+    font-weight: 600;
+    margin-bottom: 0.3em;
+}
+.subtitle {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: clamp(0.95rem, 1.6vw, 1.3rem);
+    color: var(--ink-soft);
+    font-weight: 300;
+    line-height: 1.4;
+}
+.caption {
+    font-family: var(--font-mono);
+    font-size: var(--caption-size);
+    color: var(--ink-mute);
+    letter-spacing: 0.05em;
+}
+.mono { font-family: var(--font-mono); }
+.small { font-size: var(--small-size); color: var(--ink-soft); }
+
+/* ===========================================
+   REVEAL ANIMATIONS — subtle only
+   =========================================== */
+.reveal {
+    opacity: 0;
+    transform: translateY(12px);
+    transition: opacity var(--t) var(--ease), transform var(--t) var(--ease);
+}
+.slide.visible .reveal { opacity: 1; transform: translateY(0); }
+.slide.visible .reveal:nth-child(1) { transition-delay: 0.04s; }
+.slide.visible .reveal:nth-child(2) { transition-delay: 0.12s; }
+.slide.visible .reveal:nth-child(3) { transition-delay: 0.2s; }
+.slide.visible .reveal:nth-child(4) { transition-delay: 0.28s; }
+.slide.visible .reveal:nth-child(5) { transition-delay: 0.36s; }
+.slide.visible .reveal:nth-child(6) { transition-delay: 0.44s; }
+.slide.visible .reveal:nth-child(7) { transition-delay: 0.52s; }
+.slide.visible .reveal:nth-child(8) { transition-delay: 0.6s; }
+
+/* ===========================================
+   PROGRESS + NAV DOTS
+   =========================================== */
+.progress-bar {
+    position: fixed;
+    top: 0; left: 0;
+    height: 2px;
+    background: var(--accent);
+    z-index: 1000;
+    transition: width 0.3s ease;
+}
+.nav-dots {
+    position: fixed;
+    right: clamp(0.6rem, 1.2vw, 1.2rem);
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    gap: clamp(0.3rem, 0.7vw, 0.55rem);
+    z-index: 100;
+}
+.nav-dots button {
+    width: clamp(5px, 0.65vw, 7px);
+    height: clamp(5px, 0.65vw, 7px);
+    border-radius: 50%;
+    border: 1px solid var(--ink-mute);
+    background: transparent;
+    padding: 0;
+    cursor: pointer;
+    transition: all 0.25s ease;
+}
+.nav-dots button:hover { border-color: var(--accent); }
+.nav-dots button.active {
+    background: var(--accent);
+    border-color: var(--accent);
+    transform: scale(1.4);
+}
+
+/* ===========================================
+   TITLE SLIDE
+   =========================================== */
+.title-slide {
+    background: var(--paper);
+}
+.title-slide .slide-content {
+    padding: clamp(2rem, 5vw, 4rem) var(--slide-pad-x);
+    justify-content: center;
+    align-items: flex-start;
+}
+.title-slide .ribbon {
+    height: 4px;
+    width: clamp(50px, 8vw, 90px);
+    background: var(--accent);
+    margin-bottom: clamp(1rem, 2.5vw, 1.8rem);
+}
+.title-slide h1 {
+    font-size: clamp(2rem, 4.5vw, 3.8rem);
+    font-weight: 400;
+    line-height: 1.05;
+    max-width: 22ch;
+    margin-bottom: clamp(0.8rem, 1.8vw, 1.4rem);
+}
+.title-slide h1 em {
+    font-style: italic;
+    color: var(--accent);
+    font-weight: 400;
+}
+.title-slide .subtitle {
+    max-width: 60ch;
+    margin-bottom: clamp(1.6rem, 3.5vw, 2.6rem);
+}
+.title-slide .meta-block {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 0.4em clamp(1rem, 2vw, 1.5rem);
+    align-items: center;
+    padding-top: clamp(0.8rem, 1.5vw, 1.2rem);
+    border-top: 1px solid var(--rule);
+    font-size: var(--small-size);
+}
+.title-slide .meta-block .meta-label {
+    font-family: var(--font-mono);
+    font-size: var(--caption-size);
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: var(--ink-mute);
+}
+.title-slide .meta-block .meta-value {
+    color: var(--ink);
+    font-weight: 500;
+}
+.uni-logo {
+    width: clamp(40px, 5.5vw, 70px);
+    position: absolute;
+    top: clamp(1.4rem, 2.5vw, 2rem);
+    right: clamp(1.4rem, 2.5vw, 2rem);
+    opacity: 0.95;
+}
+
+/* ===========================================
+   SECTION DIVIDER (numbered Roman section)
+   =========================================== */
+.section-slide {
+    background: var(--ink);
+    color: var(--paper);
+}
+.section-slide .slide-content {
+    justify-content: center;
+    align-items: flex-start;
+    padding: var(--slide-pad-x);
+}
+.section-slide .section-roman {
+    font-family: var(--font-mono);
+    font-size: clamp(0.85rem, 1.2vw, 1rem);
+    color: var(--accent-soft);
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    margin-bottom: 0.8em;
+}
+.section-slide h2 {
+    color: var(--paper);
+    font-size: clamp(2rem, 5vw, 4rem);
+    font-weight: 400;
+    max-width: 18ch;
+    line-height: 1.05;
+}
+.section-slide h2 em { color: var(--accent-soft); font-style: italic; }
+.section-slide .slide-header,
+.section-slide .slide-footer {
+    color: rgba(247, 244, 236, 0.55);
+}
+
+/* ===========================================
+   CONTENT SLIDE — title + body
+   =========================================== */
+.content-slide h2 {
+    max-width: 26ch;
+    margin-bottom: 0.2em;
+}
+.content-slide .lead {
+    font-family: var(--font-serif);
+    font-size: clamp(0.95rem, 1.5vw, 1.2rem);
+    font-style: italic;
+    color: var(--ink-soft);
+    font-weight: 300;
+    max-width: 70ch;
+    line-height: 1.4;
+}
+
+/* Section number badge (top of header) */
+.slide-number-large {
+    font-family: var(--font-mono);
+    font-size: var(--small-size);
+    color: var(--accent);
+    letter-spacing: 0.15em;
+    font-weight: 600;
+}
+
+/* ===========================================
+   TWO-COLUMN LAYOUTS
+   =========================================== */
+.two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(1rem, 2.5vw, 2.2rem);
+    align-items: start;
+}
+.two-col.image-text { grid-template-columns: 1.3fr 1fr; align-items: center; }
+.two-col h3 {
+    color: var(--accent);
+    font-weight: 600;
+    margin-bottom: 0.5em;
+    padding-bottom: 0.3em;
+    border-bottom: 1px solid var(--rule);
+}
+
+/* ===========================================
+   STAT CARDS — formal, no shadows
+   =========================================== */
+.stat-row {
+    display: flex;
+    gap: clamp(0.7rem, 1.5vw, 1.3rem);
+    flex-wrap: wrap;
+}
+.stat-card {
+    flex: 1;
+    min-width: 0;
+    padding: clamp(0.9rem, 1.6vw, 1.4rem);
+    background: var(--paper-soft);
+    border: 1px solid var(--rule);
+    border-left: 3px solid var(--accent);
+}
+.stat-card.classical { border-left-color: var(--classical); }
+.stat-card.quantum   { border-left-color: var(--quantum); }
+.stat-card .label {
+    font-family: var(--font-mono);
+    font-size: var(--caption-size);
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--ink-mute);
+    margin-bottom: 0.4em;
+}
+.stat-card .value {
+    font-family: var(--font-serif);
+    font-size: clamp(1.6rem, 3.4vw, 2.6rem);
+    font-weight: 400;
+    color: var(--accent);
+    line-height: 1;
+    margin-bottom: 0.3em;
+}
+.stat-card.classical .value { color: var(--classical); }
+.stat-card.quantum .value   { color: var(--quantum); }
+.stat-card .desc {
+    font-size: var(--small-size);
+    color: var(--ink-soft);
+    line-height: 1.5;
+}
+
+/* ===========================================
+   FIGURE LAYOUT
+   =========================================== */
+.figure-slide .slide-content {
+    gap: clamp(0.5rem, 1.2vw, 0.9rem);
+}
+.figure-block {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: clamp(0.3rem, 0.7vw, 0.55rem);
+}
+.figure-frame {
+    flex: 1;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #ffffff;
+    border: 1px solid var(--rule);
+    padding: clamp(0.5rem, 1.2vw, 1rem);
+    min-height: 0;
+}
+.figure-frame img {
+    max-height: min(52vh, 460px);
+    max-width: 100%;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+}
+.figure-num {
+    font-family: var(--font-mono);
+    font-size: var(--caption-size);
+    color: var(--ink-mute);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    align-self: flex-start;
+}
+.figure-caption {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: var(--small-size);
+    color: var(--ink-soft);
+    text-align: center;
+    line-height: 1.4;
+    max-width: 90ch;
+}
+
+/* Reading note ("Lectura del gráfico") */
+.reading-note {
+    display: grid;
+    grid-template-columns: max-content 1fr;
+    gap: clamp(0.6rem, 1.4vw, 1.2rem);
+    padding: clamp(0.6rem, 1.2vw, 1rem) clamp(0.8rem, 1.5vw, 1.3rem);
+    background: var(--paper-soft);
+    border-left: 3px solid var(--accent);
+    align-items: start;
+}
+.reading-note .rn-label {
+    font-family: var(--font-mono);
+    font-size: var(--caption-size);
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    font-weight: 600;
+    padding-top: 0.18em;
+    white-space: nowrap;
+}
+.reading-note .rn-text {
+    font-size: var(--small-size);
+    color: var(--ink);
+    line-height: 1.55;
+}
+.reading-note .rn-text strong { color: var(--accent); font-weight: 600; }
+
+/* ===========================================
+   TABLES — formal academic
+   =========================================== */
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: var(--font-mono);
+    font-size: var(--small-size);
+    background: transparent;
+}
+.data-table th, .data-table td {
+    padding: clamp(0.4rem, 0.9vw, 0.7rem) clamp(0.6rem, 1.1vw, 1rem);
+    text-align: left;
+}
+.data-table thead th {
+    border-top: 2px solid var(--ink);
+    border-bottom: 1px solid var(--ink);
+    color: var(--ink);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-size: var(--caption-size);
+}
+.data-table tbody tr { border-bottom: 1px solid var(--rule); }
+.data-table tbody tr:last-child { border-bottom: 2px solid var(--ink); }
+.data-table td.num { text-align: right; }
+.data-table td.win { color: var(--classical); font-weight: 600; }
+.data-table td.lose { color: var(--quantum); font-weight: 600; }
+.data-table td.highlight { color: var(--accent); font-weight: 600; }
+
+/* ===========================================
+   LISTS
+   =========================================== */
+.bullet-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: clamp(0.35rem, 0.8vw, 0.65rem);
+}
+.bullet-list li {
+    position: relative;
+    padding-left: 1.2em;
+    color: var(--ink);
+    font-size: var(--body-size);
+    line-height: 1.5;
+}
+.bullet-list li::before {
+    content: '·';
+    position: absolute;
+    left: 0;
+    top: -0.05em;
+    color: var(--accent);
+    font-size: 1.8em;
+    line-height: 1;
+}
+.bullet-list li strong { color: var(--ink); font-weight: 600; }
+
+.numbered-list {
+    list-style: none;
+    counter-reset: item;
+    display: flex;
+    flex-direction: column;
+    gap: clamp(0.4rem, 0.9vw, 0.75rem);
+}
+.numbered-list li {
+    counter-increment: item;
+    position: relative;
+    padding-left: 2.2em;
+    color: var(--ink);
+    line-height: 1.5;
+}
+.numbered-list li::before {
+    content: counter(item);
+    position: absolute;
+    left: 0;
+    top: 0.05em;
+    font-family: var(--font-mono);
+    font-size: var(--small-size);
+    color: var(--accent);
+    font-weight: 600;
+    width: 1.6em;
+    text-align: right;
+    padding-right: 0.4em;
+    border-right: 1px solid var(--rule);
+}
+
+/* ===========================================
+   FORMULA — display equation
+   =========================================== */
+.formula {
+    font-family: var(--font-serif);
+    font-style: italic;
+    background: var(--paper-soft);
+    border: 1px solid var(--rule);
+    padding: clamp(0.7rem, 1.5vw, 1.1rem) clamp(1rem, 2vw, 1.5rem);
+    text-align: center;
+    color: var(--ink);
+    font-size: clamp(0.95rem, 1.6vw, 1.25rem);
+    letter-spacing: 0.01em;
+}
+.formula .var { color: var(--accent); }
+
+/* ===========================================
+   PIPELINE
+   =========================================== */
+.pipeline {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: clamp(0.5rem, 1.2vw, 1rem);
+    width: 100%;
+}
+.pipeline .step {
+    padding: clamp(0.7rem, 1.3vw, 1rem);
+    background: var(--paper-soft);
+    border: 1px solid var(--rule);
+    position: relative;
+}
+.pipeline .step:not(:last-child)::after {
+    content: '→';
+    position: absolute;
+    right: -0.8em;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--accent);
+    font-size: 1.4em;
+    background: var(--paper);
+    width: 1.4em;
+    height: 1.4em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+    font-family: var(--font-serif);
+}
+.pipeline .step-num {
+    font-family: var(--font-mono);
+    font-size: var(--caption-size);
+    color: var(--accent);
+    letter-spacing: 0.18em;
+    margin-bottom: 0.4em;
+    font-weight: 600;
+}
+.pipeline .step-title {
+    font-family: var(--font-serif);
+    font-size: clamp(0.85rem, 1.4vw, 1.1rem);
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 0.3em;
+}
+.pipeline .step-desc {
+    font-size: var(--caption-size);
+    color: var(--ink-soft);
+    line-height: 1.45;
+}
+
+/* ===========================================
+   AGENDA
+   =========================================== */
+.agenda-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(0.5rem, 1.2vw, 0.9rem) clamp(1rem, 3vw, 2.5rem);
+}
+.agenda-row {
+    display: grid;
+    grid-template-columns: 2.5em 1fr;
+    align-items: baseline;
+    gap: 0.8em;
+    padding: clamp(0.4rem, 0.9vw, 0.7rem) 0;
+    border-bottom: 1px solid var(--rule);
+}
+.agenda-row .a-num {
+    font-family: var(--font-mono);
+    font-size: var(--small-size);
+    color: var(--accent);
+    font-weight: 600;
+    letter-spacing: 0.05em;
+}
+.agenda-row .a-title {
+    font-family: var(--font-serif);
+    font-size: clamp(0.9rem, 1.4vw, 1.15rem);
+    color: var(--ink);
+    font-weight: 500;
+    line-height: 1.25;
+}
+.agenda-row .a-sub {
+    font-size: var(--caption-size);
+    color: var(--ink-mute);
+    font-family: var(--font-sans);
+    margin-top: 0.15em;
+}
+@media (max-width: 800px) { .agenda-grid { grid-template-columns: 1fr; } }
+
+/* ===========================================
+   QUOTE / CALL-OUT (formal pull quote)
+   =========================================== */
+.callout {
+    padding: clamp(0.9rem, 1.8vw, 1.5rem);
+    border-top: 2px solid var(--accent);
+    border-bottom: 1px solid var(--rule);
+    background: transparent;
+}
+.callout .ctitle {
+    font-family: var(--font-mono);
+    font-size: var(--caption-size);
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-weight: 600;
+    margin-bottom: 0.5em;
+}
+.callout p {
+    font-family: var(--font-serif);
+    font-size: clamp(0.95rem, 1.55vw, 1.25rem);
+    color: var(--ink);
+    line-height: 1.4;
+    font-weight: 300;
+    font-style: italic;
+}
+.callout p strong { color: var(--accent); font-weight: 500; font-style: normal; }
+
+/* ===========================================
+   PARAMETER BLOCK (for config slides)
+   =========================================== */
+.param-block {
+    background: var(--paper-soft);
+    border: 1px solid var(--rule);
+    padding: clamp(0.7rem, 1.4vw, 1.1rem);
+}
+.param-block .pb-title {
+    font-family: var(--font-mono);
+    font-size: var(--caption-size);
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: var(--accent);
+    margin-bottom: 0.6em;
+    font-weight: 600;
+}
+.param-block .pb-row {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 0.5em;
+    padding: 0.3em 0;
+    border-bottom: 1px dotted var(--rule);
+    font-size: var(--small-size);
+}
+.param-block .pb-row:last-child { border-bottom: none; }
+.param-block .pb-key { color: var(--ink-soft); }
+.param-block .pb-val { font-family: var(--font-mono); color: var(--ink); font-weight: 500; }
+
+/* ===========================================
+   CLOSING SLIDE
+   =========================================== */
+.closing-slide {
+    background: var(--paper);
+}
+.closing-slide .slide-content {
+    align-items: flex-start;
+    justify-content: center;
+    padding: var(--slide-pad-x);
+}
+.closing-slide .ribbon {
+    height: 4px;
+    width: clamp(50px, 8vw, 90px);
+    background: var(--accent);
+    margin-bottom: clamp(1.2rem, 2.6vw, 2rem);
+}
+.closing-slide h1 {
+    font-size: clamp(2.4rem, 5.5vw, 4.5rem);
+    font-weight: 400;
+    max-width: 14ch;
+    line-height: 1.05;
+    margin-bottom: clamp(0.8rem, 1.6vw, 1.3rem);
+}
+.closing-slide h1 em { font-style: italic; color: var(--accent); }
+.closing-slide .closing-tags {
+    display: flex;
+    gap: clamp(0.5rem, 1.2vw, 1rem);
+    flex-wrap: wrap;
+    margin-top: clamp(1rem, 2vw, 1.6rem);
+}
+.tag {
+    padding: 0.3em 0.9em;
+    border: 1px solid currentColor;
+    font-family: var(--font-mono);
+    font-size: var(--small-size);
+    color: var(--accent);
+    letter-spacing: 0.04em;
+}
+.tag.classical { color: var(--classical); }
+.tag.quantum   { color: var(--quantum); }
+.closing-slide .signature {
+    margin-top: clamp(1.5rem, 3vw, 2.5rem);
+    padding-top: clamp(0.7rem, 1.4vw, 1.1rem);
+    border-top: 1px solid var(--rule);
+    font-size: var(--small-size);
+    color: var(--ink-soft);
+}
+
+</style>
+</head>
+<body>
+
+<!-- Progress bar -->
+<div class="progress-bar" id="progressBar" style="width: 0%"></div>
+
+<!-- Nav dots -->
+<nav class="nav-dots" id="navDots" aria-label="Navegación de diapositivas"></nav>
+
+
+<!-- ===================================================================
+     01 — PORTADA
+     =================================================================== -->
+<section class="slide title-slide">
+    <img src="graficos/escudo.png" alt="UNSAAC" class="uni-logo">
+    <div class="slide-content">
+        <div class="ribbon reveal"></div>
+        <div class="kicker reveal">Proyecto Semestral · Computación Cuántica · 2026</div>
+        <h1 class="reveal">Clasificación <em>cuántica</em> sobre el dataset Iris</h1>
+        <p class="subtitle reveal">Comparación de los modelos VQC y QSVC frente a baselines clásicos (SVM-RBF, MLP, KNN)</p>
+        <div class="meta-block reveal">
+            <div class="meta-label">Autor</div>
+            <div class="meta-value">Edmil Jampier Saire Bustamante</div>
+            <div class="meta-label">Institución</div>
+            <div class="meta-value">Universidad Nacional de San Antonio Abad del Cusco</div>
+            <div class="meta-label">Departamento</div>
+            <div class="meta-value">Departamento Académico de Informática</div>
+            <div class="meta-label">Curso</div>
+            <div class="meta-value">Computación Cuántica — Mayo 2026</div>
+        </div>
+    </div>
+</section>
+
+
+<!-- ===================================================================
+     02 — AGENDA
+     =================================================================== -->
+<section class="slide content-slide">
+    <div class="slide-header">
+        <div>Agenda</div>
+        <div><span class="slide-number-large">02</span> / 25</div>
+    </div>
+    <div class="slide-content">
+        <div class="kicker reveal">Estructura</div>
+        <h2 class="reveal">Contenido de la exposición</h2>
+        <div class="agenda-grid reveal">
+            <div class="agenda-row">
+                <div class="a-num">I</div>
+                <div>
+                    <div class="a-title">Contexto y objetivos</div>
+                    <div class="a-sub">Motivación y preguntas de investigación</div>
+                </div>
+            </div>
+            <div class="agenda-row">
+                <div class="a-num">II</div>
+                <div>
+                    <div class="a-title">Marco teórico</div>
+                    <div class="a-sub">Fundamentos cuánticos · VQC vs QSVC</div>
+                </div>
+            </div>
+            <div class="agenda-row">
+                <div class="a-num">III</div>
+                <div>
+                    <div class="a-title">Metodología</div>
+                    <div class="a-sub">Datasets, pipeline y configuración experimental</div>
+                </div>
+            </div>
+            <div class="agenda-row">
+                <div class="a-num">IV</div>
+                <div>
+                    <div class="a-title">Resultados principales</div>
+                    <div class="a-sub">Modelos clásicos · VQC · QSVC</div>
+                </div>
+            </div>
+            <div class="agenda-row">
+                <div class="a-num">V</div>
+                <div>
+                    <div class="a-title">Experimentos sistemáticos</div>
+                    <div class="a-sub">Feature maps · profundidad · optimizadores</div>
+                </div>
+            </div>
+            <div class="agenda-row">
+                <div class="a-num">VI</div>
+                <div>
+                    <div class="a-title">Análisis de varianza y validación</div>
+                    <div class="a-sub">Estabilidad y prueba en MNIST reducido</div>
+                </div>
+            </div>
+            <div class="agenda-row">
+                <div class="a-num">VII</div>
+                <div>
+                    <div class="a-title">Discusión y limitaciones</div>
+                    <div class="a-sub">Por qué los modelos clásicos superan</div>
+                </div>
+            </div>
+            <div class="agenda-row">
+                <div class="a-num">VIII</div>
+                <div>
+                    <div class="a-title">Conclusiones y trabajos futuros</div>
+                    <div class="a-sub">Lecciones y siguientes pasos</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="slide-footer">
+        <div>Clasificación cuántica — VQC y QSVC</div>
+        <div>UNSAAC · 2026</div>
+    </div>
+</section>
+
+
+<!-- ===================================================================
+     03 — SECTION I
+     =================================================================== -->
+<section class="slide section-slide">
+    <div class="slide-header">
+        <div class="section-tag">Parte I</div>
+        <div>03 / 25</div>
+    </div>
+    <div class="slide-content">
+        <div class="section-roman reveal">— I —</div>
+        <h2 class="reveal">Contexto, motivación y <em>objetivos</em></h2>
+    </div>
+    <div class="slide-footer">
+        <div>Clasificación cuántica — VQC y QSVC</div>
+        <div>UNSAAC · 2026</div>
+    </div>
+</section>
+
+
+<!-- ===================================================================
+     04 — INTRODUCCIÓN
+     =================================================================== -->
+<section class="slide content-slide">
+    <div class="slide-header">
+        <div><span class="section-tag">Parte I</span> · Introducción</div>
+        <div><span class="slide-number-large">04</span> / 25</div>
+    </div>
+    <div class="slide-content">
+        <div class="kicker reveal">1.1 Introducción</div>
+        <h2 class="reveal">¿Por qué <em>quantum machine learning</em>?</h2>
+        <p class="lead reveal">El aprendizaje automático cuántico (QML) busca aprovechar la superposición y el entrelazamiento para resolver problemas de clasificación y optimización con un costo computacional potencialmente menor.</p>
+
+        <div class="two-col">
+            <div class="reveal">
+                <h3>La promesa</h3>
+                <ul class="bullet-list" style="margin-top:0.5em">
+                    <li><strong>Superposición:</strong> un qubit codifica simultáneamente 0 y 1.</li>
+                    <li><strong>Entrelazamiento:</strong> correlaciones imposibles clásicamente.</li>
+                    <li>Espacio de Hilbert de dimensión 2ⁿ con sólo n qubits.</li>
+                    <li>Potencial ventaja en datos con estructura cuántica.</li>
+                </ul>
+            </div>
+            <div class="reveal">
+                <h3>La realidad NISQ</h3>
+                <ul class="bullet-list" style="margin-top:0.5em">
+                    <li>Hardware limitado por <strong>ruido y decoherencia</strong>.</li>
+                    <li>La ventaja cuántica en ML aún es un problema abierto.</li>
+                    <li>Frameworks: <strong>Qiskit ML</strong>, PennyLane, TFQ.</li>
+                    <li>Necesidad de evaluación empírica rigurosa.</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="callout reveal">
+            <div class="ctitle">Pregunta de investigación</div>
+            <p>En un dataset clásico de baja dimensionalidad como Iris, <strong>¿los modelos cuánticos VQC y QSVC compiten ya con SVM, MLP y KNN?</strong></p>
+        </div>
+    </div>
+    <div class="slide-footer">
+        <div>Cerezo et al., 2021 · Huang et al., 2021</div>
+        <div>04 / 25</div>
+    </div>
+</section>
+
+
+<!-- ===================================================================
+     05 — OBJETIVOS
+     =================================================================== -->
+<section class="slide content-slide">
+    <div class="slide-header">
+        <div><span class="section-tag">Parte I</span> · Objetivos</div>
+        <div><span class="slide-number-large">05</span> / 25</div>
+    </div>
+    <div class="slide-content">
+        <div class="kicker reveal">1.2 Objetivos del proyecto</div>
+        <h2 class="reveal">General y específicos</h2>
+
+        <div class="callout reveal" style="border-top-color: var(--classical)">
+            <div class="ctitle" style="color: var(--classical)">Objetivo general</div>
+            <p style="font-style: normal; font-family: var(--font-serif); font-size: clamp(0.95rem, 1.5vw, 1.2rem); font-weight: 400">
+                Diseñar e implementar un modelo de aprendizaje automático basado en computación cuántica, evaluando su desempeño frente a métodos clásicos equivalentes.
+            </p>
+        </div>
+
+        <div class="reveal">
+            <h3 style="color: var(--accent); margin-bottom: 0.4em">Objetivos específicos</h3>
+            <ol class="numbered-list">
+                <li>Implementar <strong>VQC y QSVC</strong> utilizando Qiskit Machine Learning.</li>
+                <li>Construir modelos clásicos de referencia: <strong>SVM-RBF, MLP, KNN</strong>.</li>
+                <li>Comparar accuracy, precisión, recall, F1-score y tiempo de cómputo.</li>
+                <li>Analizar influencia de <strong>feature maps</strong>, profundidad y optimizadores.</li>
+                <li>Evaluar la sensibilidad al <strong>ruido NISQ simulado</strong>.</li>
+                <li>Validar resultados en un segundo dataset (MNIST reducido).</li>
+            </ol>
+        </div>
+    </div>
+    <div class="slide-footer">
+        <div>Seis metas medibles</div>
+        <div>05 / 25</div>
+    </div>
+</section>
+
+
+<!-- ===================================================================
+     06 — SECTION II
+     =================================================================== -->
+<section class="slide section-slide">
+    <div class="slide-header">
+        <div class="section-tag">Parte II</div>
+        <div>06 / 25</div>
+    </div>
+    <div class="slide-content">
+        <div class="section-roman reveal">— II —</div>
+        <h2 class="reveal">Marco <em>teórico</em></h2>
+    </div>
+    <div class="slide-footer">
+        <div>Clasificación cuántica — VQC y QSVC</div>
+        <div>UNSAAC · 2026</div>
+    </div>
+</section>
+
+
+<!-- ===================================================================
+     07 — FUNDAMENTOS CUÁNTICOS
+     =================================================================== -->
+<section class="slide content-slide">
+    <div class="slide-header">
+        <div><span class="section-tag">Parte II</span> · Fundamentos</div>
+        <div><span class="slide-number-large">07</span> / 25</div>
+    </div>
+    <div class="slide-content">
+        <div class="kicker reveal">2.1 Fundamentos cuánticos</div>
+        <h2 class="reveal">Del bit al qubit</h2>
+
+        <div class="two-col">
+            <div class="reveal">
+                <h3>Qubit en superposición</h3>
+                <div class="formula" style="margin: 0.6em 0">
+                    |<span class="var">ψ</span>⟩ = α|0⟩ + β|1⟩,&nbsp;&nbsp; |α|² + |β|² = 1
+                </div>
+                <p class="small">Las amplitudes complejas α, β determinan la probabilidad de medir cada estado base. Con 4 qubits manejamos un espacio de 2⁴ = 16 dimensiones.</p>
+            </div>
+            <div class="reveal">
+                <h3>Puertas y rotaciones</h3>
+                <div class="formula" style="margin: 0.6em 0; font-size: clamp(0.85rem, 1.4vw, 1.1rem)">
+                    R<sub>Y</sub>(<span class="var">θ</span>) = [ cos(θ/2) &nbsp;−sin(θ/2) ; sin(θ/2) &nbsp;cos(θ/2) ]
+                </div>
+                <p class="small">Las puertas <strong>R<sub>Y</sub>, R<sub>Z</sub></strong> permiten codificar datos como ángulos. La <strong>CNOT</strong> entrelaza dos qubits, capturando correlaciones.</p>
+            </div>
+        </div>
+
+        <div class="two-col reveal" style="margin-top: 0.4em">
+            <div class="param-block">
+                <div class="pb-title">Circuito parametrizado</div>
+                <div class="pb-row"><span class="pb-key">Forma general</span><span class="pb-val">U(x, θ) = U<sub>W</sub>(θ) · U<sub>φ</sub>(x)</span></div>
+                <div class="pb-row"><span class="pb-key">Feature map</span><span class="pb-val">U<sub>φ</sub>(x) — codifica x</span></div>
+                <div class="pb-row"><span class="pb-key">Ansatz</span><span class="pb-val">U<sub>W</sub>(θ) — entrenable</span></div>
+            </div>
+            <div class="param-block">
+                <div class="pb-title">Limitación principal</div>
+                <p class="small" style="line-height: 1.55"><strong>Barren plateaus:</strong> ansatz demasiado profundos producen gradientes que se desvanecen exponencialmente, impidiendo el entrenamiento.</p>
+            </div>
+        </div>
+    </div>
+    <div class="slide-footer">
+        <div>Nielsen &amp; Chuang · Cerezo et al., 2021</div>
+        <div>07 / 25</div>
+    </div>
+</section>
+
+
+<!-- ===================================================================
+     08 — VQC vs QSVC
+     =================================================================== -->
+<section class="slide content-slide">
+    <div class="slide-header">
+        <div><span class="section-tag">Parte II</span> · Modelos cuánticos</div>
+        <div><span class="slide-number-large">08</span> / 25</div>
+    </div>
+    <div class="slide-content">
+        <div class="kicker reveal">2.2 Dos enfoques cuánticos</div>
+        <h2 class="reveal">VQC y QSVC: filosofías opuestas</h2>
+
+        <div class="two-col">
+            <div class="stat-card quantum reveal" style="height: 100%">
+                <div class="label">VQC — Variational Quantum Classifier</div>
+                <div style="font-family: var(--font-serif); font-style: italic; font-size: clamp(1rem, 1.7vw, 1.35rem); color: var(--quantum); margin: 0.3em 0">Entrenamiento híbrido cuántico-clásico</div>
+                <ul class="bullet-list" style="margin-top: 0.5em">
+                    <li>Circuito parametrizado <span class="mono">U(x, θ)</span>.</li>
+                    <li>Optimizador <strong>clásico</strong> ajusta θ paso a paso.</li>
+                    <li>Función de pérdida: <strong>entropía cruzada</strong>.</li>
+                    <li>Análogo cuántico de una red neuronal.</li>
+                </ul>
+                <div class="formula" style="margin-top: 0.7em; font-size: clamp(0.8rem, 1.3vw, 1rem)">
+                    L(θ) = −(1/N) Σ y<sub>ic</sub> log ŷ<sub>ic</sub>(θ)
+                </div>
+            </div>
+
+            <div class="stat-card classical reveal" style="height: 100%">
+                <div class="label">QSVC — Quantum Support Vector Classifier</div>
+                <div style="font-family: var(--font-serif); font-style: italic; font-size: clamp(1rem, 1.7vw, 1.35rem); color: var(--classical); margin: 0.3em 0">Sin optimización variacional</div>
+                <ul class="bullet-list" style="margin-top: 0.5em">
+                    <li>Kernel <strong>cuántico</strong> basado en fidelidad de estados.</li>
+                    <li>SVM clásico decide los vectores soporte.</li>
+                    <li>Sólo se calcula el kernel, no se entrena un circuito.</li>
+                    <li>Más estable, menos sensible a inicialización.</li>
+                </ul>
+                <div class="formula" style="margin-top: 0.7em; font-size: clamp(0.8rem, 1.3vw, 1rem)">
+                    K<sub>Q</sub>(x<sub>i</sub>, x<sub>j</sub>) = |⟨φ(x<sub>j</sub>) | φ(x<sub>i</sub>)⟩|²
+                </div>
+            </div>
+        </div>
+
+        <div class="callout reveal">
+            <div class="ctitle">Implicación práctica</div>
+            <p>El VQC depende de un optimizador clásico que puede atascarse. El QSVC delega la decisión a un SVM probado. <strong>Veremos que esta distinción cambia drásticamente los resultados.</strong></p>
+        </div>
+    </div>
+    <div class="slide-footer">
+        <div>Havlíček et al., 2019 · Rebentrost et al., 2014</div>
+        <div>08 / 25</div>
+    </div>
+</section>
+
+
+<!-- ===================================================================
+     09 — SECTION III
+     =================================================================== -->
+<section class="slide section-slide">
+    <div class="slide-header">
+        <div class="section-tag">Parte III</div>
+        <div>09 / 25</div>
+    </div>
+    <div class="slide-content">
+        <div class="section-roman reveal">— III —</div>
+        <h2 class="reveal"><em>Metodología</em> experimental</h2>
+    </div>
+    <div class="slide-footer">
+        <div>Clasificación cuántica — VQC y QSVC</div>
+        <div>UNSAAC · 2026</div>
+    </div>
+</section>
+
+
+<!-- ===================================================================
+     10 — DATASETS
+     =================================================================== -->
+<section class="slide content-slide">
+    <div class="slide-header">
+        <div><span class="section-tag">Parte III</span> · Datasets</div>
+        <div><span class="slide-number-large">10</span> / 25</div>
+    </div>
+    <div class="slide-content">
+        <div class="kicker reveal">3.1 Datasets utilizados</div>
+        <h2 class="reveal">Dos benchmarks clásicos</h2>
+
+        <div class="two-col">
+            <div class="stat-card reveal" style="height: 100%">
+                <div class="label">Dataset principal</div>
+                <div class="value" style="color: var(--accent); font-size: clamp(1.4rem, 2.8vw, 2.2rem); font-weight: 500">Iris</div>
+                <ul class="bullet-list" style="margin-top: 0.5em">
+                    <li><strong>150 muestras</strong> distribuidas en 3 clases (50 c/u).</li>
+                    <li>4 features: longitud y ancho de sépalo y pétalo.</li>
+                    <li>Setosa: linealmente separable.</li>
+                    <li>Versicolor / Virginica: solapamiento parcial.</li>
+                </ul>
+            </div>
+            <div class="stat-card classical reveal" style="height: 100%">
+                <div class="label">Validación externa</div>
+                <div class="value" style="font-size: clamp(1.4rem, 2.8vw, 2.2rem); font-weight: 500">MNIST reducido</div>
+                <ul class="bullet-list" style="margin-top: 0.5em">
+                    <li>Dígitos <strong>0 vs 1</strong>, 360 muestras totales.</li>
+                    <li><strong>PCA</strong> aplicado: 64 → 4 componentes.</li>
+                    <li>Tarea binaria, más sencilla que Iris.</li>
+                    <li>Comprueba si las conclusiones generalizan.</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="callout reveal">
+            <div class="ctitle">Preprocesamiento común</div>
+            <p style="font-style: normal; font-family: var(--font-sans); font-size: var(--body-size); line-height: 1.55; color: var(--ink)">
+                MinMaxScaler al rango <span class="mono" style="color: var(--accent)">[0, π]</span> para codificación angular. One-hot encoding para VQC. Split estratificado 70 / 30 con semilla fija <span class="mono" style="color: var(--accent)">42</span>.
+            </p>
+        </div>
+    </div>
+    <div class="slide-footer">
+        <div>Iris: Fisher, 1936 · Digits: scikit-learn</div>
+        <div>10 / 25</div>
+    </div>
+</section>
+
+
+<!-- ===================================================================
+     11 — PIPELINE
+     =================================================================== -->
+<section class="slide content-slide">
+    <div class="slide-header">
+        <div><span class="section-tag">Parte III</span> · Pipeline</div>
+        <div><span class="slide-number-large">11</span> / 25</div>
+    </div>
+    <div class="slide-content">
+        <div class="kicker reveal">3.2 Pipeline experimental</div>
+        <h2 class="reveal">Procedimiento en cuatro etapas</h2>
+
+        <div class="pipeline reveal">
+            <div class="step">
+                <div class="step-num">Etapa 01</div>
+                <div class="step-title">Preprocesado</div>
+                <div class="step-desc">Carga · normalización [0, π] · one-hot · split 70/30</div>
+            </div>
+            <div class="step">
+                <div class="step-num">Etapa 02</div>
+                <div class="step-title">Modelos clásicos</div>
+                <div class="step-desc">SVM-RBF · MLP (16, 8) · KNN (k=5), con scikit-learn</div>
+            </div>
+            <div class="step">
+                <div class="step-num">Etapa 03</div>
+                <div class="step-title">Modelos cuánticos</div>
+                <div class="step-desc">VQC: ZZFM + RealAmplitudes + COBYLA · QSVC: kernel de fidelidad</div>
+            </div>
+            <div class="step">
+                <div class="step-num">Etapa 04</div>
+                <div class="step-title">Evaluación</div>
+                <div class="step-desc">Accuracy · F1 · matrices de confusión · curvas · varianza</div>
+            </div>
+        </div>
+
+        <div class="two-col">
+            <div class="param-block reveal">
+                <div class="pb-title">Configuración del VQC</div>
+                <div class="pb-row"><span class="pb-key">Feature map</span><span class="pb-val">ZZFeatureMap (reps=2, linear)</span></div>
+                <div class="pb-row"><span class="pb-key">Ansatz</span><span class="pb-val">RealAmplitudes (reps=3, 16 params)</span></div>
+                <div class="pb-row"><span class="pb-key">Optimizador</span><span class="pb-val">COBYLA · 200 iter</span></div>
+                <div class="pb-row"><span class="pb-key">Pérdida</span><span class="pb-val">Cross-entropy</span></div>
+                <div class="pb-row"><span class="pb-key">Primitiva</span><span class="pb-val">StatevectorSampler</span></div>
+            </div>
+            <div class="param-block reveal">
+                <div class="pb-title">Configuración del QSVC</div>
+                <div class="pb-row"><span class="pb-key">Kernel</span><span class="pb-val">FidelityQuantumKernel</span></div>
+                <div class="pb-row"><span class="pb-key">Feature map</span><span class="pb-val">ZZFeatureMap (reps=2, linear)</span></div>
+                <div class="pb-row"><span class="pb-key">Clasificador</span><span class="pb-val">SVC clásico</span></div>
+                <div class="pb-row"><span class="pb-key">Qubits</span><span class="pb-val">4 (uno por feature)</span></div>
+                <div class="pb-row"><span class="pb-key">Entrenamiento</span><span class="pb-val">No variacional</span></div>
+            </div>
+        </div>
+    </div>
+    <div class="slide-footer">
+        <div>Qiskit 2.4.1 · Qiskit ML 0.9.0 · Python 3.11</div>
+        <div>11 / 25</div>
+    </div>
+</section>
+
+
+<!-- ===================================================================
+     12 — FIGURA: CIRCUITOS
+     =================================================================== -->
+<section class="slide figure-slide">
+    <div class="slide-header">
+        <div><span class="section-tag">Parte III</span> · Circuitos</div>
+        <div><span class="slide-number-large">12</span> / 25</div>
+    </div>
+    <div class="slide-content">
+        <div class="kicker reveal">3.3 Diseño del circuito cuántico</div>
+        <h2 class="reveal">Lo que se ejecuta sobre los qubits</h2>
+
+        <div class="figure-block reveal">
+            <div class="figure-num">Figura 1</div>
+            <div class="figure-frame">
+                <img src="figuras/circuitos.png" alt="Circuitos: ZZFeatureMap, RealAmplitudes y circuito completo">
+            </div>
+            <div class="figure-caption">Arriba: ZZFeatureMap (reps=2). Centro: RealAmplitudes (reps=3). Abajo: circuito completo.</div>
+        </div>
+
+        <div class="reading-note reveal">
+            <div class="rn-label">Lectura ›</div>
+            <div class="rn-text">
+                El <strong>feature map ZZFeatureMap</strong> codifica las cuatro features de Iris en cuatro qubits mediante rotaciones R<sub>Z</sub> y compuertas R<sub>ZZ</sub>, generando correlaciones de segundo orden. El <strong>ansatz RealAmplitudes</strong> incorpora 16 parámetros θ entrenables organizados en tres capas de R<sub>Y</sub> + CNOT. La inteligencia del modelo reside enteramente en esos 16 ángulos.
+            </div>
+        </div>
+    </div>
+    <div class="slide-footer">
+        <div>4 qubits · 16 parámetros entrenables</div>
+        <div>12 / 25</div>
+    </div>
+</section>
+
+
+<!-- ===================================================================
+     13 — SECTION IV
+     =================================================================== -->
+<section class="slide section-slide">
+    <div class="slide-header">
+        <div class="section-tag">Parte IV</div>
+        <div>13 / 25</div>
+    </div>
+    <div class="slide-content">
+        <div class="section-roman reveal">— IV —</div>
+        <h2 class="reveal"><em>Resultados</em> principales</h2>
+    </div>
+    <div class="slide-footer">
+        <div>Clasificación cuántica — VQC y QSVC</div>
+        <div>UNSAAC · 2026</div>
+    </div>
+</section>
+
+
+<!-- ===================================================================
+     14 — FIGURA: EDA IRIS
+     =================================================================== -->
+<section class="slide figure-slide">
+    <div class="slide-header">
+        <div><span class="section-tag">Parte IV</span> · Análisis exploratorio</div>
+        <div><span class="slide-number-large">14</span> / 25</div>
+    </div>
+    <div class="slide-content">
+        <div class="kicker reveal">4.1 Análisis exploratorio del dataset</div>
+        <h2 class="reveal">¿Iris es fácil o difícil?</h2>
+
+        <div class="figure-block reveal">
+            <div class="figure-num">Figura 2</div>
+            <div class="figure-frame">
+                <img src="figuras/eda_iris.png" alt="Análisis exploratorio del dataset Iris">
+            </div>
+            <div class="figure-caption">Distribución de las muestras de Iris por pares de características.</div>
+        </div>
+
+        <div class="reading-note reveal">
+            <div class="rn-label">Lectura ›</div>
+            <div class="rn-text">
+                Cada subplot enfrenta dos features de Iris. <strong>Setosa (azul)</strong> aparece <em>aislada</em> en todos los pares: cualquier modelo lineal la clasifica. <strong>Versicolor y Virginica</strong> se solapan en sépalo y sólo se separan claramente con <em>petal length × petal width</em>. Conclusión: Iris es trivial para clásicos en dos de las tres clases; el verdadero reto es distinguir las clases que se mezclan.
+            </div>
+        </div>
+    </div>
+    <div class="slide-footer">
+        <div>6 pares de features · 3 clases · 150 muestras</div>
+        <div>14 / 25</div>
+    </div>
+</section>
+
+
+<!-- ===================================================================
+     15 — RESULTADOS CLÁSICOS
+     =================================================================== -->
+<section class="slide content-slide">
+    <div class="slide-header">
+        <div><span class="section-tag">Parte IV</span> · Modelos clásicos</div>
+        <div><span class="slide-number-large">15</span> / 25</div>
+    </div>
+    <div class="slide-content">
+        <div class="kicker reveal">4.2 Resultados de modelos clásicos</div>
+        <h2 class="reveal">Los baselines empatan en 93.33%</h2>
+
+        <div class="reveal">
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Modelo</th>
+                        <th class="num">Accuracy</th>
+                        <th class="num">Precision</th>
+                        <th class="num">F1</th>
+                        <th class="num">Tiempo (s)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>SVM-RBF</strong></td>
+                        <td class="num win">0.933</td>
+                        <td class="num">0.935</td>
+                        <td class="num">0.933</td>
+                        <td class="num">0.001</td>
+                    </tr>
+                    <tr>
+                        <td><strong>MLP</strong> <span class="small">(16, 8)</span></td>
+                        <td class="num win">0.933</td>
+                        <td class="num">0.935</td>
+                        <td class="num">0.933</td>
+                        <td class="num">0.108</td>
+                    </tr>
+                    <tr>
+                        <td><strong>KNN</strong> <span class="small">(k=5)</span></td>
+                        <td class="num win">0.933</td>
+                        <td class="num">0.944</td>
+                        <td class="num">0.933</td>
+                        <td class="num">&lt;0.001</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="callout reveal">
+            <div class="ctitle">Validación cruzada 5-fold</div>
+            <p style="font-style: normal; font-family: var(--font-sans); font-size: var(--body-size); color: var(--ink); line-height: 1.55">
+                El SVM-RBF en 5-fold CV se mantiene en <span class="mono" style="color: var(--classical)">0.960 ± 0.039</span>, confirmando que los baselines clásicos resuelven Iris en milisegundos con alta estabilidad. La pregunta es entonces: <strong>¿pueden VQC y QSVC al menos aproximarse?</strong>
+            </p>
+        </div>
+    </div>
+    <div class="slide-footer">
+        <div>scikit-learn 1.5 · split 70/30 · semilla = 42</div>
+        <div>15 / 25</div>
+    </div>
+</section>
+
+
+<!-- ===================================================================
+     16 — FIGURA: VQC LOSS
+     =================================================================== -->
+<section class="slide figure-slide">
+    <div class="slide-header">
+        <div><span class="section-tag">Parte IV</span> · VQC · convergencia</div>
+        <div><span class="slide-number-large">16</span> / 25</div>
+    </div>
+    <div class="slide-content">
+        <div class="kicker reveal">4.3 VQC: convergencia de la pérdida</div>
+        <h2 class="reveal">El VQC se atasca en una meseta</h2>
+
+        <div class="figure-block reveal">
+            <div class="figure-num">Figura 3</div>
+            <div class="figure-frame">
+                <img src="figuras/vqc_loss.png" alt="Curva de pérdida del VQC con COBYLA">
+            </div>
+            <div class="figure-caption">Evolución de la entropía cruzada durante el entrenamiento del VQC con COBYLA (200 iter).</div>
+        </div>
+
+        <div class="reading-note reveal">
+            <div class="rn-label">Lectura ›</div>
+            <div class="rn-text">
+                COBYLA reduce la entropía cruzada de 11.86 a 11.66 en las primeras 30 iteraciones, y a partir de allí <em>oscila sin avanzar</em>. La mejora total es marginal (≈0.2 unidades). Este es el diagnóstico clínico del problema: el VQC inicia el aprendizaje pero el paisaje de optimización es plano. <strong>Resultado: accuracy de 37.78%</strong> — apenas mejor que el azar (33%) en una tarea de tres clases.
+            </div>
+        </div>
+    </div>
+    <div class="slide-footer">
+        <div>COBYLA · 200 iter · tiempo de entrenamiento: 34.3 s</div>
+        <div>16 / 25</div>
+    </div>
+</section>
+
+
+<!-- ===================================================================
+     17 — FIGURA: MATRICES DE CONFUSIÓN
+     =================================================================== -->
+<section class="slide figure-slide">
+    <div class="slide-header">
+        <div><span class="section-tag">Parte IV</span> · Matrices de confusión</div>
+        <div><span class="slide-number-large">17</span> / 25</div>
+    </div>
+    <div class="slide-content">
+        <div class="kicker reveal">4.4 Matrices de confusión</div>
+        <h2 class="reveal">¿Dónde se equivoca cada modelo?</h2>
+
+        <div class="figure-block reveal">
+            <div class="figure-num">Figura 4</div>
+            <div class="figure-frame">
+                <img src="figuras/matrices_confusion.png" alt="Matrices de confusión SVM, MLP, KNN, VQC, QSVC">
+            </div>
+            <div class="figure-caption">Matrices de confusión para los cinco modelos evaluados sobre el conjunto de test de Iris.</div>
+        </div>
+
+        <div class="reading-note reveal">
+            <div class="rn-label">Lectura ›</div>
+            <div class="rn-text">
+                <strong style="color: var(--classical)">Clásicos:</strong> la diagonal es casi perfecta, con sólo 2-3 confusiones entre versicolor↔virginica (el solapamiento observado en el EDA). <strong style="color: var(--quantum)">VQC:</strong> caótico — la columna de virginica queda <em>vacía</em>, el modelo nunca la predice. <strong style="color: var(--accent)">QSVC:</strong> razonable, distingue las tres clases con errores moderados. El VQC colapsó sus predicciones en dos clases.
+            </div>
+        </div>
+    </div>
+    <div class="slide-footer">
+        <div>5 modelos · conjunto de test (45 muestras)</div>
+        <div>17 / 25</div>
+    </div>
+</section>
+
+
+<!-- ===================================================================
+     18 — FIGURA: COMPARACIÓN GENERAL
+     =================================================================== -->
+<section class="slide figure-slide">
+    <div class="slide-header">
+        <div><span class="section-tag">Parte IV</span> · Comparación global</div>
+        <div><span class="slide-number-large">18</span> / 25</div>
+    </div>
+    <div class="slide-content">
+        <div class="kicker reveal">4.5 Comparación general clásicos vs cuánticos</div>
+        <h2 class="reveal">Accuracy frente a tiempo de entrenamiento</h2>
+
+        <div class="figure-block reveal">
+            <div class="figure-num">Figura 5</div>
+            <div class="figure-frame">
+                <img src="figuras/comparacion_general.png" alt="Comparación global: accuracy y tiempo">
+            </div>
+            <div class="figure-caption">Izquierda: accuracy por modelo. Derecha: tiempo de entrenamiento en escala logarítmica.</div>
+        </div>
+
+        <div class="reading-note reveal">
+            <div class="rn-label">Lectura ›</div>
+            <div class="rn-text">
+                <strong style="color: var(--classical)">Azul</strong> = clásicos; <strong style="color: var(--quantum)">morado</strong> = cuánticos. A la izquierda los tres clásicos comparten 93.3%, mientras VQC y QSVC se ubican muy por debajo. A la derecha la escala logarítmica revela el verdadero costo: el VQC tarda ≈ <strong>30 000× más</strong> que un SVM. Resumen del proyecto: mucho más cómputo cuántico, mucho menos rendimiento.
+            </div>
+        </div>
+    </div>
+    <div class="slide-footer">
+        <div>Tiempo en escala logarítmica</div>
+        <div>18 / 25</div>
+    </div>
+</section>
+
+
+<!-- ===================================================================
+     19 — FIGURA: FRONTERA DE DECISIÓN
+     =================================================================== -->
+<section class="slide figure-slide">
+    <div class="slide-header">
+        <div><span class="section-tag">Parte IV</span> · Frontera de decisión</div>
+        <div><span class="slide-number-large">19</span> / 25</div>
+    </div>
+    <div class="slide-content">
+        <div class="kicker reveal">4.6 Frontera de decisión del SVM</div>
+        <h2 class="reveal">El espacio de decisión en 2D</h2>
+
+        <div class="figure-block reveal">
+            <div class="figure-num">Figura 6</div>
+            <div class="figure-frame">
+                <img src="figuras/frontera_decision.png" alt="Frontera de decisión SVM-RBF en proyección PCA 2D">
+            </div>
+            <div class="figure-caption">Frontera de decisión del SVM-RBF en proyección PCA 2D.</div>
+        </div>
+
+        <div class="reading-note reveal">
+            <div class="rn-label">Lectura ›</div>
+            <div class="rn-text">
+                Proyectamos Iris a dos dimensiones con PCA (PC1 captura el <strong>83.6%</strong> de la varianza). El SVM con kernel RBF construye fronteras <em>curvas</em> que aíslan setosa (azul) a la izquierda y virginica (verde) a la derecha. La <strong>zona central</strong> es donde versicolor y virginica se confunden — corresponde exactamente a los 2-3 errores observados en la matriz de confusión. Geometría sencilla, problema sencillo para clásicos.
+            </div>
+        </div>
+    </div>
+    <div class="slide-footer">
+        <div>PCA 2D · SVM-RBF · 30 muestras</div>
+        <div>19 / 25</div>
+    </div>
+</section>
+
+
+<!-- ===================================================================
+     20 — SECTION V — EXPERIMENTOS
+     =================================================================== -->
+<section class="slide section-slide">
+    <div class="slide-header">
+        <div class="section-tag">Parte V</div>
+        <div>20 / 25</div>
+    </div>
+    <div class="slide-content">
+        <div class="section-roman reveal">— V —</div>
+        <h2 class="reveal">Experimentos <em>sistemáticos</em></h2>
+    </div>
+    <div class="slide-footer">
+        <div>Clasificación cuántica — VQC y QSVC</div>
+        <div>UNSAAC · 2026</div>
+    </div>
+</section>
+
+
+<!-- ===================================================================
+     21 — FIGURA: EXP 1 FEATURE MAPS
+     =================================================================== -->
+<section class="slide figure-slide">
+    <div class="slide-header">
+        <div><span class="section-tag">Parte V</span> · Experimento 1</div>
+        <div><span class="slide-number-large">21</span> / 25</div>
+    </div>
+    <div class="slide-content">
+        <div class="kicker reveal">5.1 Comparación de feature maps</div>
+        <h2 class="reveal">La paradoja del feature map</h2>
+
+        <div class="figure-block reveal">
+            <div class="figure-num">Figura 7</div>
+            <div class="figure-frame">
+                <img src="figuras/exp1_feature_maps.png" alt="Comparación de feature maps">
+            </div>
+            <div class="figure-caption">Accuracy por feature map y curvas de convergencia de la pérdida.</div>
+        </div>
+
+        <div class="reading-note reveal">
+            <div class="rn-label">Lectura ›</div>
+            <div class="rn-text">
+                Cuatro feature maps con el mismo ansatz. El ganador sorpresivo es <strong>ZFeatureMap (66.7%)</strong> — el más simple, <em>sin entrelazamiento</em>. ZZFeatureMap (linear) y PauliFeatureMap, mucho más expresivos, obtienen peor accuracy. La curva derecha lo confirma: ZFeatureMap converge a una pérdida menor. Lección clave: con 150 iteraciones, un circuito simple se entrena mejor que uno expresivo con paisaje plano. <strong>Más complejidad ≠ mejor rendimiento.</strong>
+            </div>
+        </div>
+    </div>
+    <div class="slide-footer">
+        <div>4 feature maps · ansatz fijo: RealAmplitudes reps=3</div>
+        <div>21 / 25</div>
+    </div>
+</section>
+
+
+<!-- ===================================================================
+     22 — FIGURA: EXP 2 PROFUNDIDAD
+     =================================================================== -->
+<section class="slide figure-slide">
+    <div class="slide-header">
+        <div><span class="section-tag">Parte V</span> · Experimento 2</div>
+        <div><span class="slide-number-large">22</span> / 25</div>
+    </div>
+    <div class="slide-content">
+        <div class="kicker reveal">5.2 Profundidad del ansatz</div>
+        <h2 class="reveal">Tendencia monótona del accuracy</h2>
+
+        <div class="figure-block reveal">
+            <div class="figure-num">Figura 8</div>
+            <div class="figure-frame">
+                <img src="figuras/exp2_profundidad.png" alt="Profundidad del ansatz: accuracy y convergencia">
+            </div>
+            <div class="figure-caption">Accuracy vs repeticiones del ansatz y convergencia por profundidad.</div>
+        </div>
+
+        <div class="reading-note reveal">
+            <div class="rn-label">Lectura ›</div>
+            <div class="rn-text">
+                Variando <span class="mono">reps ∈ {1, 2, 3, 5}</span>, el accuracy <strong>sube monótonamente</strong> de 31% a 53%. Con reps=5 tenemos 24 parámetros y el VQC alcanza su mejor desempeño. A la derecha, reps=5 (rojo) converge a una pérdida menor. Buena noticia: no observamos <em>barren plateau</em> en este rango. Mala noticia: incluso así, el modelo se mantiene lejos del 93% clásico.
+            </div>
+        </div>
+    </div>
+    <div class="slide-footer">
+        <div>Ratio params / muestras = 24 / 105 ≈ 0.23</div>
+        <div>22 / 25</div>
+    </div>
+</section>
+
+
+<!-- ===================================================================
+     23 — FIGURA: EXP 3 OPTIMIZADORES
+     =================================================================== -->
+<section class="slide figure-slide">
+    <div class="slide-header">
+        <div><span class="section-tag">Parte V</span> · Experimento 3</div>
+        <div><span class="slide-number-large">23</span> / 25</div>
+    </div>
+    <div class="slide-content">
+        <div class="kicker reveal">5.3 Comparación de optimizadores</div>
+        <h2 class="reveal">¿Qué optimizador entrena mejor al VQC?</h2>
+
+        <div class="figure-block reveal">
+            <div class="figure-num">Figura 9</div>
+            <div class="figure-frame">
+                <img src="figuras/exp3_optimizadores.png" alt="Comparación de optimizadores COBYLA, SPSA, L-BFGS-B">
+            </div>
+            <div class="figure-caption">Accuracy por optimizador y curvas de convergencia.</div>
+        </div>
+
+        <div class="reading-note reveal">
+            <div class="rn-label">Lectura ›</div>
+            <div class="rn-text">
+                Tres optimizadores compiten. <strong>COBYLA</strong> gana con 62.2% en sólo 44 s — método libre de gradiente, ideal para simulación statevector. <strong>SPSA</strong> (55.6%, 149 s) está diseñado para hardware <em>ruidoso</em>; gasta de más cuando no hay ruido que enfrentar. <strong>L-BFGS-B</strong> (57.8%, 204 s) converge en 17 iteraciones pero cada paso es costoso por el cálculo de gradientes. Recomendación: COBYLA en simulación; SPSA cuando se pase a hardware real.
+            </div>
+        </div>
+    </div>
+    <div class="slide-footer">
+        <div>3 optimizadores · 150 iteraciones por configuración</div>
+        <div>23 / 25</div>
+    </div>
+</section>
+
+
+<!-- ===================================================================
+     24 — FIGURA: KERNELS HEATMAP
+     =================================================================== -->
+<section class="slide figure-slide">
+    <div class="slide-header">
+        <div><span class="section-tag">Parte V</span> · Kernels</div>
+        <div><span class="slide-number-large">24</span> / 25</div>
+    </div>
+    <div class="slide-content">
+        <div class="kicker reveal">5.4 Kernel cuántico vs kernel RBF</div>
+        <h2 class="reveal">Cómo &laquo;ven&raquo; los datos los dos kernels</h2>
+
+        <div class="figure-block reveal">
+            <div class="figure-num">Figura 10</div>
+            <div class="figure-frame">
+                <img src="figuras/kernels_heatmap.png" alt="Heatmaps del kernel cuántico y kernel RBF clásico">
+            </div>
+            <div class="figure-caption">Izquierda: kernel cuántico (ZZFeatureMap). Derecha: kernel RBF clásico.</div>
+        </div>
+
+        <div class="reading-note reveal">
+            <div class="rn-label">Lectura ›</div>
+            <div class="rn-text">
+                Cada celda mide la <strong>similitud</strong> entre dos muestras. <strong style="color: var(--quantum)">Izquierda · cuántico:</strong> matriz dispersa con diagonal brillante y pocas similitudes off-diagonal. <strong style="color: var(--classical)">Derecha · RBF:</strong> bloques amarillos compactos donde las muestras de una misma clase se reconocen fuertemente entre sí. Esa estructura de bloques es lo que le da al SVM-RBF su 93%. El kernel cuántico, aunque elegante, no agrupa la información tan claramente para este dataset.
+            </div>
+        </div>
+    </div>
+    <div class="slide-footer">
+        <div>30 muestras × 30 muestras</div>
+        <div>24 / 25</div>
+    </div>
+</section>
+
+
+<!-- ===================================================================
+     25 — FIGURA: VARIANZA + MNIST (Parte VI)
+     =================================================================== -->
+<section class="slide content-slide">
+    <div class="slide-header">
+        <div><span class="section-tag">Parte VI</span> · Estabilidad y validación</div>
+        <div><span class="slide-number-large">25a</span> / 25</div>
+    </div>
+    <div class="slide-content">
+        <div class="kicker reveal">6.1 Varianza del VQC</div>
+        <h2 class="reveal">El VQC es inestable entre semillas</h2>
+
+        <div class="two-col image-text">
+            <div class="figure-block reveal" style="margin: 0">
+                <div class="figure-num">Figura 11</div>
+                <div class="figure-frame">
+                    <img src="figuras/boxplots_varianza.png" alt="Boxplot de varianza del VQC vs SVM-RBF" style="max-height: min(48vh, 380px)">
+                </div>
+                <div class="figure-caption">Distribución de accuracy: VQC (5 semillas) vs SVM-RBF (5-fold CV).</div>
+            </div>
+            <div class="reveal">
+                <div class="reading-note">
+                    <div class="rn-label">Lectura ›</div>
+                    <div class="rn-text">
+                        El VQC ejecutado con <strong>5 semillas aleatorias</strong> distintas oscila entre 38% y 60% (mediana 47%, <span class="mono">σ = 0.076</span>). El SVM-RBF en CV 5-fold se mantiene <em>siempre</em> entre 90% y 100% (<span class="mono">σ = 0.039</span>). El VQC es impredecible: la inicialización aleatoria de θ cambia drásticamente el resultado. Para uso real, esto es un problema serio.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="slide-footer">
+        <div>5 seeds VQC vs CV 5-fold SVM-RBF</div>
+        <div>25 / 25</div>
+    </div>
+</section>
+
+
+<!-- ===================================================================
+     26 — FIGURA: MNIST
+     =================================================================== -->
+<section class="slide figure-slide">
+    <div class="slide-header">
+        <div><span class="section-tag">Parte VI</span> · Validación externa</div>
+        <div><span class="slide-number-large">25b</span> / 25</div>
+    </div>
+    <div class="slide-content">
+        <div class="kicker reveal">6.2 Validación cruzada en MNIST reducido</div>
+        <h2 class="reveal">Misma historia en MNIST 0 vs 1</h2>
+
+        <div class="figure-block reveal">
+            <div class="figure-num">Figura 12</div>
+            <div class="figure-frame">
+                <img src="figuras/exp_mnist.png" alt="Resultados en MNIST reducido: SVM vs VQC">
+            </div>
+            <div class="figure-caption">Izquierda: accuracy SVM vs VQC en MNIST reducido. Derecha: convergencia del VQC.</div>
+        </div>
+
+        <div class="reading-note reveal">
+            <div class="rn-label">Lectura ›</div>
+            <div class="rn-text">
+                Repetimos el experimento en MNIST reducido (0 vs 1, tarea <em>binaria</em>). <strong style="color: var(--classical)">SVM-RBF: 100%</strong> — clasifica perfectamente. <strong style="color: var(--quantum)">VQC: 69.4%</strong> — mejor que en Iris (porque sólo hay dos clases), pero aún muy por debajo. A la derecha, la pérdida del VQC sí decrece claramente de 1.15 a 0.85, lo que muestra que <em>sí está aprendiendo</em>… aunque insuficientemente. <strong>La conclusión generaliza más allá de Iris.</strong>
+            </div>
+        </div>
+    </div>
+    <div class="slide-footer">
+        <div>360 muestras · PCA(4) · binaria</div>
+        <div>25 / 25</div>
+    </div>
+</section>
+
+
+<!-- ===================================================================
+     27 — SECTION VII
+     =================================================================== -->
+<section class="slide section-slide">
+    <div class="slide-header">
+        <div class="section-tag">Parte VII</div>
+        <div>26 / 25</div>
+    </div>
+    <div class="slide-content">
+        <div class="section-roman reveal">— VII —</div>
+        <h2 class="reveal">Discusión y <em>limitaciones</em></h2>
+    </div>
+    <div class="slide-footer">
+        <div>Clasificación cuántica — VQC y QSVC</div>
+        <div>UNSAAC · 2026</div>
+    </div>
+</section>
+
+
+<!-- ===================================================================
+     28 — DISCUSIÓN
+     =================================================================== -->
+<section class="slide content-slide">
+    <div class="slide-header">
+        <div><span class="section-tag">Parte VII</span> · Discusión</div>
+        <div><span class="slide-number-large">26</span> / 25</div>
+    </div>
+    <div class="slide-content">
+        <div class="kicker reveal">7.1 Síntesis crítica</div>
+        <h2 class="reveal">¿Por qué los clásicos superan?</h2>
+
+        <div class="stat-row">
+            <div class="stat-card reveal">
+                <div class="label">Razón 1</div>
+                <div class="value" style="font-size: clamp(1rem, 1.7vw, 1.4rem); font-family: var(--font-serif); color: var(--accent)">Datos sin estructura cuántica</div>
+                <div class="desc">Huang et al. (2021): la ventaja cuántica requiere datos cuya geometría no se capture con kernels clásicos. Iris vive en ℝ⁴ y es casi linealmente separable.</div>
+            </div>
+            <div class="stat-card reveal">
+                <div class="label">Razón 2</div>
+                <div class="value" style="font-size: clamp(1rem, 1.7vw, 1.4rem); font-family: var(--font-serif); color: var(--classical)">VQC mal entrenado</div>
+                <div class="desc">200 iteraciones de COBYLA son insuficientes para tres clases. El paisaje de pérdida es plano y la inicialización aleatoria condiciona la convergencia.</div>
+            </div>
+            <div class="stat-card reveal">
+                <div class="label">Razón 3</div>
+                <div class="value" style="font-size: clamp(1rem, 1.7vw, 1.4rem); font-family: var(--font-serif); color: var(--quantum)">QSVC supera al VQC</div>
+                <div class="desc">Sin entrenamiento variacional, el QSVC delega la decisión al SVM. Es más estable y por eso alcanza 77.8% — aunque sigue pagando el costo del cómputo cuántico.</div>
+            </div>
+        </div>
+
+        <div class="callout reveal">
+            <div class="ctitle">Limitaciones declaradas</div>
+            <p style="font-style: normal; font-family: var(--font-sans); font-size: var(--body-size); color: var(--ink); line-height: 1.55">
+                Simulación statevector (sin ruido NISQ real) &nbsp;·&nbsp; Iris y MNIST son datasets pequeños &nbsp;·&nbsp; No se exploraron ansatz adaptativos ni mitigación de errores &nbsp;·&nbsp; 150-200 iteraciones pueden quedar cortas.
+            </p>
+        </div>
+    </div>
+    <div class="slide-footer">
+        <div>Tres factores explican la brecha</div>
+        <div>26 / 25</div>
+    </div>
+</section>
+
+
+<!-- ===================================================================
+     29 — CONCLUSIONES
+     =================================================================== -->
+<section class="slide content-slide">
+    <div class="slide-header">
+        <div><span class="section-tag">Parte VIII</span> · Conclusiones</div>
+        <div><span class="slide-number-large">27</span> / 25</div>
+    </div>
+    <div class="slide-content">
+        <div class="kicker reveal">8.1 Conclusiones del proyecto</div>
+        <h2 class="reveal">Siete hallazgos principales</h2>
+
+        <ol class="numbered-list reveal" style="font-size: clamp(0.83rem, 1.35vw, 1.05rem)">
+            <li>Se implementaron exitosamente <strong>VQC y QSVC</strong> con Qiskit ML 0.9.0, demostrando la viabilidad técnica del enfoque híbrido cuántico-clásico.</li>
+            <li>Los modelos clásicos obtuvieron <strong>93.33%</strong> de accuracy, superando a QSVC (77.78%) y a VQC (37.78%) en Iris — consistente con la literatura.</li>
+            <li>El <strong>QSVC supera al VQC</strong>: los métodos basados en kernel cuántico son más estables que los variacionales para este tipo de problema.</li>
+            <li>Mayor expresividad del feature map <strong>no implica</strong> mejor rendimiento cuando el optimizador tiene iteraciones limitadas.</li>
+            <li>La <strong>profundidad del ansatz</strong> muestra relación monótona con el accuracy (reps 1→5), sin evidencia de <em>barren plateau</em>.</li>
+            <li><strong>COBYLA</strong> resulta el optimizador más eficiente para simulación statevector; SPSA sería preferible en hardware real.</li>
+            <li>El VQC presenta <strong>alta varianza entre semillas</strong> (σ = 0.076), lo que limita su confiabilidad para uso práctico.</li>
+        </ol>
+    </div>
+    <div class="slide-footer">
+        <div>Resumen ejecutivo</div>
+        <div>27 / 25</div>
+    </div>
+</section>
+
+
+<!-- ===================================================================
+     30 — TRABAJOS FUTUROS
+     =================================================================== -->
+<section class="slide content-slide">
+    <div class="slide-header">
+        <div><span class="section-tag">Parte VIII</span> · Trabajos futuros</div>
+        <div><span class="slide-number-large">28</span> / 25</div>
+    </div>
+    <div class="slide-content">
+        <div class="kicker reveal">8.2 Líneas de continuación</div>
+        <h2 class="reveal">Hacia dónde llevar este trabajo</h2>
+
+        <div class="two-col">
+            <div class="reveal">
+                <h3>Corto plazo</h3>
+                <ul class="bullet-list" style="margin-top: 0.4em">
+                    <li>Evaluar en <strong>hardware IBM Quantum</strong> real para medir el impacto del ruido de decoherencia.</li>
+                    <li><strong>Mitigación de errores</strong>: Zero-Noise Extrapolation y readout calibration.</li>
+                    <li>Aumentar las iteraciones del optimizador (500-1000) para verificar convergencia plena.</li>
+                </ul>
+            </div>
+            <div class="reveal">
+                <h3>Largo plazo</h3>
+                <ul class="bullet-list" style="margin-top: 0.4em">
+                    <li>Explorar <strong>ansatz adaptativos</strong> (ADAPT-VQE) que ajusten su arquitectura.</li>
+                    <li>Aplicar a datasets de mayor dimensionalidad o con <strong>estructura cuántica intrínseca</strong> (química molecular).</li>
+                    <li>Investigar <strong>kernels cuánticos covariantes</strong> que aprovechen simetrías del problema.</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="callout reveal">
+            <div class="ctitle">Hipótesis a comprobar</div>
+            <p>Iris fue un campo de pruebas. La <strong>verdadera ventaja cuántica</strong> aparecerá cuando los datos vivan naturalmente en el espacio de Hilbert. El próximo dataset debe elegirse con esa pregunta en mente.</p>
+        </div>
+    </div>
+    <div class="slide-footer">
+        <div>De NISQ a fault-tolerant</div>
+        <div>28 / 25</div>
+    </div>
+</section>
+
+
+<!-- ===================================================================
+     31 — CIERRE / Q&A
+     =================================================================== -->
+<section class="slide closing-slide">
+    <img src="graficos/escudo.png" alt="UNSAAC" class="uni-logo">
+    <div class="slide-content">
+        <div class="ribbon reveal"></div>
+        <div class="kicker reveal">Fin de la exposición</div>
+        <h1 class="reveal">Gracias por su <em>atención</em></h1>
+        <p class="subtitle reveal" style="max-width: 50ch">Preguntas, comentarios y discusión sobre los resultados, la metodología o los siguientes pasos.</p>
+
+        <div class="closing-tags reveal">
+            <div class="tag classical">SVM-RBF — 93.3%</div>
+            <div class="tag quantum">QSVC — 77.8%</div>
+            <div class="tag quantum">VQC — 37.8%</div>
+        </div>
+
+        <div class="signature reveal">
+            <strong>Edmil Jampier Saire Bustamante</strong> &nbsp;·&nbsp; UNSAAC &nbsp;·&nbsp; Departamento Académico de Informática<br>
+            Curso de Computación Cuántica &nbsp;·&nbsp; Mayo 2026
+        </div>
+    </div>
+</section>
+
+
+<!-- ===================================================================
+     CONTROLADOR
+     =================================================================== -->
+<script>
+class SlidePresentation {
+    constructor() {
+        this.slides = Array.from(document.querySelectorAll('.slide'));
+        this.currentSlide = 0;
+        this.progressBar = document.getElementById('progressBar');
+        this.navDotsContainer = document.getElementById('navDots');
+
+        this.setupIntersectionObserver();
+        this.setupKeyboardNav();
+        this.setupTouchNav();
+        this.setupProgressBar();
+        this.setupNavDots();
+    }
+
+    setupIntersectionObserver() {
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    const idx = this.slides.indexOf(entry.target);
+                    if (idx !== -1) {
+                        this.currentSlide = idx;
+                        this.updateNavDots();
+                    }
+                }
+            });
+        }, { threshold: 0.4 });
+        this.slides.forEach(slide => observer.observe(slide));
+    }
+
+    setupKeyboardNav() {
+        document.addEventListener('keydown', (e) => {
+            const key = e.key;
+            if (key === 'ArrowRight' || key === 'ArrowDown' || key === ' ' || key === 'PageDown') {
+                e.preventDefault();
+                this.goTo(Math.min(this.currentSlide + 1, this.slides.length - 1));
+            } else if (key === 'ArrowLeft' || key === 'ArrowUp' || key === 'PageUp') {
+                e.preventDefault();
+                this.goTo(Math.max(this.currentSlide - 1, 0));
+            } else if (key === 'Home') {
+                e.preventDefault();
+                this.goTo(0);
+            } else if (key === 'End') {
+                e.preventDefault();
+                this.goTo(this.slides.length - 1);
+            }
+        });
+    }
+
+    setupTouchNav() {
+        let startY = 0;
+        document.addEventListener('touchstart', (e) => { startY = e.touches[0].clientY; }, { passive: true });
+        document.addEventListener('touchend', (e) => {
+            const endY = e.changedTouches[0].clientY;
+            const diff = startY - endY;
+            if (Math.abs(diff) > 50) {
+                if (diff > 0) this.goTo(Math.min(this.currentSlide + 1, this.slides.length - 1));
+                else this.goTo(Math.max(this.currentSlide - 1, 0));
+            }
+        }, { passive: true });
+    }
+
+    setupProgressBar() {
+        window.addEventListener('scroll', () => {
+            const scrollTop = window.scrollY;
+            const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+            const progress = (scrollTop / docHeight) * 100;
+            this.progressBar.style.width = progress + '%';
+        }, { passive: true });
+    }
+
+    setupNavDots() {
+        this.navDotsContainer.innerHTML = '';
+        this.slides.forEach((_, idx) => {
+            const btn = document.createElement('button');
+            btn.setAttribute('aria-label', `Ir a diapositiva ${idx + 1}`);
+            btn.addEventListener('click', () => this.goTo(idx));
+            this.navDotsContainer.appendChild(btn);
+        });
+        this.updateNavDots();
+    }
+
+    updateNavDots() {
+        const dots = this.navDotsContainer.querySelectorAll('button');
+        dots.forEach((d, i) => d.classList.toggle('active', i === this.currentSlide));
+    }
+
+    goTo(idx) {
+        this.slides[idx].scrollIntoView({ behavior: 'smooth' });
+    }
+}
+
+document.addEventListener('DOMContentLoaded', () => new SlidePresentation());
+</script>
+</body>
+</html>
