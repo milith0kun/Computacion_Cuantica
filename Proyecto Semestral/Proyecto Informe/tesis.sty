@@ -1,0 +1,268 @@
+%*****************************************************************************
+%Definiendo Paquetes
+%*****************************************************************************
+%*****************************************************************************
+% Diseño Carátula
+%*****************************************************************************
+\renewcommand{\maketitle}
+{
+    \thispagestyle{empty}
+    \begin{center}
+        % Generar titulo
+        {\Large{UNIVERSIDAD NACIONAL DE SAN ANTONIO ABAD DEL CUSCO}}\\
+        FACULTAD DE INGENIER\'IA EL\'ECTRICA, ELECTR\'ONICA, INFORM\'ATICA Y MEC\'ANICA \\
+        ESCUELA PROFESIONAL DE INGENIER\'IA INFORM\'ATICA Y DE SISTEMAS\\
+    \end{center}
+    
+    % Insertar la figura del logo
+    \vspace{0.5cm}
+    \begin{figure}[h]
+    \centering
+    \includegraphics[width=6cm]{graficos/escudo.png}
+    \end{figure}
+    \vspace{0.5cm}
+
+    \begin{center}
+        % Generar titulo
+        \text{TRABAJO DE PROYECTO SEMESTRAL} \\
+        \rule{156mm}{0.7mm} \\ % Generar linea Horizontal
+        {\Large \textbf \@title \par}
+        \rule{156mm}{0.7mm} \\ % Generar linea Horizontal
+    \end{center}
+
+    \setlength{\tabcolsep}{7em} % for the horizontal padding
+    {\renewcommand{\arraystretch}{0.9}% for the vertical padding
+    \begin{tabular}{p{14cm}}
+
+        Curso: \\
+        \qquad {\large COMPUTACIÓN CUÁNTICA}\\
+        \vspace*{\stretch{1}}
+        
+        Presentado por: \\
+        \qquad {\large Edmil Jampier Saire Bustamante (174449)}\\
+        \qquad {\large [Nombre Apellido Tercer Compañero] ([Código])}\\
+        \vspace*{\stretch{1}}
+    
+        Docente: \\
+        \qquad {\large \@orientador}\\
+        \vspace*{\stretch{1}}
+
+    \end{tabular}
+    }
+    \begin{center}
+        \textbf{Cusco - Perú, $\,$\mes\ de\ \the\year$\,$ } \\
+        %\vspace*{0.25cm}   
+    \end{center}
+    %\presentar
+
+    \vspace*{\stretch{1}}
+
+    %\pagebreak  % hacer salto de página 
+    %\cleardoublepage % crear página en blanco
+    %%\dedicatoria %% Ojo cambiar para el final
+}
+
+%***************************************************************************** 
+%Diseí±ando presentación 
+%***************************************************************************** 
+\newcommand{\presentacion}{\gdef\@presentación}
+\presentacion{Tesis presentada a \\ la escuela profesional de Ingeniería Informática y de Sistemas, \\
+Facultad de Ingeniería Eléctrica, Electrónica, Informática y Mecánica, como parte de los requisitos
+para obtener el grado de Ingeniero Informático y de Sistemas}
+
+\newcommand{\presentar}
+{
+    \begin{center}
+        %\begin{tabular}{p{10cm}}
+            \normalsize\it\@presentación
+        %\end{tabular}
+    \end{center}
+}
+
+%***************************************************************************** 
+%Diseí±ando Orientador 
+%***************************************************************************** 
+\newcommand{\orientador}{\gdef\@orientador}
+\newcommand{\coorientador}{\gdef\@coorientador}
+\newcommand{\jurado}{\gdef\@jurado}
+
+
+%*****************************************************************************
+%Diseí±ando Dedicatoria
+%*****************************************************************************
+\newcommand{\dedicado}{\gdef\@dedicado}
+\dedicado{}
+
+\newcommand{\dedicatoria}
+{
+    \begin{flushright}
+        \vspace*{2.6cm}
+        \begin{tabular}{p{7cm}}
+            \normalsize\it\@dedicado
+        \end{tabular}
+    \end{flushright}
+    \thispagestyle{empty}
+}
+
+
+%*****************************************************************************
+%Diseí±ando Agradecimientos
+%*****************************************************************************
+\newenvironment{agradecimientos}
+{
+    \chapter*{Agradecimientos}
+    \hrule
+    \vspace*{0.5cm}
+    \parindent 0cm
+    \narrower
+    \vfill
+    \thispagestyle{empty}
+}
+{
+    \vfill
+    \vfill
+    \vfill
+    \clearpage
+}
+
+
+%*****************************************************************************
+%Diseí±ando Abstract ACM
+%*****************************************************************************
+\newenvironment{abstract_fig}
+{   
+}
+{
+    \vfill
+    \vfill
+    \vfill
+    \clearpage
+}
+
+
+%*****************************************************************************
+%Diseí±ando Abstract
+%*****************************************************************************
+\newenvironment{abstract}
+{
+    \chapter*{Abstract}
+    \hrule
+    \vspace*{0.5cm}
+    \narrower
+    \vfill
+    \thispagestyle{empty}
+}
+{
+    \vfill
+    \vfill
+    \vfill
+    \clearpage
+}
+
+
+%*****************************************************************************
+%Diseí±ando Resumen
+%*****************************************************************************
+\newenvironment{resumen}
+{
+    \chapter*{Resumen}
+    \hrule
+    \vspace*{0.5cm}
+    \narrower
+    \vfill
+    \thispagestyle{empty}
+}
+{
+    \vfill
+    \vfill
+    \vfill
+    \clearpage
+}
+
+
+%*****************************************************************************
+%Diseí±ando los índices
+%*****************************************************************************
+%\newif \if@listtab
+%\newif \if@listfig
+
+%\newcommand{\itb}{\@listtabtrue}
+%\newcommand{\ifg}{\@listfigtrue}
+%
+%\newcommand{\indice}[1]
+%{    
+%    #1
+%    \pagenumbering{arabic}
+%    
+%    \tableofcontents
+%    
+%    \if@listtab
+%        \listoftables
+%    \fi
+%    
+%    \if@listfig
+%        \listoffigures
+%    \fi
+%}
+
+
+%*****************************************************************************
+%Diseí±ando Encabezado y Pie de Página
+%*****************************************************************************
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[LO]{\leftmark}
+\fancyhead[RE]{\rightmark}
+\fancyfoot[CE,CO]{ Escuela profesional de ingeniería Informática y de Sistemas}
+\fancyfoot[LE,RO]{\thepage}
+
+\renewcommand{\chaptermark}[1]
+    {\markboth{\MakeUppercase{\chaptername}\ \thechapter. #1}{}}
+\renewcommand{\sectionmark}[1]
+    {\markright{\thesection. #1}}
+\renewcommand{\headrulewidth}{0.1pt}
+\renewcommand{\footrulewidth}{0.1pt}
+
+
+%*****************************************************************************
+%Diseí±ando Párrafos
+%*****************************************************************************
+\parindent 1cm
+\parskip 0.4cm
+
+%*****************************************************************************
+%Diseí±ando la Bibliografí­a
+%*****************************************************************************
+\newcommand{\bibliografia}[1]
+{
+    
+}
+
+
+%*****************************************************************************
+%Mensajes de Error
+%*****************************************************************************
+\renewcommand{\@title}{\ClassError{UCSP}{Falta especificar \string\title{}}
+ {Use el comando \string\title{} en el preambulo para especificar \MessageBreak
+  el titulo de su tesis.}}
+\renewcommand{\title}[1]{\gdef\@title{#1}}
+
+\renewcommand{\@author}{\ClassError{UCSP}{Falta especificar \string\author{}}
+ {Use el comando \string\author{} en el preambulo para especificar su nombre.}}
+\renewcommand{\author}[1]{\gdef\@author{#1}}
+
+\renewcommand{\@dedicado}{\ClassError{UCSP}{Falta especificar \string\dedicado{}}
+ {Use el comando \string\dedicado{} en el preambulo para especificar su dedicatoria.}}
+\renewcommand{\dedicado}[1]{\gdef\@dedicado{#1}}
+
+
+%*****************************************************************************
+%Nombre de mes
+%*****************************************************************************
+\newcommand{\mes}{\ifcase\month\or Enero\or Febrero\or
+      Marzo\or Abril\or Mayo\or Junio\or Julio\or Agosto\or Septiembre\or
+      Octubre\or Noviembre\or Diciembre\fi}
+
+
+%*****************************************************************************
+\endinput

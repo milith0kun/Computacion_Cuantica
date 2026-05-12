@@ -1,0 +1,30 @@
+\chapter{Introducci\'on y Justificaci\'on}
+
+\section{Introducci\'on}
+
+El aprendizaje autom\'atico cu\'antico (Quantum Machine Learning, QML) es un campo emergente que busca aprovechar las propiedades de la mec\'anica cu\'antica ---como la superposici\'on y el entrelazamiento--- para resolver problemas de clasificaci\'on y optimizaci\'on. Con el desarrollo de frameworks como Qiskit Machine Learning \citep{qiskit2024}, PennyLane y TensorFlow Quantum, es posible implementar y evaluar modelos cu\'anticos en simuladores cl\'asicos y hardware cu\'antico real.
+
+En los \'ultimos a\~nos, se han propuesto diversos modelos de clasificaci\'on cu\'antica, entre los que destacan el Clasificador Cu\'antico Variacional (VQC) \citep{havlicek2019}, la M\'aquina de Vectores de Soporte Cu\'antica (QSVM/QSVC) \citep{rebentrost2014} y las Redes Neuronales Cu\'anticas (QNN) \citep{farhi2018}. Sin embargo, la demostraci\'on de una ventaja cu\'antica pr\'actica sobre m\'etodos cl\'asicos sigue siendo un problema abierto \citep{cerezo2021, larocca2025}.
+
+El presente proyecto implementa un VQC y un QSVC utilizando Qiskit Machine Learning, comparando su rendimiento con modelos cl\'asicos de scikit-learn sobre el dataset Iris. Se realizan experimentos sistem\'aticos sobre feature maps, profundidad del ansatz, optimizadores y sensibilidad al ruido.
+
+\section{Justificaci\'on}
+
+La computaci\'on cu\'antica promete ventajas te\'oricas en ciertas tareas de aprendizaje autom\'atico, particularmente cuando los datos provienen de procesos cu\'anticos o cuando el espacio de hip\'otesis requerido crece exponencialmente \citep{huang2021}. Este proyecto permite explorar de forma pr\'actica las capacidades y limitaciones actuales del QML, contribuyendo al entendimiento de los algoritmos h\'ibridos cu\'antico-cl\'asicos en un contexto acad\'emico.
+
+Adem\'as, la evaluaci\'on sistem\'atica de distintos componentes del circuito cu\'antico (feature maps, ansatz, optimizadores) aporta informaci\'on valiosa sobre las decisiones de dise\~no que impactan el rendimiento de estos modelos.
+
+\section{Objetivos}
+
+\subsection{Objetivo General}
+Dise\~nar e implementar un modelo de aprendizaje autom\'atico basado en principios de computaci\'on cu\'antica, evaluando su desempe\~no frente a m\'etodos cl\'asicos equivalentes.
+
+\subsection{Objetivos Espec\'ificos}
+\begin{enumerate}
+    \item Implementar un VQC y un QSVC utilizando Qiskit Machine Learning.
+    \item Construir modelos cl\'asicos de referencia (SVM-RBF, MLP, KNN) con scikit-learn.
+    \item Comparar el rendimiento en t\'erminos de accuracy, precisi\'on, recall, F1-score y tiempo de c\'omputo.
+    \item Analizar la influencia de distintos feature maps, profundidades de ansatz y optimizadores.
+    \item Evaluar la sensibilidad de los modelos al ruido NISQ simulado.
+    \item Validar los resultados en un segundo dataset (MNIST reducido).
+\end{enumerate}

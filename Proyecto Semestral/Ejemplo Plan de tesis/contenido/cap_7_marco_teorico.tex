@@ -1,0 +1,52 @@
+\chapter{Marco Teórico}
+(En este apartado el estudiante debe presentar en forma breve los temas que se abordarán en el marco teórico. El marco teórico se desprende de las palabras clave y del titulo. Debe ser totalmente acotado.
+Ésta sección describe conceptos relacionados a procesamiento de trayectorias y detección de trayectorias anómalas .
+
+\section{Primer subtitulo}
+Aquí debe llenar tu contenido
+
+\begin{algorithm}[H]
+\SetAlgoLined
+\KwData{$G=(X,U)$ such that $G^{tc}$ is an order.}
+\KwResult{$G’=(X,V)$ with $V\subseteq U$ such that $G’^{tc}$ is an interval order.}
+initialization\;
+\nl \Begin{
+\nl\While{not at end of this document}{
+	\nl read current\;
+	\nl \eIf{understand}{
+	\nl go to next section\;
+	\nl current section becomes this one\;
+	}{
+	\nl go back to the beginning of current section\;
+	}
+ }
+ }
+\caption{Ejemplo de como colocar código en código latex}
+\label{IR2}
+\end{algorithm}
+
+Ejemplo para colocar citaciones: \cite{sillito2008semi}
+
+Es posible utilizar abreviaturas dentro del contenido, abreviaturas como:
+%\acronum{GPS}, \ac{INEI}, \ac{t-SNE}, \ac{SOM}, \ac{IBM}.
+
+Para la utilización de ecuaciones matemáticas se puede utilizar el simbolo \$\$ dos veces tanto al inicio y al final, y para otros casos utilizar .
+
+$$ E = mc^2 $$
+
+Ecuaciones:
+\begin{align*}
+  1 + 2 &= 3\\
+  1 &= 3 - 2
+\end{align*}
+
+Matrices: 
+\[\begin{bmatrix}
+1 & 0\\
+0 & 1
+\end{bmatrix}\]
+
+otros:
+\begin{equation}
+(\frac{1}{\sqrt{x}})
+\end{equation}

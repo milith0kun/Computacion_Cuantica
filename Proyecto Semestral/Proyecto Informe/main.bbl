@@ -1,0 +1,43 @@
+\begin{thebibliography}{}
+
+\bibitem[Cerezo et~al., 2021]{cerezo2021}
+Cerezo, M., Arrasmith, A., Babbush, R., Benjamin, S.~C., Endo, S., Fujii, K.,
+  McClean, J.~R., Mitarai, K., Yuan, X., Cincio, L., and Coles, P.~J. (2021).
+\newblock Variational quantum algorithms.
+\newblock {\em Nature Reviews Physics}, 3(9):625--644.
+
+\bibitem[Farhi and Neven, 2018]{farhi2018}
+Farhi, E. and Neven, H. (2018).
+\newblock Classification with quantum neural networks on near term processors.
+\newblock {\em arXiv preprint arXiv:1802.06002}.
+
+\bibitem[Havl{\'\i}{\v{c}}ek et~al., 2019]{havlicek2019}
+Havl{\'\i}{\v{c}}ek, V., C{\'o}rcoles, A.~D., Temme, K., Harrow, A.~W.,
+  Kandala, A., Chow, J.~M., and Gambetta, J.~M. (2019).
+\newblock Supervised learning with quantum-enhanced feature spaces.
+\newblock {\em Nature}, 567(7747):209--212.
+
+\bibitem[Huang et~al., 2021]{huang2021}
+Huang, H.-Y., Broughton, M., Mohseni, M., Babbush, R., Boixo, S., Neven, H.,
+  and McClean, J.~R. (2021).
+\newblock Power of data in quantum machine learning.
+\newblock {\em Nature Communications}, 12(1):2631.
+
+\bibitem[Larocca et~al., 2025]{larocca2025}
+Larocca, M., Thanasilp, S., Wang, S., Beckey, J.~L., et~al. (2025).
+\newblock A review of quantum machine learning: from variational algorithms to
+  fault-tolerant quantum computing.
+\newblock {\em Nature Reviews Physics}.
+
+\bibitem[{Qiskit Community}, 2024]{qiskit2024}
+{Qiskit Community} (2024).
+\newblock Qiskit machine learning: An open-source framework for quantum machine
+  learning.
+\newblock \url{https://qiskit-community.github.io/qiskit-machine-learning/}.
+
+\bibitem[Rebentrost et~al., 2014]{rebentrost2014}
+Rebentrost, P., Mohseni, M., and Lloyd, S. (2014).
+\newblock Quantum support vector machine for big data classification.
+\newblock {\em Physical Review Letters}, 113(13):130503.
+
+\end{thebibliography}

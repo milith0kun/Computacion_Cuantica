@@ -1,0 +1,66 @@
+\babel@toc {spanish}{}\relax 
+\contentsline {chapter}{\'{I}ndice de cuadros}{VI}{chapter*.4}%
+\contentsline {chapter}{Lista de Tablas}{VI}{chapter*.4}%
+\contentsline {chapter}{\'{I}ndice de figuras}{VII}{chapter*.5}%
+\contentsline {chapter}{Lista de Figuras}{VII}{chapter*.5}%
+\contentsline {chapter}{\numberline {1}Introducci\'on y Justificaci\'on}{1}{chapter.1}%
+\contentsline {section}{\numberline {1.1}Introducci\'on}{1}{section.1.1}%
+\contentsline {section}{\numberline {1.2}Justificaci\'on}{1}{section.1.2}%
+\contentsline {section}{\numberline {1.3}Objetivos}{2}{section.1.3}%
+\contentsline {subsection}{\numberline {1.3.1}Objetivo General}{2}{subsection.1.3.1}%
+\contentsline {subsection}{\numberline {1.3.2}Objetivos Espec\'ificos}{2}{subsection.1.3.2}%
+\contentsline {chapter}{\numberline {2}Marco Te\'orico}{3}{chapter.2}%
+\contentsline {section}{\numberline {2.1}Computaci\'on Cu\'antica}{3}{section.2.1}%
+\contentsline {subsection}{\numberline {2.1.1}Qubits y estados cu\'anticos}{3}{subsection.2.1.1}%
+\contentsline {subsection}{\numberline {2.1.2}Puertas cu\'anticas}{3}{subsection.2.1.2}%
+\contentsline {subsection}{\numberline {2.1.3}Circuitos cu\'anticos parametrizados}{3}{subsection.2.1.3}%
+\contentsline {section}{\numberline {2.2}Machine Learning Cl\'asico}{4}{section.2.2}%
+\contentsline {subsection}{\numberline {2.2.1}Support Vector Machine (SVM)}{4}{subsection.2.2.1}%
+\contentsline {subsection}{\numberline {2.2.2}Redes Neuronales (MLP)}{4}{subsection.2.2.2}%
+\contentsline {subsection}{\numberline {2.2.3}K-Nearest Neighbors (KNN)}{4}{subsection.2.2.3}%
+\contentsline {section}{\numberline {2.3}Quantum Machine Learning}{4}{section.2.3}%
+\contentsline {subsection}{\numberline {2.3.1}Variational Quantum Classifier (VQC)}{4}{subsection.2.3.1}%
+\contentsline {subsection}{\numberline {2.3.2}Quantum SVM (QSVC)}{4}{subsection.2.3.2}%
+\contentsline {subsection}{\numberline {2.3.3}Feature Maps}{5}{subsection.2.3.3}%
+\contentsline {subsection}{\numberline {2.3.4}Ansatz y Barren Plateaus}{5}{subsection.2.3.4}%
+\contentsline {subsection}{\numberline {2.3.5}Optimizadores}{5}{subsection.2.3.5}%
+\contentsline {chapter}{\numberline {3}Metodolog\'ia}{6}{chapter.3}%
+\contentsline {section}{\numberline {3.1}Tipo de Investigaci\'on}{6}{section.3.1}%
+\contentsline {section}{\numberline {3.2}Datasets}{6}{section.3.2}%
+\contentsline {subsection}{\numberline {3.2.1}Dataset Iris}{6}{subsection.3.2.1}%
+\contentsline {subsection}{\numberline {3.2.2}Dataset MNIST Reducido}{6}{subsection.3.2.2}%
+\contentsline {section}{\numberline {3.3}Preprocesamiento}{6}{section.3.3}%
+\contentsline {section}{\numberline {3.4}Modelos Implementados}{7}{section.3.4}%
+\contentsline {subsection}{\numberline {3.4.1}Modelos Cl\'asicos (Baselines)}{7}{subsection.3.4.1}%
+\contentsline {subsection}{\numberline {3.4.2}Modelos Cu\'anticos}{7}{subsection.3.4.2}%
+\contentsline {section}{\numberline {3.5}Dise\~no del Circuito Cu\'antico}{7}{section.3.5}%
+\contentsline {section}{\numberline {3.6}Experimentos Realizados}{7}{section.3.6}%
+\contentsline {section}{\numberline {3.7}M\'etricas de Evaluaci\'on}{8}{section.3.7}%
+\contentsline {section}{\numberline {3.8}Herramientas}{8}{section.3.8}%
+\contentsline {chapter}{\numberline {4}Resultados}{10}{chapter.4}%
+\contentsline {section}{\numberline {4.1}An\'alisis Exploratorio del Dataset}{10}{section.4.1}%
+\contentsline {section}{\numberline {4.2}Resultados de Modelos Cl\'asicos}{10}{section.4.2}%
+\contentsline {section}{\numberline {4.3}Resultados de Modelos Cu\'anticos}{11}{section.4.3}%
+\contentsline {subsection}{\numberline {4.3.1}VQC}{11}{subsection.4.3.1}%
+\contentsline {subsection}{\numberline {4.3.2}QSVC}{11}{subsection.4.3.2}%
+\contentsline {section}{\numberline {4.4}Comparaci\'on General}{12}{section.4.4}%
+\contentsline {subsection}{\numberline {4.4.1}Matrices de Confusi\'on}{12}{subsection.4.4.1}%
+\contentsline {subsection}{\numberline {4.4.2}Fronteras de Decisi\'on}{13}{subsection.4.4.2}%
+\contentsline {section}{\numberline {4.5}Experimento 1: Comparaci\'on de Feature Maps}{13}{section.4.5}%
+\contentsline {section}{\numberline {4.6}Experimento 2: Profundidad del Ansatz}{14}{section.4.6}%
+\contentsline {section}{\numberline {4.7}Experimento 3: Comparaci\'on de Optimizadores}{15}{section.4.7}%
+\contentsline {section}{\numberline {4.8}Kernel Cu\'antico vs Kernel RBF}{15}{section.4.8}%
+\contentsline {section}{\numberline {4.9}Varianza del VQC}{15}{section.4.9}%
+\contentsline {section}{\numberline {4.10}MNIST Reducido}{16}{section.4.10}%
+\contentsline {chapter}{\numberline {5}Discusi\'on}{18}{chapter.5}%
+\contentsline {section}{\numberline {5.1}An\'alisis de los Resultados}{18}{section.5.1}%
+\contentsline {section}{\numberline {5.2}Sobre los Feature Maps}{18}{section.5.2}%
+\contentsline {section}{\numberline {5.3}Sobre la Profundidad del Ansatz}{18}{section.5.3}%
+\contentsline {section}{\numberline {5.4}Sobre los Optimizadores}{19}{section.5.4}%
+\contentsline {section}{\numberline {5.5}Sobre la Varianza}{19}{section.5.5}%
+\contentsline {section}{\numberline {5.6}Limitaciones del Trabajo}{19}{section.5.6}%
+\contentsline {chapter}{\numberline {6}Conclusiones y Trabajos Futuros}{20}{chapter.6}%
+\contentsline {section}{\numberline {6.1}Conclusiones}{20}{section.6.1}%
+\contentsline {section}{\numberline {6.2}Trabajos Futuros}{20}{section.6.2}%
+\contentsline {chapter}{Bibliograf\'{\i }a}{22}{chapter*.23}%
+\contentsline {chapter}{Bibliograf\'ia}{22}{chapter*.23}%

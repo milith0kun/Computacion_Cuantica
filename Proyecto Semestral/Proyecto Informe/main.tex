@@ -1,0 +1,38 @@
+\UseRawInputEncoding
+\documentclass[a4paper,openany,12pt]{book}
+\input{contenido/includes.tex}
+\usepackage{dsfont}
+
+\pagenumbering{Roman}
+
+\title{``Clasificaci\'on Cu\'antica sobre el Dataset Iris: Comparaci\'on de Modelos VQC y QSVC frente a Baselines Cl\'asicos''}
+\orientador{Docente del curso de Computaci\'on Cu\'antica}
+\coorientador{}
+
+\begin{document}
+\maketitle
+\input{contenido/resumen}
+
+\tableofcontents
+\listoftables
+\addcontentsline{toc}{chapter}{Lista de Tablas}
+\listoffigures
+\addcontentsline{toc}{chapter}{Lista de Figuras}
+
+\setlength{\tabcolsep}{6pt}
+\renewcommand{\arraystretch}{1}
+\clearpage
+\pagenumbering{arabic}
+
+\input{contenido/cap_1_introduccion}
+\input{contenido/cap_2_marco_teorico}
+\input{contenido/cap_3_metodologia}
+\input{contenido/cap_4_resultados}
+\input{contenido/cap_5_discusion}
+\input{contenido/cap_6_conclusiones}
+
+\nocite{*}
+\bibliographystyle{apalike}
+\bibliography{contenido/bibliog}
+\addcontentsline{toc}{chapter}{Bibliograf\'ia}
+\end{document}

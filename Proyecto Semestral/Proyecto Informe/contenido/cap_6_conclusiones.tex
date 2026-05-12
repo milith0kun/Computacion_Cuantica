@@ -1,0 +1,30 @@
+\chapter{Conclusiones y Trabajos Futuros}
+
+\section{Conclusiones}
+
+\begin{enumerate}
+    \item Se implementaron exitosamente dos modelos de clasificaci\'on cu\'antica (VQC y QSVC) utilizando Qiskit Machine Learning 0.9.0, demostrando la viabilidad de los algoritmos h\'ibridos cu\'antico-cl\'asicos.
+
+    \item Los modelos cl\'asicos (SVM-RBF, MLP, KNN) obtuvieron un accuracy de 93.33\%, superando al QSVC (77.78\%) y al VQC (37.78\%) en el dataset Iris. Este resultado es consistente con la literatura y se explica por la baja dimensionalidad del problema.
+
+    \item El QSVC mostr\'o mejor rendimiento que el VQC, evidenciando que los m\'etodos basados en kernel cu\'antico son m\'as estables que los variacionales para este tipo de problemas.
+
+    \item La evaluaci\'on sistem\'atica de feature maps revel\'o que mayor expresividad no implica mejor rendimiento cuando el n\'umero de iteraciones del optimizador es limitado.
+
+    \item La profundidad del ansatz mostr\'o una relaci\'on monotona con el accuracy en el rango evaluado (reps 1--5), sin evidencia de barren plateau.
+
+    \item COBYLA result\'o ser el optimizador m\'as eficiente para simulaci\'on statevector, mientras que SPSA ser\'ia preferible para hardware real.
+
+    \item El VQC present\'o alta varianza entre semillas ($\sigma = 0.076$), lo cual limita su confiabilidad pr\'actica.
+\end{enumerate}
+
+\section{Trabajos Futuros}
+
+\begin{enumerate}
+    \item Evaluar los modelos en hardware cu\'antico real de IBM Quantum para medir el impacto del ruido de decoherencia.
+    \item Implementar t\'ecnicas de mitigaci\'on de errores como Zero-Noise Extrapolation.
+    \item Explorar ansatz adaptativos (ADAPT-VQE) que ajusten la arquitectura durante el entrenamiento.
+    \item Aplicar los modelos cu\'anticos a datasets de mayor dimensionalidad o con estructura cu\'antica intr\'inseca (e.g., datos de qu\'imica molecular).
+    \item Investigar kernels cu\'anticos covariantes que aprovechen simetr\'ias del problema.
+    \item Incrementar significativamente el n\'umero de iteraciones del optimizador para verificar si el VQC puede alcanzar convergencia completa.
+\end{enumerate}
