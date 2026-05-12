@@ -1,28 +1,26 @@
 \UseRawInputEncoding
-\documentclass[a4paper,openany,12pt]{book}
+\documentclass[a4paper,10pt,twocolumn]{article}
 \input{contenido/includes.tex}
 \usepackage{dsfont}
 
-\pagenumbering{Roman}
-
-\title{``Clasificaci\'on Cu\'antica sobre el Dataset Iris: Comparaci\'on de Modelos VQC y QSVC frente a Baselines Cl\'asicos''}
-\orientador{Docente del curso de Computaci\'on Cu\'antica}
-\coorientador{}
+\title{\Large \textbf{Clasificaci\'on Cu\'antica sobre el Dataset Iris: \\Comparaci\'on de Modelos VQC y QSVC frente a Baselines Cl\'asicos}}
+\author{Edmil Jampier Saire Bustamante \\ 
+\textit{Universidad Nacional de San Antonio Abad del Cusco} \\
+\textit{Curso: Computaci\'on Cu\'antica}}
+\date{\vspace{-5ex}}
 
 \begin{document}
-\maketitle
-\input{contenido/resumen}
 
-\tableofcontents
-\listoftables
-\addcontentsline{toc}{chapter}{Lista de Tablas}
-\listoffigures
-\addcontentsline{toc}{chapter}{Lista de Figuras}
+\twocolumn[
+  \begin{@twocolumnfalse}
+    \maketitle
+    \input{contenido/resumen}
+    \vspace{0.5cm}
+  \end{@twocolumnfalse}
+]
 
-\setlength{\tabcolsep}{6pt}
+\setlength{\tabcolsep}{4pt}
 \renewcommand{\arraystretch}{1}
-\clearpage
-\pagenumbering{arabic}
 
 \input{contenido/cap_1_introduccion}
 \input{contenido/cap_2_marco_teorico}
@@ -31,8 +29,6 @@
 \input{contenido/cap_5_discusion}
 \input{contenido/cap_6_conclusiones}
 
-\nocite{*}
 \bibliographystyle{apalike}
 \bibliography{contenido/bibliog}
-\addcontentsline{toc}{chapter}{Bibliograf\'ia}
 \end{document}

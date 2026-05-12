@@ -1,6 +1,6 @@
-\chapter{Discusi\'on}
+\section{Discusi\'on}
 
-\section{An\'alisis de los Resultados}
+\subsection{An\'alisis de los Resultados}
 
 Los modelos cl\'asicos (SVM-RBF, MLP, KNN) superaron consistentemente a los modelos cu\'anticos en todos los experimentos. Este resultado es esperado y consistente con la literatura reciente. \citet{huang2021} demostraron que la ventaja cu\'antica en aprendizaje autom\'atico requiere que los datos posean una estructura que no pueda ser capturada eficientemente por kernels cl\'asicos, condici\'on que el dataset Iris no cumple.
 
@@ -10,23 +10,23 @@ El QSVC (77.78\%) super\'o significativamente al VQC (37.78\%), lo cual se expli
     \item El VQC con 200 iteraciones de COBYLA no convergi\'o adecuadamente para el problema de 3 clases, como evidencia la curva de p\'erdida.
 \end{enumerate}
 
-\section{Sobre los Feature Maps}
+\subsection{Sobre los Feature Maps}
 
 El resultado de que ZFeatureMap (sin entrelazamiento) supere a ZZFeatureMap contradice la intuici\'on de que m\'as expresividad siempre es mejor. Esto se debe a que circuitos m\'as profundos tienen paisajes de optimizaci\'on m\'as complejos, haciendo que COBYLA con solo 150 iteraciones no alcance un m\'inimo adecuado. Para datasets de baja dimensionalidad como Iris, un feature map simple puede ser suficiente.
 
-\section{Sobre la Profundidad del Ansatz}
+\subsection{Sobre la Profundidad del Ansatz}
 
 La mejora monotona del accuracy con reps sugiere que el VQC a\'un no alcanz\'o su capacidad m\'axima. Sin embargo, incrementar reps indefinidamente no es viable por el riesgo de barren plateaus \citep{cerezo2021} y el costo computacional. Con reps=5 y 24 par\'ametros, el circuito tiene una relaci\'on par\'ametros/muestras de 24/105 $\approx$ 0.23, que es razonable.
 
-\section{Sobre los Optimizadores}
+\subsection{Sobre los Optimizadores}
 
 COBYLA result\'o ser el optimizador m\'as pr\'actico para simulaci\'on statevector: el m\'as r\'apido y con mejor accuracy. SPSA, dise\~nado para hardware ruidoso, fue m\'as lento debido a las evaluaciones adicionales para estimar gradientes. L-BFGS-B requiri\'o calcular gradientes exactos, resultando en el mayor tiempo a pesar de converger en solo 17 iteraciones.
 
-\section{Sobre la Varianza}
+\subsection{Sobre la Varianza}
 
 La desviaci\'on est\'andar del VQC ($\sigma = 0.076$) es significativamente mayor que la del SVM ($\sigma = 0.039$), indicando que el VQC es sensible a la inicializaci\'on aleatoria de los par\'ametros del ansatz. Esto es una limitaci\'on pr\'actica relevante.
 
-\section{Limitaciones del Trabajo}
+\subsection{Limitaciones del Trabajo}
 
 \begin{enumerate}
     \item La simulaci\'on statevector no refleja las condiciones del hardware cu\'antico real, donde el ruido de decoherencia y errores de puerta degradar\'ian a\'un m\'as el rendimiento.

@@ -1,7 +1,7 @@
-\begin{resumen}
+\begin{abstract}
 \noindent
 El presente trabajo implementa y eval\'ua modelos de aprendizaje autom\'atico cu\'antico para la tarea de clasificaci\'on multiclase sobre el dataset Iris. Se desarrollaron dos modelos cu\'anticos: un Clasificador Cu\'antico Variacional (VQC) basado en circuitos parametrizados con ZZFeatureMap y RealAmplitudes, y una M\'aquina de Vectores de Soporte Cu\'antica (QSVC) con kernel de fidelidad cu\'antico. Estos modelos fueron comparados con tres baselines cl\'asicos: SVM con kernel RBF, Red Neuronal (MLP) y K-Nearest Neighbors (KNN). Los modelos cl\'asicos alcanzaron un accuracy de 93.33\%, mientras que QSVC obtuvo 77.78\% y VQC 37.78\% con 200 iteraciones de COBYLA. Se realizaron experimentos adicionales sobre la influencia de distintos feature maps (ZFeatureMap, ZZFeatureMap, PauliFeatureMap), profundidad del ansatz (reps 1 a 5), comparaci\'on de optimizadores (COBYLA, SPSA, L-BFGS-B) y sensibilidad al ruido NISQ simulado. Los resultados confirman que, para datos cl\'asicos de baja dimensionalidad como Iris, los m\'etodos cl\'asicos mantienen superioridad, consistente con la literatura actual en Quantum Machine Learning.
 
 \vspace{0.5cm}
 \noindent\textbf{Palabras clave:} Aprendizaje autom\'atico cu\'antico, VQC, QSVC, Qiskit, clasificaci\'on, circuitos variacionales, kernel cu\'antico, dataset Iris.
-\end{resumen}
+\end{abstract}

@@ -1,6 +1,6 @@
-\chapter{Resultados}
+\section{Resultados}
 
-\section{An\'alisis Exploratorio del Dataset}
+\subsection{An\'alisis Exploratorio del Dataset}
 El dataset Iris presenta una estructura donde la clase setosa es linealmente separable de las otras dos clases en todos los pares de caracter\'isticas. Las clases versicolor y virginica presentan solapamiento parcial, particularmente en las dimensiones de s\'epalo. La Figura \ref{fig:eda} muestra la distribuci\'on por pares de caracter\'isticas.
 
 \begin{figure}[h]
@@ -10,7 +10,7 @@ El dataset Iris presenta una estructura donde la clase setosa es linealmente sep
 \label{fig:eda}
 \end{figure}
 
-\section{Resultados de Modelos Cl\'asicos}
+\subsection{Resultados de Modelos Cl\'asicos}
 Los tres modelos cl\'asicos alcanzaron un accuracy de 93.33\% en el conjunto de test (Tabla \ref{tab:clasicos}). La validaci\'on cruzada 5-fold confirm\'o la estabilidad de estos resultados.
 
 \begin{table}[h]
@@ -39,9 +39,9 @@ KNN & 0.9600 & 0.0327 \\
 \end{tabular}
 \end{table}
 
-\section{Resultados de Modelos Cu\'anticos}
+\subsection{Resultados de Modelos Cu\'anticos}
 
-\subsection{VQC}
+\subsubsection{VQC}
 El VQC alcanz\'o un accuracy de 37.78\% en 200 iteraciones de COBYLA, con un tiempo de entrenamiento de 34.3 segundos. La curva de convergencia (Figura \ref{fig:vqc_loss}) muestra que la funci\'on de p\'erdida no logr\'o converger completamente, lo cual es consistente con la dificultad de optimizar circuitos variacionales en problemas multiclase.
 
 \begin{figure}[h]
@@ -51,10 +51,10 @@ El VQC alcanz\'o un accuracy de 37.78\% en 200 iteraciones de COBYLA, con un tie
 \label{fig:vqc_loss}
 \end{figure}
 
-\subsection{QSVC}
+\subsubsection{QSVC}
 El QSVC obtuvo un accuracy de 77.78\% con un tiempo de entrenamiento de 10.6 segundos. Su rendimiento superior al VQC se debe a que el kernel cu\'antico opera en el espacio de Hilbert completo sin requerir optimizaci\'on variacional.
 
-\section{Comparaci\'on General}
+\subsection{Comparaci\'on General}
 La Tabla \ref{tab:comparacion} y la Figura \ref{fig:comparacion} resumen la comparaci\'on entre todos los modelos.
 
 \begin{table}[h]
@@ -81,7 +81,7 @@ QSVC & Cu\'antico & 0.7778 & 0.7814 & 0.7772 & 10.63 \\
 \label{fig:comparacion}
 \end{figure}
 
-\subsection{Matrices de Confusi\'on}
+\subsubsection{Matrices de Confusi\'on}
 La Figura \ref{fig:confusion} muestra las matrices de confusi\'on para todos los modelos. Se observa que el VQC tiene dificultades para distinguir entre las tres clases, mientras que QSVC confunde principalmente versicolor con virginica.
 
 \begin{figure}[h]
@@ -91,7 +91,7 @@ La Figura \ref{fig:confusion} muestra las matrices de confusi\'on para todos los
 \label{fig:confusion}
 \end{figure}
 
-\subsection{Fronteras de Decisi\'on}
+\subsubsection{Fronteras de Decisi\'on}
 La Figura \ref{fig:frontera} muestra la frontera de decisi\'on del SVM-RBF en una proyecci\'on PCA bidimensional, donde se aprecian las regiones de clasificaci\'on no lineales.
 
 \begin{figure}[h]
@@ -101,7 +101,7 @@ La Figura \ref{fig:frontera} muestra la frontera de decisi\'on del SVM-RBF en un
 \label{fig:frontera}
 \end{figure}
 
-\section{Experimento 1: Comparaci\'on de Feature Maps}
+\subsection{Experimento 1: Comparaci\'on de Feature Maps}
 Se evaluaron cuatro feature maps manteniendo fijo el ansatz (RealAmplitudes, reps=3). Los resultados (Tabla \ref{tab:featuremaps}, Figura \ref{fig:featuremaps}) muestran que ZFeatureMap obtuvo el mejor accuracy (66.67\%) a pesar de su menor profundidad, lo cual sugiere que las interacciones de segundo orden del ZZFeatureMap incrementan la complejidad sin aportar ventaja en este dataset.
 
 \begin{table}[h]
@@ -127,7 +127,7 @@ PauliFeatureMap & 0.5556 & 41 & 61.8 \\
 \label{fig:featuremaps}
 \end{figure}
 
-\section{Experimento 2: Profundidad del Ansatz}
+\subsection{Experimento 2: Profundidad del Ansatz}
 Se vari\'o el n\'umero de repeticiones del ansatz RealAmplitudes (Tabla \ref{tab:depth}, Figura \ref{fig:depth}). El accuracy mejor\'o monotonamente con la profundidad, alcanzando 57.78\% con reps=5 (24 par\'ametros). No se observ\'o barren plateau en este rango, aunque el costo computacional increment\'o.
 
 \begin{table}[h]
@@ -153,7 +153,7 @@ Se vari\'o el n\'umero de repeticiones del ansatz RealAmplitudes (Tabla \ref{tab
 \label{fig:depth}
 \end{figure}
 
-\section{Experimento 3: Comparaci\'on de Optimizadores}
+\subsection{Experimento 3: Comparaci\'on de Optimizadores}
 Se compararon tres optimizadores sobre la misma arquitectura (Tabla \ref{tab:optimizadores}, Figura \ref{fig:optimizadores}). COBYLA obtuvo el mejor accuracy (62.22\%) con el menor tiempo. L-BFGS-B fue el m\'as lento (204.1s) debido al c\'alculo de gradientes. SPSA fue intermedio en ambas m\'etricas.
 
 \begin{table}[h]
@@ -178,7 +178,7 @@ L-BFGS-B & 0.5778 & 17 & 204.1 \\
 \label{fig:optimizadores}
 \end{figure}
 
-\section{Kernel Cu\'antico vs Kernel RBF}
+\subsection{Kernel Cu\'antico vs Kernel RBF}
 La Figura \ref{fig:kernels} muestra los heatmaps de las matrices de kernel cu\'antico y RBF cl\'asico. El kernel cu\'antico exhibe una estructura m\'as dispersa y con mayor contraste, reflejando un mapeo diferente al espacio de caracter\'isticas.
 
 \begin{figure}[h]
@@ -188,7 +188,7 @@ La Figura \ref{fig:kernels} muestra los heatmaps de las matrices de kernel cu\'a
 \label{fig:kernels}
 \end{figure}
 
-\section{Varianza del VQC}
+\subsection{Varianza del VQC}
 El VQC se ejecut\'o con 5 semillas aleatorias distintas, obteniendo un accuracy promedio de $0.4844 \pm 0.0762$ (Figura \ref{fig:varianza}). Esta varianza relativamente alta contrasta con el SVM-RBF que obtuvo $0.9600 \pm 0.0389$ en validaci\'on cruzada 5-fold.
 
 \begin{figure}[h]
@@ -198,7 +198,7 @@ El VQC se ejecut\'o con 5 semillas aleatorias distintas, obteniendo un accuracy 
 \label{fig:varianza}
 \end{figure}
 
-\section{MNIST Reducido}
+\subsection{MNIST Reducido}
 En el dataset MNIST reducido (clases 0 vs 1), SVM-RBF alcanz\'o 100\% de accuracy mientras que VQC obtuvo 69.44\% (Figura \ref{fig:mnist}). La tarea binaria es m\'as sencilla que la multiclase de Iris, pero el VQC a\'un no logr\'o igualar al modelo cl\'asico.
 
 \begin{figure}[h]

@@ -2,9 +2,8 @@
 \usepackage[utf8]{inputenc}
 \usepackage{fancyhdr}
 \usepackage{graphicx}
-\usepackage[inner=3.0cm,outer=2.5cm,top=3cm,bottom=3cm]{geometry}
+\usepackage[margin=1.5cm,top=2cm,bottom=2cm]{geometry}
 \usepackage{hlundef}
-\usepackage{tesis}
 \usepackage{breakcites}
 \usepackage{color,soul}
 \usepackage{ae}
@@ -16,7 +15,6 @@
 \usepackage{tikz,pgfplots,pgfplotstable}
 \usepackage{capt-of}
 \usepackage[breaklinks]{hyperref}
-\setlength{\parindent}{1.27cm}
 \usepackage{caption}
 \usepackage[caption=false]{subfig}
 \usepackage{booktabs}
@@ -33,9 +31,16 @@
 \usepackage{natbib}
 \setcitestyle{round}
 \usepackage[T1]{fontenc}
-\usepackage{titlesec, blindtext, color}
-\definecolor{gray75}{gray}{0.75}
-\newcommand{\hsp}{\hspace{20pt}}
-\titleformat{\chapter}[hang]{\Huge\bfseries}{\thechapter\hsp\textcolor{gray75}{|}\hsp}{0pt}{\Huge\bfseries}
-\usepackage[nottoc]{tocbibind}
+\usepackage{color}
 \newcolumntype{L}{>{\centering\arraybackslash}m{4cm}}
+
+% Adjust space around floats
+\setlength{\textfloatsep}{10pt plus 1.0pt minus 2.0pt}
+\setlength{\floatsep}{10pt plus 1.0pt minus 2.0pt}
+\setlength{\intextsep}{10pt plus 1.0pt minus 2.0pt}
+
+% Section formatting to save space
+\usepackage{titlesec}
+\titlespacing\section{0pt}{10pt plus 4pt minus 2pt}{4pt plus 2pt minus 2pt}
+\titlespacing\subsection{0pt}{8pt plus 4pt minus 2pt}{3pt plus 2pt minus 2pt}
+\titlespacing\subsubsection{0pt}{6pt plus 4pt minus 2pt}{2pt plus 2pt minus 2pt}

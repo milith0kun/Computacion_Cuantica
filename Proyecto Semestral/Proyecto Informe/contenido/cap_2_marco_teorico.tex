@@ -1,15 +1,15 @@
-\chapter{Marco Te\'orico}
+\section{Marco Te\'orico}
 
-\section{Computaci\'on Cu\'antica}
+\subsection{Computaci\'on Cu\'antica}
 
-\subsection{Qubits y estados cu\'anticos}
+\subsubsection{Qubits y estados cu\'anticos}
 Un qubit es la unidad fundamental de informaci\'on cu\'antica. A diferencia del bit cl\'asico que toma valores 0 o 1, un qubit puede existir en una superposici\'on de ambos estados:
 \begin{equation}
 |\psi\rangle = \alpha|0\rangle + \beta|1\rangle, \quad |\alpha|^2 + |\beta|^2 = 1
 \end{equation}
 donde $\alpha, \beta \in \mathbb{C}$ son amplitudes de probabilidad.
 
-\subsection{Puertas cu\'anticas}
+\subsubsection{Puertas cu\'anticas}
 Las puertas cu\'anticas son operaciones unitarias que transforman el estado de los qubits. Las puertas de rotaci\'on $R_Y(\theta)$ y $R_Z(\theta)$ son particularmente relevantes para la codificaci\'on de datos:
 \begin{equation}
 R_Y(\theta) = \begin{bmatrix} \cos(\theta/2) & -\sin(\theta/2) \\ \sin(\theta/2) & \cos(\theta/2) \end{bmatrix}, \quad
@@ -18,23 +18,23 @@ R_Z(\theta) = \begin{bmatrix} e^{-i\theta/2} & 0 \\ 0 & e^{i\theta/2} \end{bmatr
 
 Las puertas CNOT generan entrelazamiento entre qubits, lo cual es esencial para capturar correlaciones en los datos.
 
-\subsection{Circuitos cu\'anticos parametrizados}
+\subsubsection{Circuitos cu\'anticos parametrizados}
 Un circuito cu\'antico parametrizado $U(\mathbf{x}, \boldsymbol{\theta})$ consiste en dos partes: un \textit{feature map} $U_\phi(\mathbf{x})$ que codifica los datos cl\'asicos en estados cu\'anticos, y un \textit{ansatz} $U_W(\boldsymbol{\theta})$ que contiene par\'ametros entrenables.
 
-\section{Machine Learning Cl\'asico}
+\subsection{Machine Learning Cl\'asico}
 
-\subsection{Support Vector Machine (SVM)}
+\subsubsection{Support Vector Machine (SVM)}
 SVM busca el hiperplano que maximiza el margen entre clases. Con el kernel RBF $K(\mathbf{x}_i, \mathbf{x}_j) = \exp(-\gamma\|\mathbf{x}_i - \mathbf{x}_j\|^2)$, SVM puede clasificar datos no linealmente separables mape\'andolos a un espacio de alta dimensi\'on.
 
-\subsection{Redes Neuronales (MLP)}
+\subsubsection{Redes Neuronales (MLP)}
 El Perceptr\'on Multicapa es un modelo de aprendizaje supervisado que aprende funciones no lineales mediante capas ocultas con funciones de activaci\'on.
 
-\subsection{K-Nearest Neighbors (KNN)}
+\subsubsection{K-Nearest Neighbors (KNN)}
 KNN clasifica cada muestra seg\'un la clase mayoritaria de sus $k$ vecinos m\'as cercanos en el espacio de caracter\'isticas.
 
-\section{Quantum Machine Learning}
+\subsection{Quantum Machine Learning}
 
-\subsection{Variational Quantum Classifier (VQC)}
+\subsubsection{Variational Quantum Classifier (VQC)}
 El VQC \citep{havlicek2019} utiliza un circuito parametrizado donde los datos se codifican mediante un feature map y la clasificaci\'on se realiza optimizando los par\'ametros del ansatz. El proceso de entrenamiento es h\'ibrido: el circuito cu\'antico eval\'ua la funci\'on de costo y un optimizador cl\'asico actualiza los par\'ametros.
 
 La funci\'on de costo t\'ipica es la entrop\'ia cruzada:
@@ -42,14 +42,14 @@ La funci\'on de costo t\'ipica es la entrop\'ia cruzada:
 \mathcal{L}(\boldsymbol{\theta}) = -\frac{1}{N}\sum_{i=1}^{N}\sum_{c=1}^{C} y_{ic} \log(\hat{y}_{ic}(\boldsymbol{\theta}))
 \end{equation}
 
-\subsection{Quantum SVM (QSVC)}
+\subsubsection{Quantum SVM (QSVC)}
 QSVC \citep{rebentrost2014} reemplaza el kernel cl\'asico de SVM por un kernel cu\'antico basado en la fidelidad entre estados:
 \begin{equation}
 K_Q(\mathbf{x}_i, \mathbf{x}_j) = |\langle\phi(\mathbf{x}_j)|\phi(\mathbf{x}_i)\rangle|^2
 \end{equation}
 donde $|\phi(\mathbf{x})\rangle = U_\phi(\mathbf{x})|0\rangle^{\otimes n}$ es el estado cu\'antico generado por el feature map.
 
-\subsection{Feature Maps}
+\subsubsection{Feature Maps}
 Los feature maps determinan c\'omo se codifican los datos cl\'asicos en el espacio cu\'antico:
 \begin{itemize}
     \item \textbf{ZFeatureMap}: Aplica rotaciones $R_Z(x_i)$ sin entrelazamiento.
@@ -57,10 +57,10 @@ Los feature maps determinan c\'omo se codifican los datos cl\'asicos en el espac
     \item \textbf{PauliFeatureMap}: Generaliza los anteriores usando cadenas de operadores de Pauli.
 \end{itemize}
 
-\subsection{Ansatz y Barren Plateaus}
+\subsubsection{Ansatz y Barren Plateaus}
 El ansatz RealAmplitudes consiste en capas alternadas de rotaciones $R_Y$ y puertas CNOT. El par\'ametro \textit{reps} controla la profundidad. Circuitos demasiado profundos pueden sufrir de \textit{barren plateaus}: regiones del paisaje de optimizaci\'on donde los gradientes se desvanecen exponencialmente \citep{cerezo2021}.
 
-\subsection{Optimizadores}
+\subsubsection{Optimizadores}
 Los optimizadores cl\'asicos m\'as utilizados en VQC son:
 \begin{itemize}
     \item \textbf{COBYLA}: M\'etodo libre de gradiente, estable para simulaciones.
