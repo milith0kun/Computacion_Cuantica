@@ -1,171 +1,77 @@
-Gu ́ıa de Proyecto
+# Aprendizaje Automático con Computación Cuántica
 
-Aprendizaje Autom ́atico con Computaci ́on Cu ́antica
+**Universidad Nacional de San Antonio Abad del Cusco**  
+**Departamento Académico de Informática**  
+**Curso:** Computación Cuántica  
 
-Universidad Nacional de San Antonio Abad del Cusco
-Departamento Acad ́emico de Inform ́atica
-Curso: Computaci ́on Cu ́antica
+## 📌 Descripción del Proyecto
 
-Implementaci ́on de un modelo de aprendizaje autom ́ati-
-co cu ́antico utilizando Qiskit Machine Learning
+Este proyecto implementa y evalúa modelos de **Aprendizaje Automático Cuántico (QML)** utilizando **Qiskit Machine Learning**, comparando su desempeño con métodos clásicos de Machine Learning (SVM-RBF, MLP, KNN). 
 
-1. Objetivo general
-Dise ̃nar e implementar un modelo de aprendizaje autom ́atico basado en principios de
-computaci ́on cu ́antica, evaluando su desempe ̃no frente a m ́etodos cl ́asicos.
-2. Objetivos espec ́ıficos
-Comprender los fundamentos del Machine Learning cu ́antico (Quantum ML).
-Implementar un modelo de clasificaci ́on o regresi ́on usando Qiskit Machine Learning u
-otro framework cu ́antico.
-Comparar los resultados con un modelo cl ́asico equivalente (por ejemplo, SVM o red
-neuronal tradicional).
-Analizar el impacto y las limitaciones actuales del aprendizaje cu ́antico en problemas
-reales.
+El objetivo es clasificar el clásico dataset de **Iris** mediante modelos cuánticos como:
+- **VQC (Variational Quantum Classifier)**
+- **QSVC (Quantum Support Vector Classifier con Kernel Cuántico)**
 
-3. Justificaci ́on
+Se analiza el impacto de diferentes *feature maps*, la profundidad del *ansatz*, el uso de distintos optimizadores (COBYLA, SPSA, etc.) y la sensibilidad al ruido en entornos cuánticos simulados.
 
-El aprendizaje autom ́atico cu ́antico es un campo emergente que busca aprovechar la su-
-perposici ́on y el entrelazamiento cu ́antico para acelerar tareas de aprendizaje y optimizaci ́on.
+## 🛠️ Requisitos e Instrucciones de Instalación
 
-Este proyecto permitir ́a explorar sus ventajas potenciales frente a la computaci ́on cl ́asica,
-contribuyendo al entendimiento de las tecnolog ́ıas h ́ıbridas cu ́antico–cl ́asicas.
+Para ejecutar este proyecto, necesitas Python 3.8+ y las siguientes librerías. Se recomienda usar un entorno virtual.
 
-1
+### 1. Crear y activar el entorno virtual
 
-4. Marco te ́orico
-El informe debe incluir conceptos de:
-Computaci ́on cu ́antica: qubits, puertas cu ́anticas, circuitos, medici ́on y transformada
-cu ́antica de Fourier.
-Machine Learning cl ́asico: clasificaci ́on, regresi ́on, aprendizaje supervisado y no
-supervisado.
-Quantum Machine Learning (QML):
-• Quantum Support Vector Machine (QSVM)
-• Variational Quantum Classifier (VQC)
-• Quantum Neural Networks (QNN)
-Frameworks: Qiskit Machine Learning, PennyLane o TensorFlow Quantum.
-5. Metodolog ́ıa
-5.1. Etapa 1: Investigaci ́on y dise ̃no
-Revisi ́on bibliogr ́afica sobre QML.
-Selecci ́on del tipo de modelo cu ́antico (VQC, QSVM, QNN, etc.).
-Elecci ́on de un dataset peque ̃no y representativo (por ejemplo, Iris, MNIST reducido o
-datos sint ́eticos).
-5.2. Etapa 2: Implementaci ́on
-Construcci ́on del modelo cl ́asico de referencia (Scikit-Learn).
-Implementaci ́on del modelo cu ́antico usando Qiskit o PennyLane.
-Entrenamiento y validaci ́on.
-5.3. Etapa 3: Evaluaci ́on
-Comparaci ́on entre desempe ̃no cl ́asico y cu ́antico (accuracy, tiempo de c ́omputo, costo
-cu ́antico).
-Discusi ́on sobre ventajas y limitaciones observadas.
+En Windows (PowerShell):
+```powershell
+python -m venv venv
+.\venv\Scripts\Activate
+```
 
-2
+En Linux/macOS:
+```bash
+python3 -m venv venv
+source venv/bin/activate
+```
 
-5.4. Etapa 4: Documentaci ́on y presentaci ́on
-Redacci ́on del informe cient ́ıfico.
-Creaci ́on de un repositorio reproducible (c ́odigo, datos, documentaci ́on).
-Preparaci ́on de una presentaci ́on oral con resultados.
-6. Entregables
-6.1. Informe en formato art ́ıculo cient ́ıfico
-Estructura sugerida (m ́ax. 10 p ́aginas):
-1. T ́ıtulo, autores y afiliaci ́on
-2. Resumen y palabras clave
-3. Introducci ́on y justificaci ́on
-4. Marco te ́orico y antecedentes
-5. Metodolog ́ıa
-6. Resultados y an ́alisis
-7. Conclusiones y trabajos futuros
-8. Referencias (APA o IEEE)
-6.2. Repositorio (GitHub o GitLab)
-Debe incluir:
-C ́odigo fuente (Jupyter Notebook o Python)
-Dataset usado
-Resultados o gr ́aficos
-Archivo README.md con:
-• Descripci ́on del proyecto
-• Instrucciones de instalaci ́on
-• Ejemplo de ejecuci ́on
+### 2. Instalar las dependencias
 
-3
+Instala los paquetes necesarios utilizando `pip`:
 
-6.3. Presentaci ́on oral
-Duraci ́on: 15–20 minutos
-Contenido:
-• Problema abordado y objetivos
-• Breve explicaci ́on te ́orica del modelo cu ́antico
-• Demostraci ́on de resultados
-• Conclusiones e impacto
-7. Herramientas recomendadas
-Lenguaje: Python
-Frameworks cu ́anticos
-Qiskit Machine Learning
-PennyLane
-TensorFlow Quantum
-Frameworks cl ́asicos
-Scikit-learn
-NumPy
-Matplotlib
-Plataformas
-IBM Quantum Experience
-Google Colab
-GitHub
-Edici ́on
-Overleaf (para el art ́ıculo)
-PowerPoint o Google Slides (para la presentaci ́on)
+```bash
+pip install numpy pandas matplotlib scikit-learn
+pip install qiskit qiskit-machine-learning
+```
 
-4
+*Nota: También puedes instalar jupyter si deseas ejecutar los notebooks incluidos.*
+```bash
+pip install jupyter
+```
 
-8. Cronograma sugerido
+## 🚀 Ejemplo de Ejecución
 
-Semana Actividades Entregable
-1 Revisi ́on te ́orica y definici ́on del modelo cu ́antico Marco te ́orico y propuesta
-2 Implementaci ́on inicial y dataset Primer notebook funcional
-3 Entrenamiento, resultados y comparaci ́on C ́odigo final y gr ́aficos
-4 Redacci ́on del informe y exposici ́on Informe, repositorio y presentaci ́on
-9. R ́ubrica de Evaluaci ́on
+El proyecto está dividido en scripts de Python que puedes ejecutar directamente. 
 
-Criterio Descripci ́on Ponderaci ́on Puntaje
-M ́ax.
+### Parte 1: Modelos Base y Comparación Inicial
+Ejecuta el primer script para entrenar los modelos clásicos (SVM, MLP, KNN) y los modelos cuánticos base (VQC, QSVC), y generar gráficas comparativas.
 
-Informe cient ́ıfico Claridad, profundidad te ́orica, estruc-
-tura, redacci ́on y referencias acad ́emi-
-cas.
+```bash
+python QML_Proyecto_Parte1.py
+```
+*(Los gráficos generados se guardarán automáticamente en la carpeta `figuras/` o se mostrarán en pantalla).*
 
-35 % 7
+### Parte 2: Experimentos Avanzados
+Ejecuta el segundo script para pruebas más avanzadas como la evaluación de diferentes Feature Maps (ZZFeatureMap vs ZFeatureMap), profundidad del circuito, diferentes optimizadores cuánticos y simulación con ruido.
 
-Implementaci ́on
-t ́ecnica
+```bash
+python QML_Proyecto_Parte2.py
+```
 
-Correcta implementaci ́on del modelo
-cu ́antico y comparaci ́on con modelo
-cl ́asico; c ́odigo reproducible.
+## 📊 Resultados Esperados
 
-30 % 6
+Al ejecutar los scripts, el sistema imprimirá las métricas de evaluación (Accuracy, Precision, Recall, F1-Score) y el tiempo de entrenamiento de cada modelo. Además, generará visualizaciones como:
+- Matrices de confusión.
+- Gráficos comparativos de rendimiento y tiempo.
+- Gráficos de curvas de pérdida para los algoritmos variacionales cuánticos.
+- Fronteras de decisión proyectadas mediante PCA.
 
-Repositorio Organizaci ́on del c ́odigo, documenta-
-ci ́on clara (README) y uso adecuado
-
-de control de versiones.
-
-15 % 3
-
-Presentaci ́on oral Claridad expositiva, dominio del tema,
-calidad del material visual y an ́alisis de
-resultados.
-
-15 % 3
-
-Innovaci ́on y refle-
-xi ́on cr ́ıtica
-
-Creatividad, aporte original y discusi ́on
-
-sobre el impacto del aprendizaje au-
-tom ́atico cu ́antico.
-
-5 % 1
-
-Total 100 % 20
-10. Conclusi ́on esperada
-
-El proyecto permitir ́a demostrar c ́omo la computaci ́on cu ́antica puede aplicarse al apren-
-dizaje autom ́atico, evaluando su potencial frente a enfoques cl ́asicos y fomentando una com-
-prensi ́on integral de los algoritmos h ́ıbridos cu ́antico–cl ́asicos.
+---
+*Este proyecto fue desarrollado como parte de la evaluación semestral del curso de Computación Cuántica.*
