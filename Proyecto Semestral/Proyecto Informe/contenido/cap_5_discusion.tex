@@ -7,30 +7,30 @@ Los modelos cl\'asicos (SVM-RBF, MLP, KNN) superaron consistentemente a los mode
 El QSVC (77.78\%) super\'o significativamente al VQC (37.78\%), lo cual se explica por dos razones:
 \begin{enumerate}
     \item El kernel cu\'antico de fidelidad opera directamente en el espacio de Hilbert de $2^4 = 16$ dimensiones, sin requerir optimizaci\'on variacional.
-    \item El VQC con 200 iteraciones de COBYLA no convergi\'o adecuadamente para el problema de 3 clases, como evidencia la curva de p\'erdida.
+    \item El VQC con 200 iteraciones de COBYLA no convergi\'o adecuadamente para el problema de 3 clases.
 \end{enumerate}
 
 \subsection{Sobre los Feature Maps}
 
-El resultado de que ZFeatureMap (sin entrelazamiento) supere a ZZFeatureMap contradice la intuici\'on de que m\'as expresividad siempre es mejor. Esto se debe a que circuitos m\'as profundos tienen paisajes de optimizaci\'on m\'as complejos, haciendo que COBYLA con solo 150 iteraciones no alcance un m\'inimo adecuado. Para datasets de baja dimensionalidad como Iris, un feature map simple puede ser suficiente.
+El resultado de que ZFeatureMap (sin entrelazamiento) supere a ZZFeatureMap contradice la intuici\'on de que m\'as expresividad siempre es mejor. Circuitos m\'as profundos tienen paisajes de optimizaci\'on m\'as complejos, haciendo que COBYLA con 150 iteraciones no alcance un m\'inimo adecuado. Para datasets de baja dimensionalidad, un feature map simple puede ser suficiente.
 
 \subsection{Sobre la Profundidad del Ansatz}
 
-La mejora monotona del accuracy con reps sugiere que el VQC a\'un no alcanz\'o su capacidad m\'axima. Sin embargo, incrementar reps indefinidamente no es viable por el riesgo de barren plateaus \citep{cerezo2021} y el costo computacional. Con reps=5 y 24 par\'ametros, el circuito tiene una relaci\'on par\'ametros/muestras de 24/105 $\approx$ 0.23, que es razonable.
+La mejora monotona del accuracy con reps sugiere que el VQC a\'un no alcanz\'o su capacidad m\'axima. Sin embargo, incrementar reps indefinidamente no es viable por el riesgo de barren plateaus \citep{cerezo2021} y el costo computacional. Con reps=5 y 24 par\'ametros, la relaci\'on par\'ametros/muestras es 24/105~$\approx$~0.23, razonable.
 
 \subsection{Sobre los Optimizadores}
 
-COBYLA result\'o ser el optimizador m\'as pr\'actico para simulaci\'on statevector: el m\'as r\'apido y con mejor accuracy. SPSA, dise\~nado para hardware ruidoso, fue m\'as lento debido a las evaluaciones adicionales para estimar gradientes. L-BFGS-B requiri\'o calcular gradientes exactos, resultando en el mayor tiempo a pesar de converger en solo 17 iteraciones.
+COBYLA result\'o el m\'as pr\'actico para simulaci\'on statevector: el m\'as r\'apido y con mejor accuracy. SPSA, dise\~nado para hardware ruidoso, fue m\'as lento por evaluaciones adicionales. L-BFGS-B requiri\'o gradientes exactos, resultando en el mayor tiempo a pesar de converger en solo 17 iteraciones.
 
 \subsection{Sobre la Varianza}
 
-La desviaci\'on est\'andar del VQC ($\sigma = 0.076$) es significativamente mayor que la del SVM ($\sigma = 0.039$), indicando que el VQC es sensible a la inicializaci\'on aleatoria de los par\'ametros del ansatz. Esto es una limitaci\'on pr\'actica relevante.
+La desviaci\'on est\'andar del VQC ($\sigma = 0.076$) es significativamente mayor que la del SVM ($\sigma = 0.039$), indicando sensibilidad a la inicializaci\'on aleatoria de los par\'ametros del ansatz.
 
 \subsection{Limitaciones del Trabajo}
 
 \begin{enumerate}
-    \item La simulaci\'on statevector no refleja las condiciones del hardware cu\'antico real, donde el ruido de decoherencia y errores de puerta degradar\'ian a\'un m\'as el rendimiento.
-    \item El n\'umero de iteraciones del optimizador (150--200) puede ser insuficiente para convergencia completa.
-    \item Iris y MNIST reducido son datasets peque\~nos que no representan la complejidad de problemas reales.
+    \item La simulaci\'on statevector no refleja las condiciones del hardware cu\'antico real (ruido de decoherencia, errores de puerta).
+    \item El n\'umero de iteraciones (150--200) puede ser insuficiente para convergencia completa.
+    \item Iris y MNIST reducido son datasets peque\~nos que no representan problemas reales.
     \item No se exploraron t\'ecnicas de mitigaci\'on de errores ni ansatz adaptativos.
 \end{enumerate}

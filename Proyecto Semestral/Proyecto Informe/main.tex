@@ -1,26 +1,118 @@
 \UseRawInputEncoding
 \documentclass[a4paper,10pt,twocolumn]{article}
-\input{contenido/includes.tex}
-\usepackage{dsfont}
 
-\title{\Large \textbf{Clasificaci\'on Cu\'antica sobre el Dataset Iris: \\Comparaci\'on de Modelos VQC y QSVC frente a Baselines Cl\'asicos}}
-\author{Edmil Jampier Saire Bustamante \\ 
-\textit{Universidad Nacional de San Antonio Abad del Cusco} \\
-\textit{Curso: Computaci\'on Cu\'antica}}
-\date{\vspace{-5ex}}
+% ─── Idioma y codificación ───
+\usepackage[spanish]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
 
+% ─── Márgenes optimizados para artículo a dos columnas ───
+\usepackage[margin=1.8cm, top=2.2cm, bottom=2cm, columnsep=0.6cm]{geometry}
+
+% ─── Tipografía ───
+\usepackage{ae}
+
+% ─── Matemáticas ───
+\usepackage{amsmath, amssymb, amsfonts, mathrsfs, dsfont}
+
+% ─── Tablas ───
+\usepackage{booktabs, multirow, array}
+\newcolumntype{C}[1]{>{\centering\arraybackslash}m{#1}}
+
+% ─── Figuras ───
+\usepackage{graphicx}
+\usepackage[caption=false]{subfig}
+\usepackage{float}
+
+% ─── Colores y resaltado ───
+\usepackage[usenames,dvipsnames,table,xcdraw]{xcolor}
+
+% ─── Listas compactas ───
+\usepackage{enumitem}
+\setlist{nosep, leftmargin=*, itemsep=2pt}
+
+% ─── Captions ───
+\usepackage{caption}
+\captionsetup{font=small, labelfont=bf, skip=4pt}
+
+% ─── Hipervínculos ───
+\usepackage[breaklinks, colorlinks=true, linkcolor=black, citecolor=blue!60!black, urlcolor=blue!70!black]{hyperref}
+
+% ─── Bibliografía ───
+\usepackage{natbib}
+\setcitestyle{round}
+
+% ─── Títulos de sección compactos ───
+\usepackage{titlesec}
+\titleformat{\section}{\large\bfseries}{\thesection.}{0.5em}{}
+\titleformat{\subsection}{\normalsize\bfseries}{\thesubsection.}{0.4em}{}
+\titleformat{\subsubsection}{\normalsize\itshape}{\thesubsubsection.}{0.4em}{}
+\titlespacing{\section}{0pt}{10pt plus 3pt minus 2pt}{4pt plus 2pt minus 1pt}
+\titlespacing{\subsection}{0pt}{8pt plus 2pt minus 2pt}{2pt plus 1pt minus 1pt}
+\titlespacing{\subsubsection}{0pt}{6pt plus 2pt minus 1pt}{2pt plus 1pt minus 1pt}
+
+% ─── Espaciado de floats ───
+\setlength{\textfloatsep}{8pt plus 2pt minus 2pt}
+\setlength{\floatsep}{6pt plus 2pt minus 2pt}
+\setlength{\intextsep}{6pt plus 2pt minus 2pt}
+\setlength{\abovecaptionskip}{4pt}
+\setlength{\belowcaptionskip}{2pt}
+
+% ─── Párrafos ───
+\setlength{\parindent}{0.7cm}
+\setlength{\parskip}{2pt plus 1pt minus 1pt}
+
+% ─── PGFPlots ───
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.13}
+
+% ─── Encabezado y pie ───
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\textit{Clasificación Cuántica -- VQC y QSVC}}
+\fancyhead[R]{\small\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+\fancyfoot{}
+
+% ═══════════════════════════════════════════════════════════════
+% METADATA
+% ═══════════════════════════════════════════════════════════════
+\title{\Large\textbf{Clasificaci\'on Cu\'antica sobre el Dataset Iris:\\[2pt] Comparaci\'on de Modelos VQC y QSVC\\[2pt] frente a Baselines Cl\'asicos}}
+
+\author{%
+  Edmil Jampier Saire Bustamante\\[2pt]
+  {\small\textit{Universidad Nacional de San Antonio Abad del Cusco}}\\
+  {\small\textit{Departamento Acad\'emico de Inform\'atica}}\\
+  {\small\textit{Curso: Computaci\'on Cu\'antica --- Mayo 2026}}%
+}
+\date{}
+
+% ═══════════════════════════════════════════════════════════════
 \begin{document}
 
 \twocolumn[
   \begin{@twocolumnfalse}
     \maketitle
-    \input{contenido/resumen}
+    \vspace{-0.3cm}
+
+    \noindent\rule{\textwidth}{0.4pt}
+    \vspace{0.2cm}
+
+    {\small\noindent\textbf{Resumen.}
+    El presente trabajo implementa y eval\'ua modelos de aprendizaje autom\'atico cu\'antico para clasificaci\'on multiclase sobre el dataset Iris. Se desarrollaron un Clasificador Cu\'antico Variacional (VQC) con ZZFeatureMap y RealAmplitudes, y una M\'aquina de Vectores de Soporte Cu\'antica (QSVC) con kernel de fidelidad, comparados con SVM-RBF, MLP y KNN. Los modelos cl\'asicos alcanzaron 93.33\% de accuracy, frente a 77.78\% (QSVC) y 37.78\% (VQC). Se analizaron distintos feature maps, profundidad del ansatz, optimizadores y sensibilidad al ruido NISQ simulado. Los resultados confirman que, para datos cl\'asicos de baja dimensionalidad, los m\'etodos cl\'asicos mantienen superioridad, consistente con la literatura actual.
+
+    \vspace{4pt}
+    \noindent\textbf{Palabras clave:} QML, VQC, QSVC, Qiskit, circuitos variacionales, kernel cu\'antico, Iris.}
+
+    \vspace{0.2cm}
+    \noindent\rule{\textwidth}{0.4pt}
     \vspace{0.5cm}
   \end{@twocolumnfalse}
 ]
 
-\setlength{\tabcolsep}{4pt}
-\renewcommand{\arraystretch}{1}
+\setlength{\tabcolsep}{3pt}
+\renewcommand{\arraystretch}{1.1}
 
 \input{contenido/cap_1_introduccion}
 \input{contenido/cap_2_marco_teorico}
@@ -29,6 +121,8 @@
 \input{contenido/cap_5_discusion}
 \input{contenido/cap_6_conclusiones}
 
+\small
 \bibliographystyle{apalike}
 \bibliography{contenido/bibliog}
+
 \end{document}
