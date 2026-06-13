@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.28 (MiKTeX 25.12) (preloaded format=pdflatex 2026.3.10)  12 JUN 2026 19:24
+This is pdfTeX, Version 3.141592653-2.6-1.40.28 (MiKTeX 25.12) (preloaded format=pdflatex 2026.3.10)  12 JUN 2026 19:25
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1570,7 +1570,7 @@ Package pdftex.def Info: graficos/resumen_final_radar.png  used on input line 5
 cos/exp2_bell_state.png> <./graficos/exp3_qsvc_hw_vs_sim.png> <./graficos/exp4_
 error_mitigation.png> <./graficos/exp5_mnist_hardware.png> <./graficos/resumen_
 final_radar.png>]) (main.bbl
-Underfull \hbox (badness 1917) in paragraph at lines 22--25
+Underfull \hbox (badness 1917) in paragraph at lines 25--28
 []\T1/aer/m/n/7 IBM Quan-tum (2023).  Ibm quan-tum com-pu-ting.  [][]$\T1/aett/
 m/n/7 https : / /
  []
@@ -1611,9 +1611,9 @@ al/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmti7.pfb><C:/Users/PC/AppDat
 a/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmti9.pfb><C:/Users/PC/A
 ppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmtt10.pfb><C:/User
 s/PC/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmtt8.pfb>
-Output written on main.pdf (4 pages, 929198 bytes).
+Output written on main.pdf (4 pages, 933807 bytes).
 PDF statistics:
- 228 PDF objects out of 1000 (max. 8388607)
+ 235 PDF objects out of 1000 (max. 8388607)
  37 named destinations out of 1000 (max. 500000)
  184 words of extra memory for PDF output out of 10000 (max. 10000000)
 
