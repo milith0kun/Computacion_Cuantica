@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.28 (MiKTeX 25.12) (preloaded format=pdflatex 2026.3.10)  12 JUN 2026 19:23
+This is pdfTeX, Version 3.141592653-2.6-1.40.28 (MiKTeX 25.12) (preloaded format=pdflatex 2026.3.10)  12 JUN 2026 19:24
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1482,7 +1482,7 @@ Package hyperref Info: Link coloring ON on input line 105.
 Package pgfplots notification 'compat/show suggested version=true': you might b
 enefit from \pgfplotsset{compat=1.18} (current compat level: 1.13).
 
-<graficos/escudo.png, id=70, 555.07375pt x 714.67pt>
+<graficos/escudo.png, id=74, 555.07375pt x 714.67pt>
 File: graficos/escudo.png Graphic file (type png)
 <use graficos/escudo.png>
 Package pdftex.def Info: graficos/escudo.png  used on input line 130.
@@ -1504,42 +1504,45 @@ LaTeX Font Info:    Trying to load font information for U+rsfs on input line 13
 (C:\Users\PC\AppData\Local\Programs\MiKTeX\tex/latex/jknappen\ursfs.fd
 File: ursfs.fd 1998/03/24 rsfs font definition file (jk)
 )
-(contenido/cap_1_introduccion.tex) (contenido/cap_2_marco_teorico.tex
-LaTeX Font Info:    Trying to load font information for T1+aett on input line 7
-.
+(contenido/cap_1_introduccion.tex
+LaTeX Font Info:    Trying to load font information for T1+aett on input line 1
+0.
 
 (C:\Users\PC\AppData\Local\Programs\MiKTeX\tex/latex/ae\t1aett.fd
 File: t1aett.fd 1997/11/16 Font definitions for T1/aett.
-) [1{C:/Users/PC/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map}
+))
+(contenido/cap_2_marco_teorico.tex
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [1{C:/Users/PC/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map}
 
 
- <./graficos/escudo.png>])
-(contenido/cap_3_metodologia.tex
+ <./graficos/escudo.png>]) (contenido/cap_3_metodologia.tex
 Underfull \hbox (badness 2503) in paragraph at lines 13--1
 []\T1/aer/m/n/10 La téc-ni-ca \T1/aer/m/it/10 Twir-led Readout Error Ex-tin-cti
 on
  []
 
 ) (contenido/cap_4_resultados.tex
-<graficos/exp1_baseline_corregido.png, id=97, 1291.224pt x 352.1958pt>
+<graficos/exp1_baseline_corregido.png, id=103, 1291.224pt x 352.1958pt>
 File: graficos/exp1_baseline_corregido.png Graphic file (type png)
 <use graficos/exp1_baseline_corregido.png>
 Package pdftex.def Info: graficos/exp1_baseline_corregido.png  used on input li
 ne 9.
 (pdftex.def)             Requested size: 239.00298pt x 65.18744pt.
-<graficos/exp2_bell_state.png, id=100, 1002.144pt x 352.1958pt>
+<graficos/exp2_bell_state.png, id=106, 1002.144pt x 352.1958pt>
 File: graficos/exp2_bell_state.png Graphic file (type png)
 <use graficos/exp2_bell_state.png>
 Package pdftex.def Info: graficos/exp2_bell_state.png  used on input line 19.
 (pdftex.def)             Requested size: 239.00298pt x 83.9913pt.
-<graficos/exp3_qsvc_hw_vs_sim.png, id=102, 1269.543pt x 352.1958pt>
+ [2 <./graficos/exp1_baseline_corregido.png>]
+<graficos/exp3_qsvc_hw_vs_sim.png, id=122, 1269.543pt x 352.1958pt>
 File: graficos/exp3_qsvc_hw_vs_sim.png Graphic file (type png)
 <use graficos/exp3_qsvc_hw_vs_sim.png>
 Package pdftex.def Info: graficos/exp3_qsvc_hw_vs_sim.png  used on input line 2
 9.
 (pdftex.def)             Requested size: 239.00298pt x 66.29988pt.
- [2 <./graficos/exp1_baseline_corregido.png> <./graficos/exp2_bell_state.png>]
-<graficos/exp4_error_mitigation.png, id=121, 1276.77pt x 352.1958pt>
+<graficos/exp4_error_mitigation.png, id=125, 1276.77pt x 352.1958pt>
 File: graficos/exp4_error_mitigation.png Graphic file (type png)
 <use graficos/exp4_error_mitigation.png>
 Package pdftex.def Info: graficos/exp4_error_mitigation.png  used on input line
@@ -1551,21 +1554,22 @@ Underfull \hbox (badness 2653) in paragraph at lines 40--40
 c-ción post-
  []
 
-<graficos/exp5_mnist_hardware.png, id=122, 970.3452pt x 352.1958pt>
+<graficos/exp5_mnist_hardware.png, id=126, 970.3452pt x 352.1958pt>
 File: graficos/exp5_mnist_hardware.png Graphic file (type png)
 <use graficos/exp5_mnist_hardware.png>
 Package pdftex.def Info: graficos/exp5_mnist_hardware.png  used on input line 4
 6.
 (pdftex.def)             Requested size: 239.00298pt x 86.7482pt.
-<graficos/resumen_final_radar.png, id=124, 1111.5126pt x 424.4658pt>
+<graficos/resumen_final_radar.png, id=128, 1111.5126pt x 424.4658pt>
 File: graficos/resumen_final_radar.png Graphic file (type png)
 <use graficos/resumen_final_radar.png>
 Package pdftex.def Info: graficos/resumen_final_radar.png  used on input line 5
 5.
 (pdftex.def)             Requested size: 239.00298pt x 91.27132pt.
-) (contenido/cap_5_discusion.tex) (contenido/cap_6_conclusiones.tex) [3 <./graf
-icos/exp3_qsvc_hw_vs_sim.png> <./graficos/exp4_error_mitigation.png> <./grafico
-s/exp5_mnist_hardware.png> <./graficos/resumen_final_radar.png>] (main.bbl
+) (contenido/cap_5_discusion.tex) (contenido/cap_6_conclusiones.tex [3 <./grafi
+cos/exp2_bell_state.png> <./graficos/exp3_qsvc_hw_vs_sim.png> <./graficos/exp4_
+error_mitigation.png> <./graficos/exp5_mnist_hardware.png> <./graficos/resumen_
+final_radar.png>]) (main.bbl
 Underfull \hbox (badness 1917) in paragraph at lines 22--25
 []\T1/aer/m/n/7 IBM Quan-tum (2023).  Ibm quan-tum com-pu-ting.  [][]$\T1/aett/
 m/n/7 https : / /
@@ -1582,13 +1586,13 @@ LaTeX2e <2025-11-01>
 L3 programming layer <2025-12-24>
  ***********
 Package rerunfilecheck Info: File `main.out' has not changed.
-(rerunfilecheck)             Checksum: 98D0476885C8FAE7FD88C51077D69B07;3520.
+(rerunfilecheck)             Checksum: 83DBD3B39FC8C2F3A4951CD252516CAD;3807.
  ) 
 Here is how much of TeX's memory you used:
- 35842 strings out of 467871
- 813676 string characters out of 5419828
+ 35844 strings out of 467871
+ 813706 string characters out of 5419828
  1371565 words of memory out of 5000000
- 64047 multiletter control sequences out of 15000+600000
+ 64048 multiletter control sequences out of 15000+600000
  672016 words of font info for 133 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  99i,12n,108p,962b,609s stack positions out of 10000i,1000n,20000p,200000b,200000s
@@ -1607,9 +1611,9 @@ al/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmti7.pfb><C:/Users/PC/AppDat
 a/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmti9.pfb><C:/Users/PC/A
 ppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmtt10.pfb><C:/User
 s/PC/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmtt8.pfb>
-Output written on main.pdf (4 pages, 923712 bytes).
+Output written on main.pdf (4 pages, 929198 bytes).
 PDF statistics:
- 219 PDF objects out of 1000 (max. 8388607)
- 36 named destinations out of 1000 (max. 500000)
- 176 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 228 PDF objects out of 1000 (max. 8388607)
+ 37 named destinations out of 1000 (max. 500000)
+ 184 words of extra memory for PDF output out of 10000 (max. 10000000)
 

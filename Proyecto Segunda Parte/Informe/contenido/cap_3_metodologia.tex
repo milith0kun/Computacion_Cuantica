@@ -15,3 +15,6 @@ La evaluaci\'on de un Kernel de Fidelidad Cu\'antica implica la construcci\'on y
 
 \subsection{Par\'ametros Cu\'anticos y QPU}
 Toda invocaci\'on algor\'itmica al hardware deleg\'o a la primitiva \texttt{SamplerV2} en el backend \texttt{ibm\_fez} (156 qubits Heron). El optimizador seleccionado para asegurar la convergencia del vector variacional en la prueba local (\textit{Baseline VQC}) fue \textit{COBYLA}, incrementando su profundidad de b\'usqueda de 200 a 300 iteraciones (respecto a la Parte 1). Las evaluaciones de expectaci\'on utilizaron 2048 \textit{shots} por distribuci\'on de probabilidad para equilibrar resoluci\'on matem\'atica y tiempo de ejecuci\'on as\'incrona.
+
+\subsection{Autenticaci\'on y Uso de la API IBM Quantum}
+Para la interacci\'on program\'atica con el procesador f\'isico, se estableci\'o una conexi\'on a trav\'es de la API RESTful de IBM Quantum utilizando la clase \texttt{QiskitRuntimeService}. La clave de autenticaci\'on (\textit{API token}) se aisl\'o e inyect\'o en tiempo de ejecuci\'on mediante un gestor de credenciales local (\texttt{apikey.json}). Este flujo permiti\'o empaquetar y remitir los trabajos cu\'anticos (\textit{jobs}) optimizados localmente hacia la cola de la QPU, para as\'i descargar los resultados de la m\'aquina as\'incronamente.
