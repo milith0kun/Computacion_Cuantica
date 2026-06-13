@@ -21,6 +21,12 @@ Havl{\'\i}{\v{c}}ek, V., C{\'o}rcoles, A.~D., Temme, K., Harrow, A.~W.,
 \newblock {\em Nature}, 567(7747):209--212.
 \newblock \url{https://doi.org/10.1038/s41586-019-0980-2}.
 
+\bibitem[Huang et~al., 2021]{huang2021}
+Huang, H.-Y., Broughton, M., Mohseni, M., Babbush, R., Boixo, S., Neven, H.,
+  and McClean, J.~R. (2021).
+\newblock Power of data in quantum machine learning.
+\newblock {\em Nature Communications}, 12(1):2631.
+
 \bibitem[{IBM Quantum}, 2023]{ibm_quantum_2023}
 {IBM Quantum} (2023).
 \newblock Ibm quantum computing.

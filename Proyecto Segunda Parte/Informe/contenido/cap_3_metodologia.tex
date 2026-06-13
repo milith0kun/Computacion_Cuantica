@@ -1,20 +1,119 @@
-\section{Metodolog\'ia y Restricciones Operativas}
-\label{sec:metodologia}
+\section{Experimentaci\'on}
+\label{sec:experimentacion}
 
-Dada la transici\'on de la simulaci\'on en procesadores locales hacia el c\'omputo f\'isico a trav\'es de la nube de \textbf{IBM Quantum}, se requiri\'o implementar una metodolog\'ia sumamente ajustada a las pol\'iticas de uso (Open Plan, 10 minutos de QPU por mes calendario).
+\subsection{Introducci\'on a la experimentaci\'on}
+La presente secci\'on describe el proceso metodol\'ogico seguido para la validaci\'on de los modelos de aprendizaje autom\'atico cu\'antico (QML) desarrollados en esta investigaci\'on. Se detallan los elementos necesarios para la ejecuci\'on de los experimentos, incluyendo el entorno de trabajo h\'ibrido (simulaci\'on local y hardware cu\'antico en la nube), los conjuntos de datos utilizados, el dise\~no experimental y la implementaci\'on del sistema. El objetivo principal es garantizar la reproducibilidad del estudio y establecer un marco claro para evaluar el impacto del ruido NISQ y las limitaciones de muestreo en el hardware de IBM.
 
-\subsection{Estandarizaci\'on del Dataset}
-El an\'alisis utiliz\'o el conjunto tabular Iris y un subconjunto num\'erico binario (d\'igitos 0 y 1) del conjunto MNIST. Ambos datasets sufrieron transformaciones algor\'itmicas intensivas:
-\begin{enumerate}
-    \item \textbf{Normalizaci\'on de ngulos:} Escalamiento de valores f\'isicos al dominio $x \in [0, \pi]$ para inyecci\'on de p\'arametros en rotores Pauli-Z y Pauli-Y del \textit{ZZFeatureMap}.
-    \item \textbf{Reducci\'on de Dimensionalidad Extrema:} Con el prop\'osito de incrustar vectores de imagen (MNIST) en un registro de 4 qubits, se ejecut\'o un PCA cl\'asico reteniendo \'unicamente las 4 componentes principales de mayor varianza.
-\end{enumerate}
+\subsection{Entorno experimental}
+El entorno experimental comprende recursos de hardware y software distribuidos, abarcando c\'omputo cl\'asico local y procesamiento cu\'antico remoto.
 
-\subsection{Dimensionamiento Muestral (Subset Hardware)}
-La evaluaci\'on de un Kernel de Fidelidad Cu\'antica implica la construcci\'on y env\'io transpílado de matrices de circuitos cuyo costo crece exponencialmente con el tama\~no muestral ($O(n^2)$). Ante el techo duro de tiempo QPU, el dise\~no del experimento forz\'o el particionamiento aleatorio (\textit{random seed = 42}) en subconjuntos de evaluaci\'on miniaturizados: \textbf{10 vectores de entrenamiento y 5 vectores de prueba} por corrida. 
+\subsubsection{Hardware}
+Se utilizaron dos entornos de hardware diferenciados:
+\begin{itemize}
+    \item \textbf{C\'omputo Cl\'asico (Simulaci\'on):} Estaci\'on de trabajo local con procesador de m\'ultiples n\'ucleos y memoria RAM est\'andar para la orquestaci\'on, preprocesamiento y ejecuci\'on del simulador \texttt{Statevector}.
+    \item \textbf{C\'omputo Cu\'antico (Hardware Real):} Procesador cu\'antico \texttt{ibm\_fez} de IBM Quantum.
+    \begin{itemize}
+        \item \textbf{Arquitectura:} IBM Heron r2.
+        \item \textbf{Capacidad:} 156 qubits f\'isicos.
+        \item \textbf{Topolog\'ia:} Acoplamiento hexagonal pesado enfocado en reducci\'on de \textit{cross-talk}.
+    \end{itemize}
+\end{itemize}
 
-\subsection{Par\'ametros Cu\'anticos y QPU}
-Toda invocaci\'on algor\'itmica al hardware deleg\'o a la primitiva \texttt{SamplerV2} en el backend \texttt{ibm\_fez} (156 qubits Heron). El optimizador seleccionado para asegurar la convergencia del vector variacional en la prueba local (\textit{Baseline VQC}) fue \textit{COBYLA}, incrementando su profundidad de b\'usqueda de 200 a 300 iteraciones (respecto a la Parte 1). Las evaluaciones de expectaci\'on utilizaron 2048 \textit{shots} por distribuci\'on de probabilidad para equilibrar resoluci\'on matem\'atica y tiempo de ejecuci\'on as\'incrona.
+\subsubsection{Software}
+Las herramientas y tecnolog\'ias empleadas fueron:
+\begin{itemize}
+    \item \textbf{Lenguaje de programaci\'on:} Python 3.10+.
+    \item \textbf{Frameworks y librer\'ias:} Qiskit, Qiskit Machine Learning, Qiskit IBM Runtime, Scikit-learn, Matplotlib, Numpy.
+    \item \textbf{Entorno de desarrollo (IDE):} Jupyter Notebooks y Google Colab.
+    \item \textbf{Sistema operativo:} Entorno agn\'ostico de ejecuci\'on web.
+\end{itemize}
 
-\subsection{Autenticaci\'on y Uso de la API IBM Quantum}
-Para la interacci\'on program\'atica con el procesador f\'isico, se estableci\'o una conexi\'on a trav\'es de la API RESTful de IBM Quantum utilizando la clase \texttt{QiskitRuntimeService}. La clave de autenticaci\'on (\textit{API token}) se aisl\'o e inyect\'o en tiempo de ejecuci\'on mediante un gestor de credenciales local (\texttt{apikey.json}). Este flujo permiti\'o empaquetar y remitir los trabajos cu\'anticos (\textit{jobs}) optimizados localmente hacia la cola de la QPU, para as\'i descargar los resultados de la m\'aquina as\'incronamente.
+\subsection{Datos utilizados}
+Se utilizaron dos conjuntos de datos can\'onicos de complejidad distinta para evaluar la capacidad de generalizaci\'on de los modelos.
+
+\subsubsection{Origen de los datos}
+Los datos provienen de repositorios p\'ublicos integrados en \texttt{scikit-learn}:
+\begin{itemize}
+    \item \textbf{Dataset p\'ublicos:} Conjunto de datos \textit{Iris} y subconjunto del dataset \textit{MNIST}.
+\end{itemize}
+
+\subsubsection{Descripci\'on del conjunto de datos}
+\begin{itemize}
+    \item \textbf{Iris Dataset:} 150 registros, 4 variables num\'ericas continuas (longitud y ancho de s\'epalo y p\'etalo), y 3 clases balanceadas.
+    \item \textbf{MNIST Dataset (reducido):} Subconjunto binario filtrado a las clases '0' y '1', con 64 atributos num\'ericos originales (p\'ixeles 8x8).
+\end{itemize}
+
+\subsubsection{Preprocesamiento de datos}
+Antes de la inyecci\'on cu\'antica, los datos fueron sometidos a las siguientes transformaciones:
+\begin{itemize}
+    \item \textbf{Limpieza de datos:} Verificaci\'on de integridad y ausencia de valores nulos.
+    \item \textbf{Reducci\'on de Dimensionalidad:} Aplicaci\'on de An\'alisis de Componentes Principales (PCA) a MNIST para comprimir a 4 dimensiones compatibles con un registro de 4 qubits.
+    \item \textbf{Normalizaci\'on:} Escalamiento Min-Max para confinar todas las caracter\'isticas al intervalo $x \in [0, \pi]$, habilitando la codificaci\'on angular (\textit{Angle Embedding}).
+    \item \textbf{Divisi\'on de conjuntos:} Separaci\'on en conjuntos de entrenamiento y prueba. En el hardware real, la muestra se redujo dr\'asticamente a 10 muestras de entrenamiento y 5 de prueba debido a restricciones de cuota computacional.
+\end{itemize}
+
+\subsection{Dise\~no experimental}
+Define la estratificaci\'on de las pruebas para evaluar la propuesta.
+
+\subsubsection{Objetivo experimental}
+El objetivo es cuantificar la degradaci\'on de exactitud (Accuracy) que sufren VQC y QSVC al transicionar de un simulador perfecto a un procesador ruidoso, identificando el impacto simult\'aneo de la escasez de datos muestrales dictada por el entorno de nube gratuita.
+
+\subsubsection{M\'etricas de evaluaci\'on}
+Se emplean las siguientes m\'etricas:
+\begin{itemize}
+    \item \textbf{Exactitud (Accuracy):} Proporci\'on global de predicciones correctas.
+    \item \textbf{Precisi\'on, Recall y F1-Score:} Evaluaci\'on desglosada por clase.
+    \item \textbf{Matriz de Confusi\'on:} Visualizaci\'on de falsos positivos y negativos.
+    \item \textbf{Tiempo de Ejecuci\'on (QPU):} Costo temporal de la invocaci\'on al hardware.
+\end{itemize}
+
+\subsubsection{Escenarios de prueba}
+Se definieron tres escenarios progresivos:
+\begin{itemize}
+    \item \textbf{Escenario 1 (Simulaci\'on Ideal):} Evaluaci\'on de VQC, QSVC y modelos cl\'asicos (SVM-RBF) en \texttt{StatevectorSimulator} sin ruido.
+    \item \textbf{Escenario 2 (Hardware Real sin Mitigaci\'on):} Ejecuci\'on de la matriz del Kernel en \texttt{ibm\_fez} bajo decoherencia natural y muestreo min\'usculo.
+    \item \textbf{Escenario 3 (Hardware Real con Mitigaci\'on):} Aplicaci\'on de la t\'ecnica \textit{Twirled Readout Error Extinction} (TREX) para suprimir asimetr\'ias de medici\'on (SPAM).
+\end{itemize}
+
+\subsubsection{Comparaci\'on con trabajos relacionados}
+Se replica la arquitectura de \textit{ZZFeatureMap} y \textit{RealAmplitudes} de Havl\'i\v{c}ek et al. \citep{havlicek2019} y Cerezo et al. \citep{cerezo2021}, con la variaci\'on cr\'itica de forzar la restricci\'on masiva del \textit{dataset size} de acuerdo a la teor\'ia de Huang et al. \citep{huang2021}. Se contrastan estos m\'etodos directamente frente a SVM-RBF y Redes Neuronales cl\'asicas.
+
+\subsection{Implementaci\'on del sistema}
+
+\subsubsection{Arquitectura}
+El sistema orquesta la integraci\'on h\'ibrida mediante:
+\begin{itemize}
+    \item \textbf{M\'odulo de entrada:} Gestor de carga, preprocesamiento (PCA) y codificaci\'on.
+    \item \textbf{M\'odulo de procesamiento cl\'asico:} Optimizador \textit{COBYLA} para VQC y resoluci\'on del problema dual (\texttt{SVC}) para QSVC.
+    \item \textbf{M\'odulo de procesamiento cu\'antico:} C\'alculo de vectores de expectaci\'on y evaluaci\'on de Kernels de Fidelidad v\'ia la primitiva \texttt{SamplerV2}.
+    \item \textbf{M\'odulo de salida:} Visualizaci\'on de m\'etricas e histogramas.
+\end{itemize}
+
+\subsubsection{Tecnolog\'ias utilizadas}
+Para la implementaci\'on se utilizaron:
+\begin{itemize}
+    \item \textbf{Backend:} IBM Quantum Cloud Platform (API REST, \texttt{QiskitRuntimeService}).
+    \item \textbf{Frontend:} Ecosistema Jupyter y Google Colab.
+    \item \textbf{Seguridad:} Archivo de credenciales \texttt{apikey.json} para gesti\'on de tokens as\'incrona.
+\end{itemize}
+
+\subsection{Ejecuci\'on de experimentos}
+Las condiciones de ejecuci\'on estandarizadas abarcaron:
+\begin{itemize}
+    \item \textbf{Configuraci\'on de par\'ametros:} Optimizador COBYLA calibrado a 300 iteraciones m\'aximas para forzar convergencia en VQC.
+    \item \textbf{N\'umero de iteraciones (Shots):} 2048 disparos por circuito para garantizar robustez estad\'istica.
+    \item \textbf{Control de variables externas:} Se ejecutaron los \textit{jobs} en modo as\'incrono, limitados r\'igidamente a la cuota mensual m\'axima de 10 minutos de QPU permitida por la plataforma abierta de IBM.
+\end{itemize}
+
+\subsection{Reproducibilidad}
+Con el objetivo de garantizar la transparencia y reproducibilidad de los experimentos, se dispone de un repositorio p\'ublico que contiene:
+\begin{itemize}
+    \item C\'odigo fuente completo del sistema (Notebooks iterativos).
+    \item Scripts de ejecuci\'on, recolecci\'on y matrices exportadas.
+    \item Instrucciones e informes detallados del modelamiento f\'isico.
+\end{itemize}
+
+El repositorio se encuentra disponible p\'ublicamente en:
+\begin{center}
+    \url{https://github.com/milith0kun/Computacion_Cuantica}
+\end{center}
