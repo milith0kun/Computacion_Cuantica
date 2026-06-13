@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.28 (MiKTeX 25.12) (preloaded format=pdflatex 2026.3.10)  12 JUN 2026 19:27
+This is pdfTeX, Version 3.141592653-2.6-1.40.28 (MiKTeX 25.12) (preloaded format=pdflatex 2026.3.10)  12 JUN 2026 19:31
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -911,42 +911,18 @@ Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 2
 )
 \Hy@SectionHShift=\skip65
 )
-(C:\Users\PC\AppData\Local\Programs\MiKTeX\tex/latex/natbib\natbib.sty
-Package: natbib 2010/09/13 8.31b (PWD, AO)
-\bibhang=\skip66
-\bibsep=\skip67
-LaTeX Info: Redefining \cite on input line 694.
-\c@NAT@ctr=\count331
-)
-(C:\Users\PC\AppData\Local\Programs\MiKTeX\tex/latex/titlesec\titlesec.sty
-Package: titlesec 2025/01/04 v2.17 Sectioning titles
-\ttl@box=\box60
-\beforetitleunit=\skip68
-\aftertitleunit=\skip69
-\ttl@plus=\dimen199
-\ttl@minus=\dimen256
-\ttl@toksa=\toks32
-\titlewidth=\dimen257
-\titlewidthlast=\dimen258
-\titlewidthfirst=\dimen259
-)
-(C:\Users\PC\AppData\Local\Programs\MiKTeX\tex/latex/pgfplots\pgfplots.sty
-(C:\Users\PC\AppData\Local\Programs\MiKTeX\tex/generic/pgfplots\pgfplots.revisi
-on.tex)
-Package: pgfplots 2021/05/15 v1.18.1 Data Visualization (1.18.1)
-
 (C:\Users\PC\AppData\Local\Programs\MiKTeX\tex/latex/pgf/frontendlayer\tikz.sty
 (C:\Users\PC\AppData\Local\Programs\MiKTeX\tex/latex/pgf/basiclayer\pgf.sty
 (C:\Users\PC\AppData\Local\Programs\MiKTeX\tex/latex/pgf/utilities\pgfrcs.sty
 (C:\Users\PC\AppData\Local\Programs\MiKTeX\tex/generic/pgf/utilities\pgfutil-co
 mmon.tex
-\pgfutil@everybye=\toks33
-\pgfutil@tempdima=\dimen260
-\pgfutil@tempdimb=\dimen261
+\pgfutil@everybye=\toks32
+\pgfutil@tempdima=\dimen199
+\pgfutil@tempdimb=\dimen256
 )
 (C:\Users\PC\AppData\Local\Programs\MiKTeX\tex/generic/pgf/utilities\pgfutil-la
 tex.def
-\pgfutil@abb=\box61
+\pgfutil@abb=\box60
 )
 (C:\Users\PC\AppData\Local\Programs\MiKTeX\tex/generic/pgf/utilities\pgfrcs.cod
 e.tex
@@ -965,33 +941,33 @@ Package: pgfsys 2025-08-29 v3.1.11a (3.1.11a)
 
 (C:\Users\PC\AppData\Local\Programs\MiKTeX\tex/generic/pgf/utilities\pgfkeys.co
 de.tex
-\pgfkeys@pathtoks=\toks34
-\pgfkeys@temptoks=\toks35
+\pgfkeys@pathtoks=\toks33
+\pgfkeys@temptoks=\toks34
 
 (C:\Users\PC\AppData\Local\Programs\MiKTeX\tex/generic/pgf/utilities\pgfkeyslib
 raryfiltered.code.tex
-\pgfkeys@tmptoks=\toks36
+\pgfkeys@tmptoks=\toks35
 ))
-\pgf@x=\dimen262
-\pgf@y=\dimen263
-\pgf@xa=\dimen264
-\pgf@ya=\dimen265
-\pgf@xb=\dimen266
-\pgf@yb=\dimen267
-\pgf@xc=\dimen268
-\pgf@yc=\dimen269
-\pgf@xd=\dimen270
-\pgf@yd=\dimen271
+\pgf@x=\dimen257
+\pgf@y=\dimen258
+\pgf@xa=\dimen259
+\pgf@ya=\dimen260
+\pgf@xb=\dimen261
+\pgf@yb=\dimen262
+\pgf@xc=\dimen263
+\pgf@yc=\dimen264
+\pgf@xd=\dimen265
+\pgf@yd=\dimen266
 \w@pgf@writea=\write3
 \r@pgf@reada=\read3
-\c@pgf@counta=\count332
-\c@pgf@countb=\count333
-\c@pgf@countc=\count334
-\c@pgf@countd=\count335
-\t@pgf@toka=\toks37
-\t@pgf@tokb=\toks38
-\t@pgf@tokc=\toks39
-\pgf@sys@id@count=\count336
+\c@pgf@counta=\count331
+\c@pgf@countb=\count332
+\c@pgf@countc=\count333
+\c@pgf@countd=\count334
+\t@pgf@toka=\toks36
+\t@pgf@tokb=\toks37
+\t@pgf@tokc=\toks38
+\pgf@sys@id@count=\count335
 
 (C:\Users\PC\AppData\Local\Programs\MiKTeX\tex/generic/pgf/systemlayer\pgf.cfg
 File: pgf.cfg 2025-08-29 v3.1.11a (3.1.11a)
@@ -1009,8 +985,8 @@ File: pgfsys-common-pdf.def 2025-08-29 v3.1.11a (3.1.11a)
 (C:\Users\PC\AppData\Local\Programs\MiKTeX\tex/generic/pgf/systemlayer\pgfsysso
 ftpath.code.tex
 File: pgfsyssoftpath.code.tex 2025-08-29 v3.1.11a (3.1.11a)
-\pgfsyssoftpath@smallbuffer@items=\count337
-\pgfsyssoftpath@bigbuffer@items=\count338
+\pgfsyssoftpath@smallbuffer@items=\count336
+\pgfsyssoftpath@bigbuffer@items=\count337
 )
 (C:\Users\PC\AppData\Local\Programs\MiKTeX\tex/generic/pgf/systemlayer\pgfsyspr
 otocol.code.tex
@@ -1026,12 +1002,12 @@ x
 e.tex)
 (C:\Users\PC\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfmathparser.c
 ode.tex
-\pgfmath@dimen=\dimen272
-\pgfmath@count=\count339
-\pgfmath@box=\box62
-\pgfmath@toks=\toks40
-\pgfmath@stack@operand=\toks41
-\pgfmath@stack@operation=\toks42
+\pgfmath@dimen=\dimen267
+\pgfmath@count=\count338
+\pgfmath@box=\box61
+\pgfmath@toks=\toks39
+\pgfmath@stack@operand=\toks40
+\pgfmath@stack@operation=\toks41
 )
 (C:\Users\PC\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfmathfunction
 s.code.tex)
@@ -1055,59 +1031,59 @@ s.integerarithmetics.code.tex)
 e.tex)
 (C:\Users\PC\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfmathfloat.co
 de.tex
-\c@pgfmathroundto@lastzeros=\count340
+\c@pgfmathroundto@lastzeros=\count339
 ))
 (C:\Users\PC\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfint.code.tex
 )
 (C:\Users\PC\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcorepo
 ints.code.tex
 File: pgfcorepoints.code.tex 2025-08-29 v3.1.11a (3.1.11a)
-\pgf@picminx=\dimen273
-\pgf@picmaxx=\dimen274
-\pgf@picminy=\dimen275
-\pgf@picmaxy=\dimen276
-\pgf@pathminx=\dimen277
-\pgf@pathmaxx=\dimen278
-\pgf@pathminy=\dimen279
-\pgf@pathmaxy=\dimen280
-\pgf@xx=\dimen281
-\pgf@xy=\dimen282
-\pgf@yx=\dimen283
-\pgf@yy=\dimen284
-\pgf@zx=\dimen285
-\pgf@zy=\dimen286
+\pgf@picminx=\dimen268
+\pgf@picmaxx=\dimen269
+\pgf@picminy=\dimen270
+\pgf@picmaxy=\dimen271
+\pgf@pathminx=\dimen272
+\pgf@pathmaxx=\dimen273
+\pgf@pathminy=\dimen274
+\pgf@pathmaxy=\dimen275
+\pgf@xx=\dimen276
+\pgf@xy=\dimen277
+\pgf@yx=\dimen278
+\pgf@yy=\dimen279
+\pgf@zx=\dimen280
+\pgf@zy=\dimen281
 )
 (C:\Users\PC\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcorepa
 thconstruct.code.tex
 File: pgfcorepathconstruct.code.tex 2025-08-29 v3.1.11a (3.1.11a)
-\pgf@path@lastx=\dimen287
-\pgf@path@lasty=\dimen288
+\pgf@path@lastx=\dimen282
+\pgf@path@lasty=\dimen283
 )
 (C:\Users\PC\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcorepa
 thusage.code.tex
 File: pgfcorepathusage.code.tex 2025-08-29 v3.1.11a (3.1.11a)
-\pgf@shorten@end@additional=\dimen289
-\pgf@shorten@start@additional=\dimen290
+\pgf@shorten@end@additional=\dimen284
+\pgf@shorten@start@additional=\dimen285
 )
 (C:\Users\PC\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcoresc
 opes.code.tex
 File: pgfcorescopes.code.tex 2025-08-29 v3.1.11a (3.1.11a)
-\pgfpic=\box63
-\pgf@hbox=\box64
-\pgf@layerbox@main=\box65
-\pgf@picture@serial@count=\count341
+\pgfpic=\box62
+\pgf@hbox=\box63
+\pgf@layerbox@main=\box64
+\pgf@picture@serial@count=\count340
 )
 (C:\Users\PC\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcoregr
 aphicstate.code.tex
 File: pgfcoregraphicstate.code.tex 2025-08-29 v3.1.11a (3.1.11a)
-\pgflinewidth=\dimen291
+\pgflinewidth=\dimen286
 )
 (C:\Users\PC\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcoretr
 ansformations.code.tex
 File: pgfcoretransformations.code.tex 2025-08-29 v3.1.11a (3.1.11a)
-\pgf@pt@x=\dimen292
-\pgf@pt@y=\dimen293
-\pgf@pt@temp=\dimen294
+\pgf@pt@x=\dimen287
+\pgf@pt@y=\dimen288
+\pgf@pt@temp=\dimen289
 )
 (C:\Users\PC\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcorequ
 ick.code.tex
@@ -1124,14 +1100,14 @@ File: pgfcorepathprocessing.code.tex 2025-08-29 v3.1.11a (3.1.11a)
 (C:\Users\PC\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcorear
 rows.code.tex
 File: pgfcorearrows.code.tex 2025-08-29 v3.1.11a (3.1.11a)
-\pgfarrowsep=\dimen295
+\pgfarrowsep=\dimen290
 )
 (C:\Users\PC\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcoresh
 ade.code.tex
 File: pgfcoreshade.code.tex 2025-08-29 v3.1.11a (3.1.11a)
-\pgf@max=\dimen296
-\pgf@sys@shading@range@num=\count342
-\pgf@shadingcount=\count343
+\pgf@max=\dimen291
+\pgf@sys@shading@range@num=\count341
+\pgf@shadingcount=\count342
 )
 (C:\Users\PC\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcoreim
 age.code.tex
@@ -1140,7 +1116,7 @@ File: pgfcoreimage.code.tex 2025-08-29 v3.1.11a (3.1.11a)
 (C:\Users\PC\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcoreex
 ternal.code.tex
 File: pgfcoreexternal.code.tex 2025-08-29 v3.1.11a (3.1.11a)
-\pgfexternal@startupbox=\box66
+\pgfexternal@startupbox=\box65
 )
 (C:\Users\PC\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcorela
 yers.code.tex
@@ -1161,7 +1137,7 @@ File: pgfcorerdf.code.tex 2025-08-29 v3.1.11a (3.1.11a)
 (C:\Users\PC\AppData\Local\Programs\MiKTeX\tex/generic/pgf/modules\pgfmodulesha
 pes.code.tex
 File: pgfmoduleshapes.code.tex 2025-08-29 v3.1.11a (3.1.11a)
-\pgfnodeparttextbox=\box67
+\pgfnodeparttextbox=\box66
 )
 (C:\Users\PC\AppData\Local\Programs\MiKTeX\tex/generic/pgf/modules\pgfmoduleplo
 t.code.tex
@@ -1170,8 +1146,8 @@ File: pgfmoduleplot.code.tex 2025-08-29 v3.1.11a (3.1.11a)
 (C:\Users\PC\AppData\Local\Programs\MiKTeX\tex/latex/pgf/compatibility\pgfcomp-
 version-0-65.sty
 Package: pgfcomp-version-0-65 2025-08-29 v3.1.11a (3.1.11a)
-\pgf@nodesepstart=\dimen297
-\pgf@nodesepend=\dimen298
+\pgf@nodesepstart=\dimen292
+\pgf@nodesepend=\dimen293
 )
 (C:\Users\PC\AppData\Local\Programs\MiKTeX\tex/latex/pgf/compatibility\pgfcomp-
 version-1-18.sty
@@ -1187,10 +1163,10 @@ x))
 (C:\Users\PC\AppData\Local\Programs\MiKTeX\tex/generic/pgf/utilities\pgffor.cod
 e.tex
 Package: pgffor 2025-08-29 v3.1.11a (3.1.11a)
-\pgffor@iter=\dimen299
-\pgffor@skip=\dimen300
-\pgffor@stack=\toks43
-\pgffor@toks=\toks44
+\pgffor@iter=\dimen294
+\pgffor@skip=\dimen295
+\pgffor@stack=\toks42
+\pgffor@toks=\toks43
 ))
 (C:\Users\PC\AppData\Local\Programs\MiKTeX\tex/generic/pgf/frontendlayer/tikz\t
 ikz.code.tex
@@ -1199,39 +1175,102 @@ Package: tikz 2025-08-29 v3.1.11a (3.1.11a)
 (C:\Users\PC\AppData\Local\Programs\MiKTeX\tex/generic/pgf/libraries\pgflibrary
 plothandlers.code.tex
 File: pgflibraryplothandlers.code.tex 2025-08-29 v3.1.11a (3.1.11a)
-\pgf@plot@mark@count=\count344
-\pgfplotmarksize=\dimen301
+\pgf@plot@mark@count=\count343
+\pgfplotmarksize=\dimen296
 )
-\tikz@lastx=\dimen302
-\tikz@lasty=\dimen303
-\tikz@lastxsaved=\dimen304
-\tikz@lastysaved=\dimen305
-\tikz@lastmovetox=\dimen306
-\tikz@lastmovetoy=\dimen307
-\tikzleveldistance=\dimen308
-\tikzsiblingdistance=\dimen309
-\tikz@figbox=\box68
-\tikz@figbox@bg=\box69
-\tikz@tempbox=\box70
-\tikz@tempbox@bg=\box71
-\tikztreelevel=\count345
-\tikznumberofchildren=\count346
-\tikznumberofcurrentchild=\count347
-\tikz@fig@count=\count348
+\tikz@lastx=\dimen297
+\tikz@lasty=\dimen298
+\tikz@lastxsaved=\dimen299
+\tikz@lastysaved=\dimen300
+\tikz@lastmovetox=\dimen301
+\tikz@lastmovetoy=\dimen302
+\tikzleveldistance=\dimen303
+\tikzsiblingdistance=\dimen304
+\tikz@figbox=\box67
+\tikz@figbox@bg=\box68
+\tikz@tempbox=\box69
+\tikz@tempbox@bg=\box70
+\tikztreelevel=\count344
+\tikznumberofchildren=\count345
+\tikznumberofcurrentchild=\count346
+\tikz@fig@count=\count347
 
 (C:\Users\PC\AppData\Local\Programs\MiKTeX\tex/generic/pgf/modules\pgfmodulemat
 rix.code.tex
 File: pgfmodulematrix.code.tex 2025-08-29 v3.1.11a (3.1.11a)
-\pgfmatrixcurrentrow=\count349
-\pgfmatrixcurrentcolumn=\count350
-\pgf@matrix@numberofcolumns=\count351
+\pgfmatrixcurrentrow=\count348
+\pgfmatrixcurrentcolumn=\count349
+\pgf@matrix@numberofcolumns=\count350
 )
-\tikz@expandcount=\count352
+\tikz@expandcount=\count351
 
 (C:\Users\PC\AppData\Local\Programs\MiKTeX\tex/generic/pgf/frontendlayer/tikz/l
 ibraries\tikzlibrarytopaths.code.tex
 File: tikzlibrarytopaths.code.tex 2025-08-29 v3.1.11a (3.1.11a)
 )))
+(C:\Users\PC\AppData\Local\Programs\MiKTeX\tex/generic/pgf/libraries\pgflibrary
+arrows.meta.code.tex
+File: pgflibraryarrows.meta.code.tex 2025-08-29 v3.1.11a (3.1.11a)
+\pgfarrowinset=\dimen305
+\pgfarrowlength=\dimen306
+\pgfarrowwidth=\dimen307
+\pgfarrowlinewidth=\dimen308
+)
+(C:\Users\PC\AppData\Local\Programs\MiKTeX\tex/generic/pgf/frontendlayer/tikz/l
+ibraries\tikzlibrarypositioning.code.tex
+File: tikzlibrarypositioning.code.tex 2025-08-29 v3.1.11a (3.1.11a)
+)
+(C:\Users\PC\AppData\Local\Programs\MiKTeX\tex/generic/pgf/frontendlayer/tikz/l
+ibraries\tikzlibraryshapes.geometric.code.tex
+File: tikzlibraryshapes.geometric.code.tex 2025-08-29 v3.1.11a (3.1.11a)
+
+(C:\Users\PC\AppData\Local\Programs\MiKTeX\tex/generic/pgf/libraries/shapes\pgf
+libraryshapes.geometric.code.tex
+File: pgflibraryshapes.geometric.code.tex 2025-08-29 v3.1.11a (3.1.11a)
+))
+(C:\Users\PC\AppData\Local\Programs\MiKTeX\tex/generic/pgf/frontendlayer/tikz/l
+ibraries\tikzlibrarydecorations.pathreplacing.code.tex
+(C:\Users\PC\AppData\Local\Programs\MiKTeX\tex/generic/pgf/frontendlayer/tikz/l
+ibraries\tikzlibrarydecorations.code.tex
+(C:\Users\PC\AppData\Local\Programs\MiKTeX\tex/generic/pgf/modules\pgfmoduledec
+orations.code.tex
+\pgfdecoratedcompleteddistance=\dimen309
+\pgfdecoratedremainingdistance=\dimen310
+\pgfdecoratedinputsegmentcompleteddistance=\dimen311
+\pgfdecoratedinputsegmentremainingdistance=\dimen312
+\pgf@decorate@distancetomove=\dimen313
+\pgf@decorate@repeatstate=\count352
+\pgfdecorationsegmentamplitude=\dimen314
+\pgfdecorationsegmentlength=\dimen315
+)
+\tikz@lib@dec@box=\box71
+)
+(C:\Users\PC\AppData\Local\Programs\MiKTeX\tex/generic/pgf/libraries/decoration
+s\pgflibrarydecorations.pathreplacing.code.tex))
+(C:\Users\PC\AppData\Local\Programs\MiKTeX\tex/latex/natbib\natbib.sty
+Package: natbib 2010/09/13 8.31b (PWD, AO)
+\bibhang=\skip66
+\bibsep=\skip67
+LaTeX Info: Redefining \cite on input line 694.
+\c@NAT@ctr=\count353
+)
+(C:\Users\PC\AppData\Local\Programs\MiKTeX\tex/latex/titlesec\titlesec.sty
+Package: titlesec 2025/01/04 v2.17 Sectioning titles
+\ttl@box=\box72
+\beforetitleunit=\skip68
+\aftertitleunit=\skip69
+\ttl@plus=\dimen316
+\ttl@minus=\dimen317
+\ttl@toksa=\toks44
+\titlewidth=\dimen318
+\titlewidthlast=\dimen319
+\titlewidthfirst=\dimen320
+)
+(C:\Users\PC\AppData\Local\Programs\MiKTeX\tex/latex/pgfplots\pgfplots.sty
+(C:\Users\PC\AppData\Local\Programs\MiKTeX\tex/generic/pgfplots\pgfplots.revisi
+on.tex)
+Package: pgfplots 2021/05/15 v1.18.1 Data Visualization (1.18.1)
+
 (C:\Users\PC\AppData\Local\Programs\MiKTeX\tex/generic/pgfplots\pgfplots.code.t
 ex
 (C:\Users\PC\AppData\Local\Programs\MiKTeX\tex/generic/pgfplots\pgfplotscore.co
@@ -1239,9 +1278,9 @@ de.tex
 \t@pgfplots@toka=\toks45
 \t@pgfplots@tokb=\toks46
 \t@pgfplots@tokc=\toks47
-\pgfplots@tmpa=\dimen310
-\c@pgfplots@coordindex=\count353
-\c@pgfplots@scanlineindex=\count354
+\pgfplots@tmpa=\dimen321
+\c@pgfplots@coordindex=\count354
+\c@pgfplots@scanlineindex=\count355
 
 (C:\Users\PC\AppData\Local\Programs\MiKTeX\tex/generic/pgfplots/sys\pgfplotssys
 generic.code.tex))
@@ -1266,13 +1305,13 @@ gfplotsliststructure.code.tex)
 gfplotsliststructureext.code.tex)
 (C:\Users\PC\AppData\Local\Programs\MiKTeX\tex/generic/pgfplots/liststructure\p
 gfplotsarray.code.tex
-\c@pgfplotsarray@tmp=\count355
+\c@pgfplotsarray@tmp=\count356
 )
 (C:\Users\PC\AppData\Local\Programs\MiKTeX\tex/generic/pgfplots/liststructure\p
 gfplotsmatrix.code.tex)
 (C:\Users\PC\AppData\Local\Programs\MiKTeX\tex/generic/pgfplots/numtable\pgfplo
 tstableshared.code.tex
-\c@pgfplotstable@counta=\count356
+\c@pgfplotstable@counta=\count357
 \t@pgfplotstable@a=\toks51
 )
 (C:\Users\PC\AppData\Local\Programs\MiKTeX\tex/generic/pgfplots/liststructure\p
@@ -1285,7 +1324,7 @@ nary.data.code.tex))
 il.verb.code.tex)
 (C:\Users\PC\AppData\Local\Programs\MiKTeX\tex/generic/pgfplots/libs\pgflibrary
 pgfplots.surfshading.code.tex
-\c@pgfplotslibrarysurf@no=\count357
+\c@pgfplotslibrarysurf@no=\count358
 
 (C:\Users\PC\AppData\Local\Programs\MiKTeX\tex/generic/pgfplots/sys\pgflibraryp
 gfplots.surfshading.pgfsys-pdftex.def)))
@@ -1314,37 +1353,18 @@ ode.tex)
 (C:\Users\PC\AppData\Local\Programs\MiKTeX\tex/generic/pgfplots\pgfplots.paths.
 code.tex)
 (C:\Users\PC\AppData\Local\Programs\MiKTeX\tex/generic/pgf/frontendlayer/tikz/l
-ibraries\tikzlibrarydecorations.code.tex
-(C:\Users\PC\AppData\Local\Programs\MiKTeX\tex/generic/pgf/modules\pgfmoduledec
-orations.code.tex
-\pgfdecoratedcompleteddistance=\dimen311
-\pgfdecoratedremainingdistance=\dimen312
-\pgfdecoratedinputsegmentcompleteddistance=\dimen313
-\pgfdecoratedinputsegmentremainingdistance=\dimen314
-\pgf@decorate@distancetomove=\dimen315
-\pgf@decorate@repeatstate=\count358
-\pgfdecorationsegmentamplitude=\dimen316
-\pgfdecorationsegmentlength=\dimen317
-)
-\tikz@lib@dec@box=\box72
-)
-(C:\Users\PC\AppData\Local\Programs\MiKTeX\tex/generic/pgf/frontendlayer/tikz/l
 ibraries\tikzlibrarydecorations.pathmorphing.code.tex
 (C:\Users\PC\AppData\Local\Programs\MiKTeX\tex/generic/pgf/libraries/decoration
 s\pgflibrarydecorations.pathmorphing.code.tex))
-(C:\Users\PC\AppData\Local\Programs\MiKTeX\tex/generic/pgf/frontendlayer/tikz/l
-ibraries\tikzlibrarydecorations.pathreplacing.code.tex
-(C:\Users\PC\AppData\Local\Programs\MiKTeX\tex/generic/pgf/libraries/decoration
-s\pgflibrarydecorations.pathreplacing.code.tex))
 (C:\Users\PC\AppData\Local\Programs\MiKTeX\tex/generic/pgfplots/libs\tikzlibrar
 ypgfplots.contourlua.code.tex)
 \pgfplots@numplots=\count359
-\pgfplots@xmin@reg=\dimen318
-\pgfplots@xmax@reg=\dimen319
-\pgfplots@ymin@reg=\dimen320
-\pgfplots@ymax@reg=\dimen321
-\pgfplots@zmin@reg=\dimen322
-\pgfplots@zmax@reg=\dimen323
+\pgfplots@xmin@reg=\dimen322
+\pgfplots@xmax@reg=\dimen323
+\pgfplots@ymin@reg=\dimen324
+\pgfplots@ymax@reg=\dimen325
+\pgfplots@zmin@reg=\dimen326
+\pgfplots@zmax@reg=\dimen327
 )
 (C:\Users\PC\AppData\Local\Programs\MiKTeX\tex/generic/pgf/frontendlayer/tikz/l
 ibraries\tikzlibraryplotmarks.code.tex
@@ -1373,8 +1393,8 @@ Package: fancyhdr 2025/02/07 v5.2 Extensive control of page headers and footers
 \f@nch@widthR=\skip83
 \@temptokenb=\toks52
 )
-LaTeX Font Info:    Trying to load font information for T1+aer on input line 10
-5.
+LaTeX Font Info:    Trying to load font information for T1+aer on input line 13
+9.
 
 (C:\Users\PC\AppData\Local\Programs\MiKTeX\tex/latex/ae\t1aer.fd
 File: t1aer.fd 1997/11/16 Font definitions for T1/aer.
@@ -1391,26 +1411,26 @@ Package babel Info: 'spanish' activates 'spanish' shorthands.
 )
 \openout1 = `main.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 105.
-LaTeX Font Info:    ... okay on input line 105.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 105.
-LaTeX Font Info:    ... okay on input line 105.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 105.
-LaTeX Font Info:    ... okay on input line 105.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 105.
-LaTeX Font Info:    ... okay on input line 105.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 105.
-LaTeX Font Info:    ... okay on input line 105.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 105.
-LaTeX Font Info:    ... okay on input line 105.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 105.
-LaTeX Font Info:    ... okay on input line 105.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 105.
-LaTeX Font Info:    ... okay on input line 105.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 105.
-LaTeX Font Info:    ... okay on input line 105.
-LaTeX Info: Redefining \. on input line 105.
-LaTeX Info: Redefining \% on input line 105.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 139.
+LaTeX Font Info:    ... okay on input line 139.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 139.
+LaTeX Font Info:    ... okay on input line 139.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 139.
+LaTeX Font Info:    ... okay on input line 139.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 139.
+LaTeX Font Info:    ... okay on input line 139.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 139.
+LaTeX Font Info:    ... okay on input line 139.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 139.
+LaTeX Font Info:    ... okay on input line 139.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 139.
+LaTeX Font Info:    ... okay on input line 139.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 139.
+LaTeX Font Info:    ... okay on input line 139.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 139.
+LaTeX Font Info:    ... okay on input line 139.
+LaTeX Info: Redefining \. on input line 139.
+LaTeX Info: Redefining \% on input line 139.
 
 *geometry* driver: auto-detecting
 *geometry* detected driver: pdftex
@@ -1449,13 +1469,13 @@ LaTeX Info: Redefining \% on input line 105.
 (C:\Users\PC\AppData\Local\Programs\MiKTeX\tex/context/base/mkii\supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
 \scratchcounter=\count361
-\scratchdimen=\dimen324
+\scratchdimen=\dimen328
 \scratchbox=\box73
 \nofMPsegments=\count362
 \nofMParguments=\count363
 \everyMPshowfont=\toks53
 \MPscratchCnt=\count364
-\MPscratchDim=\dimen325
+\MPscratchDim=\dimen329
 \MPnumerator=\count365
 \makeMPintoPDFobject=\count366
 \everyMPtoPDFconversion=\toks54
@@ -1473,7 +1493,7 @@ Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: subfig package v1.3 is loaded.
 Package caption Info: hyperref package is loaded.
 Package caption Info: End \AtBeginDocument code.
-Package hyperref Info: Link coloring ON on input line 105.
+Package hyperref Info: Link coloring ON on input line 139.
  (main.out) (main.out)
 \@outlinefile=\write4
 \openout4 = `main.out'.
@@ -1482,24 +1502,24 @@ Package hyperref Info: Link coloring ON on input line 105.
 Package pgfplots notification 'compat/show suggested version=true': you might b
 enefit from \pgfplotsset{compat=1.18} (current compat level: 1.13).
 
-<graficos/escudo.png, id=130, 555.07375pt x 714.67pt>
+<graficos/escudo.png, id=190, 555.07375pt x 714.67pt>
 File: graficos/escudo.png Graphic file (type png)
 <use graficos/escudo.png>
-Package pdftex.def Info: graficos/escudo.png  used on input line 130.
+Package pdftex.def Info: graficos/escudo.png  used on input line 164.
 (pdftex.def)             Requested size: 79.21425pt x 101.98329pt.
-LaTeX Font Info:    Trying to load font information for U+msa on input line 130
+LaTeX Font Info:    Trying to load font information for U+msa on input line 164
 .
 (C:\Users\PC\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 130
+LaTeX Font Info:    Trying to load font information for U+msb on input line 164
 .
 
 (C:\Users\PC\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
-LaTeX Font Info:    Trying to load font information for U+rsfs on input line 13
-0.
+LaTeX Font Info:    Trying to load font information for U+rsfs on input line 16
+4.
 
 (C:\Users\PC\AppData\Local\Programs\MiKTeX\tex/latex/jknappen\ursfs.fd
 File: ursfs.fd 1998/03/24 rsfs font definition file (jk)
@@ -1517,21 +1537,28 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
  [1{C:/Users/PC/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map}
 
 
- <./graficos/escudo.png>]) (contenido/cap_3_metodologia.tex
-Underfull \hbox (badness 2503) in paragraph at lines 13--1
+ <./graficos/escudo.png>]
+LaTeX Font Info:    Trying to load font information for TS1+aer on input line 2
+04.
+No file TS1aer.fd.
+LaTeX Info: Symbol \textthreesuperior not provided by
+            font family aer in TS1 encoding.
+            Default family used instead on input line 204.
+[2]) (contenido/cap_3_metodologia.tex
+Underfull \hbox (badness 2503) in paragraph at lines 266--1
 []\T1/aer/m/n/10 La téc-ni-ca \T1/aer/m/it/10 Twir-led Readout Error Ex-tin-cti
 on
  []
 
-LaTeX Font Info:    Trying to load font information for TS1+aer on input line 1
-6.
-LaTeX Font Info:    No file TS1aer.fd. on input line 16.
 
 LaTeX Font Warning: Font shape `TS1/aer/m/n' undefined
 (Font)              using `TS1/cmr/m/n' instead
 (Font)              for symbol `textbullet' on input line 16.
 
-[2]
+LaTeX Info: Symbol \textthreesuperior not provided by
+            font family aer in TS1 encoding.
+            Default family used instead on input line 16.
+[3]
 Underfull \hbox (badness 4168) in paragraph at lines 87--88
 []\T1/aer/b/n/10 Módulo de pro-ce-sa-mien-to clá-si-co: \T1/aer/m/n/10 Op-ti-mi
 -za-dor
@@ -1542,26 +1569,28 @@ Underfull \hbox (badness 2626) in paragraph at lines 95--96
 []\T1/aer/b/n/10 Backend: \T1/aer/m/n/10 IBM Quan-tum Cloud Plat-form (API
  []
 
-) (contenido/cap_4_resultados.tex
-<graficos/exp1_baseline_corregido.png, id=176, 1291.224pt x 352.1958pt>
+LaTeX Info: Symbol \textthreesuperior not provided by
+            font family aer in TS1 encoding.
+            Default family used instead on input line 98.
+[4]) (contenido/cap_4_resultados.tex
+<graficos/exp1_baseline_corregido.png, id=319, 1291.224pt x 352.1958pt>
 File: graficos/exp1_baseline_corregido.png Graphic file (type png)
 <use graficos/exp1_baseline_corregido.png>
 Package pdftex.def Info: graficos/exp1_baseline_corregido.png  used on input li
 ne 9.
 (pdftex.def)             Requested size: 239.00298pt x 65.18744pt.
- [3 <./graficos/exp1_baseline_corregido.png>]
-<graficos/exp2_bell_state.png, id=187, 1002.144pt x 352.1958pt>
+<graficos/exp2_bell_state.png, id=322, 1002.144pt x 352.1958pt>
 File: graficos/exp2_bell_state.png Graphic file (type png)
 <use graficos/exp2_bell_state.png>
 Package pdftex.def Info: graficos/exp2_bell_state.png  used on input line 19.
 (pdftex.def)             Requested size: 239.00298pt x 83.9913pt.
-<graficos/exp3_qsvc_hw_vs_sim.png, id=189, 1269.543pt x 352.1958pt>
+<graficos/exp3_qsvc_hw_vs_sim.png, id=324, 1269.543pt x 352.1958pt>
 File: graficos/exp3_qsvc_hw_vs_sim.png Graphic file (type png)
 <use graficos/exp3_qsvc_hw_vs_sim.png>
 Package pdftex.def Info: graficos/exp3_qsvc_hw_vs_sim.png  used on input line 2
 9.
 (pdftex.def)             Requested size: 239.00298pt x 66.29988pt.
-<graficos/exp4_error_mitigation.png, id=192, 1276.77pt x 352.1958pt>
+<graficos/exp4_error_mitigation.png, id=327, 1276.77pt x 352.1958pt>
 File: graficos/exp4_error_mitigation.png Graphic file (type png)
 <use graficos/exp4_error_mitigation.png>
 Package pdftex.def Info: graficos/exp4_error_mitigation.png  used on input line
@@ -1569,34 +1598,46 @@ Package pdftex.def Info: graficos/exp4_error_mitigation.png  used on input line
 (pdftex.def)             Requested size: 239.00298pt x 65.92369pt.
 
 Underfull \hbox (badness 2653) in paragraph at lines 40--40
-[]\T1/aer/b/n/9 Figura 4: |\T1/aer/m/n/9 Grá-fi-co de es-ta-bi-li-dad de pre-di
+[]\T1/aer/b/n/9 Figura 5: |\T1/aer/m/n/9 Grá-fi-co de es-ta-bi-li-dad de pre-di
 c-ción post-
  []
 
-<graficos/exp5_mnist_hardware.png, id=193, 970.3452pt x 352.1958pt>
+<graficos/exp5_mnist_hardware.png, id=328, 970.3452pt x 352.1958pt>
 File: graficos/exp5_mnist_hardware.png Graphic file (type png)
 <use graficos/exp5_mnist_hardware.png>
 Package pdftex.def Info: graficos/exp5_mnist_hardware.png  used on input line 4
 6.
 (pdftex.def)             Requested size: 239.00298pt x 86.7482pt.
-<graficos/resumen_final_radar.png, id=195, 1111.5126pt x 424.4658pt>
+<graficos/resumen_final_radar.png, id=330, 1111.5126pt x 424.4658pt>
 File: graficos/resumen_final_radar.png Graphic file (type png)
 <use graficos/resumen_final_radar.png>
 Package pdftex.def Info: graficos/resumen_final_radar.png  used on input line 5
 5.
 (pdftex.def)             Requested size: 239.00298pt x 91.27132pt.
-) (contenido/cap_5_discusion.tex) (contenido/cap_6_conclusiones.tex [4 <./grafi
-cos/exp2_bell_state.png> <./graficos/exp3_qsvc_hw_vs_sim.png> <./graficos/exp4_
-error_mitigation.png> <./graficos/exp5_mnist_hardware.png> <./graficos/resumen_
-final_radar.png>]) (main.bbl
-Underfull \hbox (badness 1917) in paragraph at lines 31--34
+) (contenido/cap_5_discusion.tex
+LaTeX Info: Symbol \textthreesuperior not provided by
+            font family aer in TS1 encoding.
+            Default family used instead on input line 1.
+ [5 <./graficos/exp1_baseline_corregido.png> <./graficos/exp2_bell_state.png> <
+./graficos/exp3_qsvc_hw_vs_sim.png> <./graficos/exp4_error_mitigation.png> <./g
+raficos/exp5_mnist_hardware.png>])
+(contenido/cap_6_conclusiones.tex) (main.bbl
+Underfull \hbox (badness 1917) in paragraph at lines 36--39
 []\T1/aer/m/n/7 IBM Quan-tum (2023).  Ibm quan-tum com-pu-ting.  [][]$\T1/aett/
 m/n/7 https : / /
  []
 
-) [5
 
-] (main.aux
+Underfull \hbox (badness 1365) in paragraph at lines 64--68
+\T1/aer/m/n/7 source fra-me-work for quan-tum ma-chi-ne lear-ning.  [][]$\T1/ae
+tt/m/n/7 https : / /
+ []
+
+)
+LaTeX Info: Symbol \textthreesuperior not provided by
+            font family aer in TS1 encoding.
+            Default family used instead on input line 181.
+ [6 <./graficos/resumen_final_radar.png>] (main.aux
 LaTeX Info: Redefining \. on input line 15.
 LaTeX Info: Redefining \% on input line 15.
 )
@@ -1609,36 +1650,48 @@ L3 programming layer <2025-12-24>
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
 Package rerunfilecheck Info: File `main.out' has not changed.
-(rerunfilecheck)             Checksum: D19C1F48A210EBD540AA77DF39DAE2D9;5881.
+(rerunfilecheck)             Checksum: 0BFFA8063A6BDD0B95C765EAE7FF51AC;8977.
  ) 
 Here is how much of TeX's memory you used:
- 35883 strings out of 467871
- 814367 string characters out of 5419828
- 1373565 words of memory out of 5000000
- 64072 multiletter control sequences out of 15000+600000
- 672351 words of font info for 134 fonts, out of 8000000 for 9000
+ 36971 strings out of 467871
+ 841380 string characters out of 5419828
+ 1424137 words of memory out of 5000000
+ 65100 multiletter control sequences out of 15000+600000
+ 678967 words of font info for 150 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 99i,12n,108p,962b,609s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 84i,12n,94p,962b,786s stack positions out of 10000i,1000n,20000p,200000b,200000s
  <C:\Users\PC\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\tcrm100
-0.pk><C:/Users/PC/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/
-cmb10.pfb><C:/Users/PC/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfont
-s/cm/cmcsc10.pfb><C:/Users/PC/AppData/Local/Programs/MiKTeX/fonts/type1/public/
-amsfonts/cm/cmmi10.pfb><C:/Users/PC/AppData/Local/Programs/MiKTeX/fonts/type1/p
-ublic/amsfonts/cm/cmr10.pfb><C:/Users/PC/AppData/Local/Programs/MiKTeX/fonts/ty
-pe1/public/amsfonts/cm/cmr12.pfb><C:/Users/PC/AppData/Local/Programs/MiKTeX/fon
-ts/type1/public/amsfonts/cm/cmr7.pfb><C:/Users/PC/AppData/Local/Programs/MiKTeX
-/fonts/type1/public/amsfonts/cm/cmr9.pfb><C:/Users/PC/AppData/Local/Programs/Mi
-KTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/PC/AppData/Local/Progr
-ams/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy7.pfb><C:/Users/PC/AppData/Local/
-Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmti10.pfb><C:/Users/PC/AppData/
-Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmti7.pfb><C:/Users/PC/App
-Data/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmti9.pfb><C:/Users/P
-C/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmtt10.pfb><C:/U
-sers/PC/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmtt8.pfb>
-
-Output written on main.pdf (5 pages, 950891 bytes).
+0.pk> <C:\Users\PC\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\tcti
+0900.pk><C:/Users/PC/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/
+cm/cmb10.pfb><C:/Users/PC/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsf
+onts/cm/cmbx10.pfb><C:/Users/PC/AppData/Local/Programs/MiKTeX/fonts/type1/publi
+c/amsfonts/cm/cmbx7.pfb><C:/Users/PC/AppData/Local/Programs/MiKTeX/fonts/type1/
+public/amsfonts/cm/cmcsc10.pfb><C:/Users/PC/AppData/Local/Programs/MiKTeX/fonts
+/type1/public/amsfonts/cm/cmex10.pfb><C:/Users/PC/AppData/Local/Programs/MiKTeX
+/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Users/PC/AppData/Local/Programs/
+MiKTeX/fonts/type1/public/amsfonts/cm/cmmi5.pfb><C:/Users/PC/AppData/Local/Prog
+rams/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi6.pfb><C:/Users/PC/AppData/Local
+/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi7.pfb><C:/Users/PC/AppData/
+Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi9.pfb><C:/Users/PC/App
+Data/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmib10.pfb><C:/Users
+/PC/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cmextra/cmmib7.pf
+b><C:/Users/PC/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr
+10.pfb><C:/Users/PC/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/c
+m/cmr12.pfb><C:/Users/PC/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfo
+nts/cm/cmr5.pfb><C:/Users/PC/AppData/Local/Programs/MiKTeX/fonts/type1/public/a
+msfonts/cm/cmr7.pfb><C:/Users/PC/AppData/Local/Programs/MiKTeX/fonts/type1/publ
+ic/amsfonts/cm/cmr9.pfb><C:/Users/PC/AppData/Local/Programs/MiKTeX/fonts/type1/
+public/amsfonts/cm/cmsy10.pfb><C:/Users/PC/AppData/Local/Programs/MiKTeX/fonts/
+type1/public/amsfonts/cm/cmsy7.pfb><C:/Users/PC/AppData/Local/Programs/MiKTeX/f
+onts/type1/public/amsfonts/cm/cmti10.pfb><C:/Users/PC/AppData/Local/Programs/Mi
+KTeX/fonts/type1/public/amsfonts/cm/cmti7.pfb><C:/Users/PC/AppData/Local/Progra
+ms/MiKTeX/fonts/type1/public/amsfonts/cm/cmti9.pfb><C:/Users/PC/AppData/Local/P
+rograms/MiKTeX/fonts/type1/public/amsfonts/cm/cmtt10.pfb><C:/Users/PC/AppData/L
+ocal/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmtt8.pfb><C:/Users/PC/AppD
+ata/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
+Output written on main.pdf (6 pages, 1093781 bytes).
 PDF statistics:
- 309 PDF objects out of 1000 (max. 8388607)
- 51 named destinations out of 1000 (max. 500000)
- 296 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 501 PDF objects out of 1000 (max. 8388607)
+ 82 named destinations out of 1000 (max. 500000)
+ 416 words of extra memory for PDF output out of 10000 (max. 10000000)
 

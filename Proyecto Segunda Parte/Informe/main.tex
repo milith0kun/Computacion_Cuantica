@@ -1,48 +1,82 @@
 \UseRawInputEncoding
 \documentclass[a4paper,10pt,twocolumn]{article}
 
-% ─── Idioma y codificación ───
+% â”€â”€â”€ Idioma y codificaciÃ³n â”€â”€â”€
 \usepackage[spanish]{babel}
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 
-% ─── Márgenes optimizados para artículo a dos columnas ───
+% â”€â”€â”€ MÃ¡rgenes optimizados para artÃ­culo a dos columnas â”€â”€â”€
 \usepackage[margin=1.8cm, top=2.2cm, bottom=2cm, columnsep=0.6cm]{geometry}
 
-% ─── Tipografía ───
+% â”€â”€â”€ TipografÃ­a â”€â”€â”€
 \usepackage{ae}
 
-% ─── Matemáticas ───
+% â”€â”€â”€ MatemÃ¡ticas â”€â”€â”€
 \usepackage{amsmath, amssymb, amsfonts, mathrsfs, dsfont}
 
-% ─── Tablas ───
+% â”€â”€â”€ Tablas â”€â”€â”€
 \usepackage{booktabs, multirow, array}
 \newcolumntype{C}[1]{>{\centering\arraybackslash}m{#1}}
 
-% ─── Figuras ───
+% â”€â”€â”€ Figuras â”€â”€â”€
 \usepackage{graphicx}
 \usepackage[caption=false]{subfig}
 \usepackage{float}
 
-% ─── Colores y resaltado ───
+% â”€â”€â”€ Colores y resaltado â”€â”€â”€
 \usepackage[usenames,dvipsnames,table,xcdraw]{xcolor}
 
-% ─── Listas compactas ───
+% â”€â”€â”€ Listas compactas â”€â”€â”€
 \usepackage{enumitem}
 \setlist{nosep, leftmargin=*, itemsep=2pt}
 
-% ─── Captions ───
+% â”€â”€â”€ Captions â”€â”€â”€
 \usepackage{caption}
 \captionsetup{font=small, labelfont=bf, skip=4pt}
 
-% ─── Hipervínculos ───
+% â”€â”€â”€ HipervÃ­nculos â”€â”€â”€
 \usepackage[breaklinks, colorlinks=true, linkcolor=black, citecolor=blue!60!black, urlcolor=blue!70!black]{hyperref}
 
-% ─── Bibliografía ───
+% â”€â”€â”€ BibliografÃ­a â”€â”€â”€
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta, positioning, shapes.geometric, decorations.pathreplacing}
+
+% Estilos comunes para los diagramas
+\tikzset{
+  block/.style={rectangle, draw=black!70, fill=blue!8, thick,
+                minimum width=2.0cm, minimum height=0.55cm,
+                align=center, font=\scriptsize, rounded corners=2pt},
+  qblock/.style={rectangle, draw=black!70, fill=purple!10, thick,
+                 minimum width=2.0cm, minimum height=0.55cm,
+                 align=center, font=\scriptsize, rounded corners=2pt},
+  cblock/.style={rectangle, draw=black!70, fill=green!10, thick,
+                 minimum width=2.0cm, minimum height=0.55cm,
+                 align=center, font=\scriptsize, rounded corners=2pt},
+  data/.style={trapezium, trapezium left angle=70, trapezium right angle=110,
+               draw=black!70, fill=orange!12, minimum width=1.6cm,
+               minimum height=0.45cm, align=center, font=\scriptsize},
+  decision/.style={diamond, draw=black!70, fill=yellow!15, aspect=2,
+                   minimum width=1.8cm, minimum height=0.5cm,
+                   align=center, font=\scriptsize, inner sep=1pt},
+  arrow/.style={-{Latex[length=2mm,width=1.5mm]}, thick, black!70},
+  qgate/.style={rectangle, draw=black, fill=blue!15, minimum width=0.45cm,
+                minimum height=0.45cm, font=\scriptsize, inner sep=1pt},
+  qgateZ/.style={rectangle, draw=black, fill=purple!15, minimum width=0.45cm,
+                 minimum height=0.45cm, font=\scriptsize, inner sep=1pt},
+  qgateY/.style={rectangle, draw=black, fill=green!15, minimum width=0.45cm,
+                 minimum height=0.45cm, font=\scriptsize, inner sep=1pt},
+  prisma/.style={rectangle, draw=black!70, thick, fill=blue!6,
+                 minimum width=6cm, minimum height=0.7cm,
+                 align=center, font=\scriptsize, rounded corners=2pt},
+  prismaexcl/.style={rectangle, draw=black!70, thick, fill=red!8,
+                     minimum width=3.5cm, minimum height=0.55cm,
+                     align=center, font=\scriptsize, rounded corners=2pt},
+}
 \usepackage{natbib}
 \setcitestyle{round}
 
-% ─── Títulos de sección compactos ───
+% â”€â”€â”€ TÃ­tulos de secciÃ³n compactos â”€â”€â”€
 \usepackage{titlesec}
 \titleformat{\section}{\large\bfseries}{\thesection.}{0.5em}{}
 \titleformat{\subsection}{\normalsize\bfseries}{\thesubsection.}{0.4em}{}
@@ -51,33 +85,33 @@
 \titlespacing{\subsection}{0pt}{8pt plus 2pt minus 2pt}{2pt plus 1pt minus 1pt}
 \titlespacing{\subsubsection}{0pt}{6pt plus 2pt minus 1pt}{2pt plus 1pt minus 1pt}
 
-% ─── Espaciado de floats ───
+% â”€â”€â”€ Espaciado de floats â”€â”€â”€
 \setlength{\textfloatsep}{8pt plus 2pt minus 2pt}
 \setlength{\floatsep}{6pt plus 2pt minus 2pt}
 \setlength{\intextsep}{6pt plus 2pt minus 2pt}
 \setlength{\abovecaptionskip}{4pt}
 \setlength{\belowcaptionskip}{2pt}
 
-% ─── Párrafos ───
+% â”€â”€â”€ PÃ¡rrafos â”€â”€â”€
 \setlength{\parindent}{0.7cm}
 \setlength{\parskip}{2pt plus 1pt minus 1pt}
 
-% ─── PGFPlots ───
+% â”€â”€â”€ PGFPlots â”€â”€â”€
 \usepackage{pgfplots}
 \pgfplotsset{compat=1.13}
 
-% ─── Encabezado y pie ───
+% â”€â”€â”€ Encabezado y pie â”€â”€â”€
 \usepackage{fancyhdr}
 \pagestyle{fancy}
 \fancyhf{}
-\fancyhead[L]{\small\textit{Clasificación Cuántica en Hardware Real (IBM Quantum)}}
+\fancyhead[L]{\small\textit{ClasificaciÃ³n CuÃ¡ntica en Hardware Real (IBM Quantum)}}
 \fancyhead[R]{\small\thepage}
 \renewcommand{\headrulewidth}{0.4pt}
 \fancyfoot{}
 
-% ═══════════════════════════════════════════════════════════════
+% â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 % METADATA
-% ═══════════════════════════════════════════════════════════════
+% â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 \title{\Large\textbf{Clasificaci\'on Cu\'antica sobre Hardware Real de IBM:\\[2pt] Impacto del Ruido NISQ y Limitaciones de Muestreo}}
 
 \author{%
@@ -87,7 +121,7 @@
 }
 \date{}
 
-% ─── Bloque de cabecera con logo y datos institucionales ───
+% â”€â”€â”€ Bloque de cabecera con logo y datos institucionales â”€â”€â”€
 \newcommand{\HeaderBlock}{%
   \noindent
   \raisebox{-0.45\height}{\includegraphics[width=0.16\textwidth]{graficos/escudo.png}}%
@@ -101,7 +135,7 @@
   \end{tabular}%
 }
 
-% ═══════════════════════════════════════════════════════════════
+% â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 \begin{document}
 
 \twocolumn[
@@ -145,3 +179,4 @@
 \bibliography{contenido/bibliog}
 
 \end{document}
+

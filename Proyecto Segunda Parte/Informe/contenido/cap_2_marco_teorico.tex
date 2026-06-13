@@ -1,7 +1,260 @@
-\section{Marco Te\'orico}
+﻿\section{Marco Te\'orico}
 \label{sec:marco_teorico}
 
 Para contextualizar el impacto de las variaciones operativas durante la experimentaci\'on en QPU, se fundamentan te\'oricamente los m\'etodos de evaluaci\'on del error de la plataforma.
+
+\subsection{Computaci\'on cu\'antica}
+
+\subsubsection{Qubits y estados cu\'anticos}
+El qubit es la unidad fundamental de informaci\'on cu\'antica
+\citep{nielsen2010}. A diferencia del bit cl\'asico, puede existir en
+una superposici\'on de los estados $|0\rangle$ y $|1\rangle$:
+\begin{equation}
+|\psi\rangle = \alpha|0\rangle + \beta|1\rangle,
+\quad |\alpha|^2 + |\beta|^2 = 1,
+\end{equation}
+donde $\alpha, \beta \in \mathbb{C}$ son amplitudes de probabilidad. Un
+sistema de $n$ qubits vive en un espacio de Hilbert de dimensi\'on
+$2^n$, propiedad que constituye la base del potencial computacional
+cu\'antico.
+
+\subsubsection{Puertas cu\'anticas}
+Las puertas cu\'anticas son operaciones unitarias que transforman el
+estado de los qubits. Las puertas de rotaci\'on $R_Y(\theta)$ y
+$R_Z(\theta)$ son particularmente relevantes para la codificaci\'on
+angular de datos:
+\begin{equation}
+R_Y(\theta) = \begin{bmatrix}
+\cos\tfrac{\theta}{2} & -\sin\tfrac{\theta}{2} \\
+\sin\tfrac{\theta}{2} &  \cos\tfrac{\theta}{2}
+\end{bmatrix}.
+\end{equation}
+Las puertas $\mathrm{CNOT}$ generan \emph{entrelazamiento} entre qubits,
+recurso esencial para capturar correlaciones no triviales en los datos
+\citep{nielsen2010}.
+
+\subsubsection{Circuitos parametrizados, medici\'on y QFT}
+Un circuito parametrizado $U(\mathbf{x},\boldsymbol{\theta})$ se compone
+de un \textit{feature map} $U_\phi(\mathbf{x})$ ---que codifica datos
+cl\'asicos en estados cu\'anticos--- y un \textit{ansatz}
+$U_W(\boldsymbol{\theta})$ con par\'ametros entrenables. La
+\textbf{medici\'on} proyecta el estado cu\'antico sobre la base
+computacional con probabilidades $|\langle z|\psi\rangle|^2$. La
+\textbf{transformada cu\'antica de Fourier} (QFT) es un bloque
+fundamental empleado en algoritmos como Shor y en estimaci\'on de fase,
+y subyace en algunos esquemas de codificaci\'on de datos
+\citep{nielsen2010}.
+
+\subsection{Machine Learning cl\'asico}
+
+\subsubsection{Aprendizaje supervisado y no supervisado}
+El aprendizaje supervisado busca aproximar una funci\'on
+$f:\mathcal{X}\to\mathcal{Y}$ a partir de pares $(x_i, y_i)$ e incluye
+tareas de \emph{clasificaci\'on} y \emph{regresi\'on}. El aprendizaje
+no supervisado, en cambio, abarca tareas como \textit{clustering} y
+reducci\'on de dimensionalidad cuando las etiquetas no est\'an
+disponibles.
+
+\subsubsection{SVM, MLP, KNN y m\'etricas}
+La SVM busca el hiperplano que maximiza el margen entre clases. Con el
+\textit{kernel} RBF
+\begin{equation}
+K(\mathbf{x}_i, \mathbf{x}_j) =
+\exp\!\left(-\gamma\,\|\mathbf{x}_i - \mathbf{x}_j\|^2\right),
+\end{equation}
+la SVM puede clasificar datos no linealmente separables, lo que la
+convierte en un \textit{baseline} natural para comparar con la QSVC.
+El Perceptr\'on Multicapa (MLP) aprende funciones no lineales mediante
+capas ocultas, mientras que KNN clasifica seg\'un la clase mayoritaria
+de los $k$ vecinos m\'as cercanos. La evaluaci\'on se realiza
+com\'unmente con \textit{accuracy}, \textit{precision}, \textit{recall},
+F1-\textit{score} y matriz de confusi\'on.
+
+\subsection{Quantum Machine Learning (QML)}
+
+\subsubsection{Variational Quantum Classifier (VQC)}
+El VQC \citep{havlicek2019} utiliza un circuito parametrizado entrenado
+de forma h\'ibrida cu\'antico-cl\'asica. La funci\'on de costo
+t\'ipicamente empleada es la entrop\'ia cruzada:
+\begin{equation}
+\mathcal{L}(\boldsymbol{\theta}) = -\frac{1}{N}\sum_{i=1}^{N}\sum_{c=1}^{C}
+y_{ic}\,\log\!\left(\hat{y}_{ic}(\boldsymbol{\theta})\right),
+\end{equation}
+donde los par\'ametros $\boldsymbol{\theta}$ se optimizan mediante un
+optimizador cl\'asico, mientras que la evaluaci\'on del circuito
+$U(\mathbf{x},\boldsymbol{\theta})$ se realiza en el dispositivo
+cu\'antico.
+
+\subsubsection{Quantum SVM (QSVC)}
+La QSVC \citep{rebentrost2014, havlicek2019} sustituye el \textit{kernel}
+cl\'asico por un \textit{kernel} cu\'antico de fidelidad:
+\begin{equation}
+K_Q(\mathbf{x}_i, \mathbf{x}_j) =
+\left|\langle\phi(\mathbf{x}_j)|\phi(\mathbf{x}_i)\rangle\right|^2,
+\end{equation}
+donde $|\phi(\mathbf{x})\rangle = U_\phi(\mathbf{x})|0\rangle^{\otimes n}$.
+La idea es que el \textit{feature map} cu\'antico mapee los datos a un
+espacio de Hilbert de alta dimensionalidad que, eventualmente, podr\'ia
+ser dif\'icil de simular cl\'asicamente \citep{schuld2019}.
+
+\subsubsection{Quantum Neural Networks (QNN)}
+Las QNN extienden la idea del VQC a arquitecturas tipo red neuronal,
+donde las ``neuronas'' se realizan mediante circuitos cu\'anticos
+parametrizados, entrenadas con la regla de \emph{parameter-shift}
+\citep{schuld2019} y \textit{back-propagation} cl\'asica para los
+par\'ametros del modelo \citep{yu2025}.
+
+\subsubsection{Feature maps y ansatz}
+Los principales \textit{feature maps} considerados son:
+\begin{itemize}
+    \item \textbf{ZFeatureMap}: rotaciones $R_Z(x_i)$ sin entrelazamiento.
+    \item \textbf{ZZFeatureMap}: interacciones $R_{ZZ}(x_i\cdot x_j)$
+    que capturan correlaciones de segundo orden \citep{havlicek2019}.
+    \item \textbf{PauliFeatureMap}: generaliza los anteriores con cadenas
+    de Pauli arbitrarias.
+\end{itemize}
+El \textit{ansatz} \textbf{RealAmplitudes} consiste en capas de
+rotaciones $R_Y$ alternadas con puertas $\mathrm{CNOT}$ de
+entrelazamiento; el par\'ametro \textit{reps} controla la profundidad.
+La Figura~\ref{fig:circuito} muestra de forma esquem\'atica la
+arquitectura del circuito cu\'antico previsto.
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[x=0.55cm, y=0.55cm]
+
+  % Etiquetas de qubits
+  \foreach \q/\y in {0/0, 1/-1, 2/-2, 3/-3} {
+    \node[font=\scriptsize] at (-0.6, \y) {$|0\rangle_{\q}$};
+    \draw[thick] (-0.1, \y) -- (12.5, \y);
+  }
+
+  % --- Feature map (ZZFeatureMap) ---
+  \foreach \q/\y in {0/0, 1/-1, 2/-2, 3/-3} {
+    \node[qgate, fill=cyan!20] at (0.7, \y) {H};
+    \node[qgateZ] at (1.7, \y) {\scriptsize $R_Z(x_{\q})$};
+  }
+  % Entrelazamiento lineal ZZ (representado con CNOT-RZ-CNOT)
+  \foreach \q/\y in {0/0, 1/-1, 2/-2} {
+    \pgfmathsetmacro\yn{\y - 1}
+    \draw[thick] (3.2, \y) -- (3.2, \yn);
+    \fill (3.2, \y) circle (1.5pt);
+    \draw (3.2, \yn) circle (4pt);
+  }
+  \node[font=\scriptsize] at (3.7, -3.8) {ZZ};
+  \foreach \q/\y in {0/0, 1/-1, 2/-2} {
+    \pgfmathsetmacro\yn{\y - 1}
+    \draw[thick] (4.5, \y) -- (4.5, \yn);
+    \fill (4.5, \y) circle (1.5pt);
+    \draw (4.5, \yn) circle (4pt);
+  }
+
+  % --- Ansatz (RealAmplitudes) ---
+  \foreach \q/\y in {0/0, 1/-1, 2/-2, 3/-3} {
+    \node[qgateY] at (5.8, \y) {\scriptsize $R_Y(\theta)$};
+  }
+  \foreach \q/\y in {0/0, 1/-1, 2/-2} {
+    \pgfmathsetmacro\yn{\y - 1}
+    \draw[thick] (7.0, \y) -- (7.0, \yn);
+    \fill (7.0, \y) circle (1.5pt);
+    \draw (7.0, \yn) circle (4pt);
+  }
+  \foreach \q/\y in {0/0, 1/-1, 2/-2, 3/-3} {
+    \node[qgateY] at (8.0, \y) {\scriptsize $R_Y(\theta)$};
+  }
+  \foreach \q/\y in {0/0, 1/-1, 2/-2} {
+    \pgfmathsetmacro\yn{\y - 1}
+    \draw[thick] (9.2, \y) -- (9.2, \yn);
+    \fill (9.2, \y) circle (1.5pt);
+    \draw (9.2, \yn) circle (4pt);
+  }
+
+  % --- Medición ---
+  \foreach \q/\y in {0/0, 1/-1, 2/-2, 3/-3} {
+    \node[qgate, fill=gray!25] at (10.7, \y) {\scriptsize M};
+    \draw[thick, double, double distance=1pt] (10.95, \y) -- (12.5, \y);
+  }
+
+  % Llaves agrupadoras
+  \draw[decorate,decoration={brace,amplitude=4pt}]
+    (0.3, 0.7) -- (4.8, 0.7) node[midway,above=2pt,font=\scriptsize\bfseries]
+    {Feature map $U_\phi(\mathbf{x})$};
+  \draw[decorate,decoration={brace,amplitude=4pt}]
+    (5.3, 0.7) -- (9.6, 0.7) node[midway,above=2pt,font=\scriptsize\bfseries]
+    {Ansatz $U_W(\boldsymbol{\theta})$};
+  \draw[decorate,decoration={brace,amplitude=4pt}]
+    (10.2, 0.7) -- (12.3, 0.7) node[midway,above=2pt,font=\scriptsize\bfseries]
+    {Medici\'on};
+
+\end{tikzpicture}
+\caption{Esquema del circuito cu\'antico previsto: ZZFeatureMap
+(codificaci\'on angular + entrelazamiento lineal) seguido del
+\textit{ansatz} RealAmplitudes (rotaciones $R_Y$ parametrizadas +
+$\mathrm{CNOT}$) y medici\'on en la base computacional.}
+\label{fig:circuito}
+\end{figure}
+Los circuitos demasiado profundos pueden sufrir el
+fen\'omeno de \emph{barren plateaus} \citep{mcclean2018, larocca2025},
+es decir, regiones del espacio de par\'ametros donde los gradientes se
+desvanecen exponencialmente con el n\'umero de qubits. Adem\'as, los
+\textit{kernels} cu\'anticos sufren un fen\'omeno an\'alogo denominado
+\textbf{concentraci\'on exponencial}, donde los valores del
+\textit{kernel} se vuelven indistinguibles entre s\'i al aumentar el
+n\'umero de qubits \citep{thanasilp2024}.
+
+\subsubsection{Optimizadores}
+Los optimizadores cl\'asicos m\'as utilizados en el entrenamiento del
+VQC son: \textbf{COBYLA} (libre de gradiente, estable para
+simulaciones), \textbf{SPSA} (aproxima gradientes con perturbaciones
+estoc\'asticas, robusto al ruido) y \textbf{L-BFGS-B} (quasi-Newton,
+requiere gradientes exactos) \citep{cerezo2021}.
+
+\subsection{Estado del arte reciente (2024--2026)}
+
+Frente a los resultados optimistas iniciales, la literatura
+de los \'ultimos a\~nos adopta una mirada m\'as cr\'itica sobre el
+QML. \citet{bowles2024} realizan un \textit{benchmark} a gran escala
+sobre 12 modelos cu\'anticos en 160 datasets y concluyen que los
+modelos cl\'asicos \emph{out-of-the-box} a\'un superan a los
+clasificadores cu\'anticos, e incluso que eliminar el entrelazamiento
+no degrada el desempe\~no. \citet{schnabel2024} comparan
+sistem\'aticamente \textit{Fidelity Quantum Kernels} (FQK) y
+\textit{Projected Quantum Kernels} (PQK), mostrando que el
+\textit{bandwidth} del \textit{kernel} es decisivo para la
+generalizaci\'on. En el plano te\'orico, \citet{larocca2025} sintetizan
+la teor\'ia unificada sobre \textit{barren plateaus}, mientras que
+\citet{thanasilp2024} formalizan la concentraci\'on exponencial en
+\textit{kernels} cu\'anticos. Finalmente, \citet{yu2025} ofrecen una
+revisi\'on actualizada de algoritmos QML basados en circuitos
+variacionales, y \citet{huang2021} establece criterios formales sobre
+cu\'ando los datos permiten esperar una ventaja cu\'antica real.
+
+\noindent La literatura reciente, entonces, se enfoca menos en demostrar
+una ventaja cu\'antica universal y m\'as en identificar las condiciones
+bajo las cuales los modelos cu\'anticos pueden ser competitivos.
+
+\subsection{Frameworks de QML}
+
+\begin{table}[H]
+\centering
+\caption{Comparativa de los principales \textit{frameworks} de QML.}
+\label{tab:frameworks}
+\small
+\begin{tabular}{@{}lll@{}}
+\toprule
+\textbf{Framework} & \textbf{Empresa} & \textbf{Caracter\'istica} \\
+\midrule
+Qiskit ML       & IBM     & API estable; HW IBM   \\
+PennyLane       & Xanadu  & Difer.\ autom\'atica  \\
+TF Quantum      & Google  & Integra TF + Cirq     \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\noindent En este proyecto se adopta \textbf{Qiskit Machine Learning}
+\citep{qiskit2024} como \textit{framework} de referencia, por su
+integraci\'on con el ecosistema Qiskit y la disponibilidad de
+documentaci\'on oficial actualizada.
 
 \subsection{Procesadores IBM Heron r2}
 La topolog\'ia implementada por IBM en sus procesadores de escala de utilidad (156 qubits), como el backend \texttt{ibm\_fez}, se fundamenta en un esquema de acoplamiento hexagonal que reduce la interferencia de canal (\textit{cross-talk}). A pesar de estos avances de ingenier\'ia de microondas, la interacci\'on de las compuertas $CX$ a\'un est\'a limitada por errores del orden de $10^{-3}$, lo que causa la atenuaci\'on asim\'etrica de amplitudes \citep{ibm_quantum_2023}.

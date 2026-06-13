@@ -5,44 +5,65 @@ Reallocating 'name_of_file' (item size: 1) to 8 items.
 The style file: apalike.bst
 Reallocating 'name_of_file' (item size: 1) to 18 items.
 Database file #1: contenido/bibliog.bib
-You've used 8 entries,
+Repeated entry---line 131 of file contenido/bibliog.bib
+ : @article{biamonte2017
+ :                      ,
+I'm skipping whatever remains of this entry
+Repeated entry---line 140 of file contenido/bibliog.bib
+ : @misc{qiskit2024
+ :                 ,
+I'm skipping whatever remains of this entry
+Repeated entry---line 146 of file contenido/bibliog.bib
+ : @article{rebentrost2014
+ :                        ,
+I'm skipping whatever remains of this entry
+Repeated entry---line 175 of file contenido/bibliog.bib
+ : @article{schuld2019
+ :                    ,
+I'm skipping whatever remains of this entry
+Repeated entry---line 199 of file contenido/bibliog.bib
+ : @article{larocca2025
+ :                     ,
+I'm skipping whatever remains of this entry
+You've used 16 entries,
             1935 wiz_defined-function locations,
-            529 strings with 5494 characters,
-and the built_in function-call counts, 3662 in all, are:
-= -- 342
-> -- 222
-< -- 3
-+ -- 82
-- -- 80
-* -- 342
-:= -- 672
-add.period$ -- 30
-call.type$ -- 8
-change.case$ -- 79
-chr.to.int$ -- 8
-cite$ -- 8
-duplicate$ -- 107
-empty$ -- 206
-format.name$ -- 90
-if$ -- 678
+            566 strings with 6434 characters,
+and the built_in function-call counts, 6213 in all, are:
+= -- 590
+> -- 325
+< -- 10
++ -- 114
+- -- 112
+* -- 534
+:= -- 1146
+add.period$ -- 54
+call.type$ -- 16
+change.case$ -- 129
+chr.to.int$ -- 16
+cite$ -- 16
+duplicate$ -- 211
+empty$ -- 380
+format.name$ -- 137
+if$ -- 1170
 int.to.chr$ -- 1
 int.to.str$ -- 0
-missing$ -- 7
-newline$ -- 49
-num.names$ -- 24
-pop$ -- 56
+missing$ -- 15
+newline$ -- 89
+num.names$ -- 48
+pop$ -- 97
 preamble$ -- 1
-purify$ -- 79
+purify$ -- 130
 quote$ -- 0
-skip$ -- 83
+skip$ -- 172
 stack$ -- 0
-substring$ -- 209
-swap$ -- 7
+substring$ -- 335
+swap$ -- 14
 text.length$ -- 0
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 48
+type$ -- 94
 warning$ -- 0
-while$ -- 25
+while$ -- 43
 width$ -- 0
-write$ -- 116
+write$ -- 214
+(There were 5 error messages)
