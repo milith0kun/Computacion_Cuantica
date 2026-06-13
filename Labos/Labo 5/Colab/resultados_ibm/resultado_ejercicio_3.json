@@ -1,0 +1,22 @@
+{
+    "ejercicio": 3,
+    "fecha": "2026-05-21 15:47:02",
+    "backend_solicitado": "ibm_kingston",
+    "tipo_backend": "Simulador Ruidoso de ibm_kingston (IBM Quantum)",
+    "autovalores": [
+        1.0,
+        0.4
+    ],
+    "estado_estacionario_conteo": {
+        "0": 8250,
+        "1": 1750
+    },
+    "probabilidades_obtenidas": [
+        0.825,
+        0.175
+    ],
+    "probabilidades_teoricas": [
+        0.8333333333333334,
+        0.16666666666666666
+    ]
+}

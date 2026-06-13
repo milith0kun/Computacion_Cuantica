@@ -1,0 +1,42 @@
+\begin{thebibliography}{}
+
+\bibitem[Biamonte et~al., 2017]{biamonte2017}
+Biamonte, J., Wittek, P., Pancotti, N., Rebentrost, P., Wiebe, N., and Lloyd,
+  S. (2017).
+\newblock Quantum machine learning.
+\newblock {\em Nature}, 549(7671):195--202.
+
+\bibitem[Cerezo et~al., 2021]{cerezo2021}
+Cerezo, M., Arrasmith, A., Babbush, R., Benjamin, S.~C., Endo, S., Fujii, K.,
+  McClean, J.~R., Mitarai, K., Yuan, X., Cincio, L., and Coles, P.~J. (2021).
+\newblock Variational quantum algorithms.
+\newblock {\em Nature Reviews Physics}, 3(9):625--644.
+
+\bibitem[Havl{\'\i}{\v{c}}ek et~al., 2019]{havlicek2019}
+Havl{\'\i}{\v{c}}ek, V., C{\'o}rcoles, A.~D., Temme, K., Harrow, A.~W.,
+  Kandala, A., Chow, J.~M., and Gambetta, J.~M. (2019).
+\newblock Supervised learning with quantum-enhanced feature spaces.
+\newblock {\em Nature}, 567(7747):209--212.
+
+\bibitem[{IBM Quantum}, 2023]{ibm_quantum_2023}
+{IBM Quantum} (2023).
+\newblock Ibm quantum computing.
+\newblock \url{https://quantum-computing.ibm.com/}.
+
+\bibitem[Larocca et~al., 2025]{larocca2025}
+Larocca, M., Thanasilp, S., Wang, S., Beckey, J.~L., et~al. (2025).
+\newblock A review of quantum machine learning: from variational algorithms to
+  fault-tolerant quantum computing.
+\newblock {\em Nature Reviews Physics}.
+
+\bibitem[Preskill, 2018]{preskill2018quantum}
+Preskill, J. (2018).
+\newblock Quantum computing in the nisq era and beyond.
+\newblock {\em Quantum}, 2:79.
+
+\bibitem[Schuld and Killoran, 2019]{schuld2019}
+Schuld, M. and Killoran, N. (2019).
+\newblock Quantum machine learning in feature hilbert spaces.
+\newblock {\em Physical Review Letters}, 122(4):040504.
+
+\end{thebibliography}

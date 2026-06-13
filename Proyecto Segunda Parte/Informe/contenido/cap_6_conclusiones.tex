@@ -1,0 +1,12 @@
+\section{Conclusiones y Trabajo Futuro}
+\label{sec:conclusiones}
+
+Este proyecto valid\'o la integraci\'on completa entre el stack qu\'imico-computacional \textit{Qiskit} y un modelo m\'etrico cu\'antico operado f\'isicamente en un procesador de IBM. A modo de s\'intesis:
+
+\begin{itemize}
+    \item \textbf{Verificaci\'on Variacional:} Se estandariz\'o que los modelos de Ansatz lineal exigen, como m\'inimo matem\'atico, trescientas iteraciones de evaluaci\'on de costo COBYLA para escapar de m\'inimos locales tempranos en tareas QML.
+    \item \textbf{La Carencia del NISQ de Cuota:} El procesamiento cu\'antico de nube gratis (Open Plan) ahoga la expresividad real de cualquier red de m\'aquina. La decisi\'on de muestreo restrictiva en hardware expuso una asimetr\'ia estad\'istica donde las variables dependientes fallaron por \textit{Underfitting} Muestral m\'as que por ruido topol\'ogico.
+\end{itemize}
+
+\subsection*{Proyecciones a Futuro}
+La investigaci\'on requiere abandonar la experimentaci\'on h\'ibrida trivial y migrar a recursos f\'isicos asignados (Premium Access Programs) que habiliten la inyecci\'on continua de la totalidad de datos en el Kernel f\'isico. Bajo tal prerrogativa, el uso de las t\'ecnicas V2 nativas (\textit{EstimatorV2}) junto a m\'etodos de supresi\'on de ruido algor\'itmico puro como \textbf{ZNE} (Zero Noise Extrapolation) podr\'ian proveer, por primera vez, un campo de evaluaci\'on parejo donde medir fehacientemente la latencia frente al modelo cl\'asico Multicapa Perceptr\'on (MLP) \citep{larocca2025, biamonte2017}.

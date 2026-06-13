@@ -1,0 +1,907 @@
+\UseRawInputEncoding
+\documentclass[a4paper,10pt,twocolumn]{article}
+
+% ─── Idioma y codificación ───
+\usepackage[spanish]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+
+% ─── Márgenes optimizados para artículo a dos columnas ───
+\usepackage[margin=1.8cm, top=2.2cm, bottom=2cm, columnsep=0.6cm]{geometry}
+
+% ─── Tipografía ───
+\usepackage{ae}
+
+% ─── Matemáticas ───
+\usepackage{amsmath, amssymb, amsfonts, mathrsfs}
+
+% ─── Tablas ───
+\usepackage{booktabs, multirow, array}
+\newcolumntype{C}[1]{>{\centering\arraybackslash}m{#1}}
+
+% ─── Figuras ───
+\usepackage{graphicx}
+\usepackage[caption=false]{subfig}
+\usepackage{float}
+
+% ─── Diagramas TikZ ───
+\usepackage{tikz}
+\usetikzlibrary{shapes.geometric, arrows.meta, positioning, fit, calc, backgrounds, decorations.pathreplacing}
+
+% Estilos comunes para los diagramas
+\tikzset{
+  block/.style={rectangle, draw=black!70, fill=blue!8, thick,
+                minimum width=2.0cm, minimum height=0.55cm,
+                align=center, font=\scriptsize, rounded corners=2pt},
+  qblock/.style={rectangle, draw=black!70, fill=purple!10, thick,
+                 minimum width=2.0cm, minimum height=0.55cm,
+                 align=center, font=\scriptsize, rounded corners=2pt},
+  cblock/.style={rectangle, draw=black!70, fill=green!10, thick,
+                 minimum width=2.0cm, minimum height=0.55cm,
+                 align=center, font=\scriptsize, rounded corners=2pt},
+  data/.style={trapezium, trapezium left angle=70, trapezium right angle=110,
+               draw=black!70, fill=orange!12, minimum width=1.6cm,
+               minimum height=0.45cm, align=center, font=\scriptsize},
+  decision/.style={diamond, draw=black!70, fill=yellow!15, aspect=2,
+                   minimum width=1.8cm, minimum height=0.5cm,
+                   align=center, font=\scriptsize, inner sep=1pt},
+  arrow/.style={-{Latex[length=2mm,width=1.5mm]}, thick, black!70},
+  qgate/.style={rectangle, draw=black, fill=blue!15, minimum width=0.45cm,
+                minimum height=0.45cm, font=\scriptsize, inner sep=1pt},
+  qgateZ/.style={rectangle, draw=black, fill=purple!15, minimum width=0.45cm,
+                 minimum height=0.45cm, font=\scriptsize, inner sep=1pt},
+  qgateY/.style={rectangle, draw=black, fill=green!15, minimum width=0.45cm,
+                 minimum height=0.45cm, font=\scriptsize, inner sep=1pt},
+  prisma/.style={rectangle, draw=black!70, thick, fill=blue!6,
+                 minimum width=6cm, minimum height=0.7cm,
+                 align=center, font=\scriptsize, rounded corners=2pt},
+  prismaexcl/.style={rectangle, draw=black!70, thick, fill=red!8,
+                     minimum width=3.5cm, minimum height=0.55cm,
+                     align=center, font=\scriptsize, rounded corners=2pt},
+}
+
+% ─── Colores y resaltado ───
+\usepackage[usenames,dvipsnames,table,xcdraw]{xcolor}
+
+% ─── Listas compactas ───
+\usepackage{enumitem}
+\setlist{nosep, leftmargin=*, itemsep=2pt}
+
+% ─── Captions ───
+\usepackage{caption}
+\captionsetup{font=small, labelfont=bf, skip=4pt}
+
+% ─── Hipervínculos ───
+\usepackage[breaklinks, colorlinks=true, linkcolor=black, citecolor=blue!60!black, urlcolor=blue!70!black]{hyperref}
+
+% ─── Bibliografía ───
+\usepackage{natbib}
+\setcitestyle{round,authoryear}
+
+% ─── Títulos de sección compactos ───
+\usepackage{titlesec}
+\titleformat{\section}{\large\bfseries}{\thesection.}{0.5em}{}
+\titleformat{\subsection}{\normalsize\bfseries}{\thesubsection.}{0.4em}{}
+\titleformat{\subsubsection}{\normalsize\itshape}{\thesubsubsection.}{0.4em}{}
+\titlespacing{\section}{0pt}{10pt plus 3pt minus 2pt}{4pt plus 2pt minus 1pt}
+\titlespacing{\subsection}{0pt}{8pt plus 2pt minus 2pt}{2pt plus 1pt minus 1pt}
+\titlespacing{\subsubsection}{0pt}{6pt plus 2pt minus 1pt}{2pt plus 1pt minus 1pt}
+
+% ─── Espaciado de floats ───
+\setlength{\textfloatsep}{8pt plus 2pt minus 2pt}
+\setlength{\floatsep}{6pt plus 2pt minus 2pt}
+\setlength{\intextsep}{6pt plus 2pt minus 2pt}
+\setlength{\abovecaptionskip}{4pt}
+\setlength{\belowcaptionskip}{2pt}
+
+% ─── Párrafos ───
+\setlength{\parindent}{0.7cm}
+\setlength{\parskip}{2pt plus 1pt minus 1pt}
+
+% ─── Encabezado y pie ───
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\textit{Primera Entrega -- QML con Qiskit Machine Learning}}
+\fancyhead[R]{\small\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+\fancyfoot{}
+
+% ═══════════════════════════════════════════════════════════════
+% METADATA
+% ═══════════════════════════════════════════════════════════════
+\title{\Large\textbf{Implementaci\'on de un modelo de aprendizaje
+autom\'atico cu\'antico utilizando
+Qiskit Machine Learning}}
+
+\author{%
+  Edmil Jampier Saire Bustamante (174449)\\
+  Medaly Lozano Llacctahuaman (195040)\\
+  Jos\'e Francisco Puma Potosino (164248)%
+}
+\date{}
+
+% ─── Bloque de cabecera con logo y datos institucionales ───
+\newcommand{\HeaderBlock}{%
+  \noindent
+  \raisebox{-0.45\height}{\includegraphics[width=0.16\textwidth]{escudo.png}}%
+  \hfill
+  \begin{tabular}[c]{r}
+    {\small\textsc{Universidad Nacional de San Antonio Abad del Cusco}}\\
+    {\small\textsc{Departamento Acad\'emico de Inform\'atica}}\\
+    {\small\textit{Curso: Computaci\'on Cu\'antica --- Mayo 2026}}\\
+    {\small\textit{Docente: Ra\'ul Huillca Huallparimachi}}\\
+    {\small\textit{Proyecto Semestral --- Primera Entrega}}
+  \end{tabular}%
+}
+
+% ═══════════════════════════════════════════════════════════════
+\begin{document}
+
+\twocolumn[
+  \begin{@twocolumnfalse}
+
+    \HeaderBlock
+
+    \vspace{0.3cm}
+    \noindent\rule{\textwidth}{0.4pt}
+
+    \maketitle
+    \vspace{-0.3cm}
+
+    \noindent\rule{\textwidth}{0.4pt}
+    \vspace{0.2cm}
+
+    {\small\noindent\textbf{Resumen.}
+    El proyecto consiste en dise\~nar e implementar un modelo de
+    clasificaci\'on basado en aprendizaje autom\'atico cu\'antico
+    (\textit{Quantum Machine Learning}, QML) usando el \textit{framework}
+    Qiskit Machine Learning, y compararlo con modelos cl\'asicos
+    equivalentes. Como modelos cu\'anticos se eligieron el Clasificador
+    Cu\'antico Variacional (VQC) y la M\'aquina de Vectores de Soporte
+    Cu\'antica (QSVC), por ser los m\'as estudiados en la literatura y
+    los que mejor se ajustan a simulaci\'on con pocos qubits; como
+    \textit{baselines} cl\'asicos se utilizan SVM-RBF, MLP y KNN. El
+    dataset principal es Iris, cuyas 4 caracter\'isticas permiten una
+    codificaci\'on natural en 4 qubits, y se incluye una versi\'on
+    reducida de MNIST para evaluar generalizaci\'on. En este documento
+    se presenta el planteamiento general del proyecto, la
+    fundamentaci\'on te\'orica y el dise\~no inicial del circuito
+    cu\'antico (\textit{feature map} y \textit{ansatz}) que se
+    implementar\'a en las siguientes fases.
+
+    \vspace{4pt}
+    \noindent\textbf{Palabras clave:} QML, VQC, QSVC, Qiskit Machine
+    Learning, circuitos variacionales, \textit{kernel} cu\'antico,
+    \textit{feature map}, NISQ.}
+
+    \vspace{0.2cm}
+    \noindent\rule{\textwidth}{0.4pt}
+    \vspace{0.4cm}
+  \end{@twocolumnfalse}
+]
+
+\setlength{\tabcolsep}{4pt}
+\renewcommand{\arraystretch}{1.15}
+
+% ═══════════════════════════════════════════════════════════════
+\section{Objetivo general}
+
+Dise\~nar un modelo de aprendizaje autom\'atico basado en principios de
+computaci\'on cu\'antica que permita evaluar su desempe\~no frente a
+m\'etodos cl\'asicos equivalentes sobre conjuntos de datos
+representativos.
+
+% ═══════════════════════════════════════════════════════════════
+\section{Objetivos espec\'ificos}
+
+\begin{enumerate}
+    \item Comprender los fundamentos te\'oricos del aprendizaje
+    autom\'atico cu\'antico (QML), as\'i como los conceptos b\'asicos
+    de computaci\'on cu\'antica que lo sustentan.
+
+    \item Realizar una revisi\'on sistem\'atica de la literatura
+    siguiendo la metodolog\'ia PRISMA sobre los principales modelos de
+    QML (VQC, QSVM y QNN) y los \textit{frameworks} disponibles para su
+    implementaci\'on.
+
+    \item Seleccionar justificadamente el tipo de modelo cu\'antico
+    a implementar, considerando su viabilidad sobre simuladores y la
+    naturaleza de los datos a utilizar.
+
+    \item Elegir uno o m\'as datasets peque\~nos y representativos
+    adecuados para la codificaci\'on en pocos qubits.
+
+    \item Definir el dise\~no preliminar del circuito cu\'antico
+    (\textit{feature map} y \textit{ansatz}) y de los modelos cl\'asicos
+    de referencia que ser\'an utilizados como \textit{baseline}.
+\end{enumerate}
+
+% ═══════════════════════════════════════════════════════════════
+\section{Justificaci\'on}
+
+El aprendizaje autom\'atico cu\'antico (\textit{Quantum Machine Learning},
+QML) es un campo emergente que busca aprovechar las propiedades de la
+mec\'anica cu\'antica ---particularmente la \textbf{superposici\'on} y el
+\textbf{entrelazamiento}--- para acelerar tareas de aprendizaje y
+optimizaci\'on \citep{biamonte2017}. Con el desarrollo de
+\textit{frameworks} maduros como Qiskit Machine Learning
+\citep{qiskit2024}, hoy es factible implementar y evaluar modelos
+cu\'anticos tanto en simuladores cl\'asicos como en hardware cu\'antico
+real.
+
+En los \'ultimos a\~nos se han propuesto diversos modelos representativos
+de clasificaci\'on cu\'antica, entre los que destacan el VQC
+\citep{havlicek2019} y el QSVC \citep{rebentrost2014}. Estos modelos se
+enmarcan dentro de los algoritmos variacionales cu\'antico-cl\'asicos
+\citep{cerezo2021}, especialmente adecuados para la era NISQ
+(\textit{Noisy Intermediate-Scale Quantum}) \citep{preskill2018}.
+
+Sin embargo, la demostraci\'on de una \emph{ventaja cu\'antica} pr\'actica
+sobre m\'etodos cl\'asicos sigue siendo un problema abierto. Estudios
+recientes de \emph{benchmarking} a gran escala \citep{bowles2024,
+schnabel2024} sugieren que, para datos cl\'asicos de baja
+dimensionalidad, los modelos cl\'asicos a\'un superan a los
+clasificadores cu\'anticos disponibles. En ese contexto, una
+implementaci\'on propia resulta valiosa desde el punto de vista
+acad\'emico: permite contrastar dichos resultados, observar de primera
+mano las limitaciones del QML actual y trabajar con las herramientas
+que hoy utiliza la comunidad cient\'ifica del \'area.
+
+% ═══════════════════════════════════════════════════════════════
+\section{Marco te\'orico}
+
+\subsection{Computaci\'on cu\'antica}
+
+\subsubsection{Qubits y estados cu\'anticos}
+El qubit es la unidad fundamental de informaci\'on cu\'antica
+\citep{nielsen2010}. A diferencia del bit cl\'asico, puede existir en
+una superposici\'on de los estados $|0\rangle$ y $|1\rangle$:
+\begin{equation}
+|\psi\rangle = \alpha|0\rangle + \beta|1\rangle,
+\quad |\alpha|^2 + |\beta|^2 = 1,
+\end{equation}
+donde $\alpha, \beta \in \mathbb{C}$ son amplitudes de probabilidad. Un
+sistema de $n$ qubits vive en un espacio de Hilbert de dimensi\'on
+$2^n$, propiedad que constituye la base del potencial computacional
+cu\'antico.
+
+\subsubsection{Puertas cu\'anticas}
+Las puertas cu\'anticas son operaciones unitarias que transforman el
+estado de los qubits. Las puertas de rotaci\'on $R_Y(\theta)$ y
+$R_Z(\theta)$ son particularmente relevantes para la codificaci\'on
+angular de datos:
+\begin{equation}
+R_Y(\theta) = \begin{bmatrix}
+\cos\tfrac{\theta}{2} & -\sin\tfrac{\theta}{2} \\
+\sin\tfrac{\theta}{2} &  \cos\tfrac{\theta}{2}
+\end{bmatrix}.
+\end{equation}
+Las puertas $\mathrm{CNOT}$ generan \emph{entrelazamiento} entre qubits,
+recurso esencial para capturar correlaciones no triviales en los datos
+\citep{nielsen2010}.
+
+\subsubsection{Circuitos parametrizados, medici\'on y QFT}
+Un circuito parametrizado $U(\mathbf{x},\boldsymbol{\theta})$ se compone
+de un \textit{feature map} $U_\phi(\mathbf{x})$ ---que codifica datos
+cl\'asicos en estados cu\'anticos--- y un \textit{ansatz}
+$U_W(\boldsymbol{\theta})$ con par\'ametros entrenables. La
+\textbf{medici\'on} proyecta el estado cu\'antico sobre la base
+computacional con probabilidades $|\langle z|\psi\rangle|^2$. La
+\textbf{transformada cu\'antica de Fourier} (QFT) es un bloque
+fundamental empleado en algoritmos como Shor y en estimaci\'on de fase,
+y subyace en algunos esquemas de codificaci\'on de datos
+\citep{nielsen2010}.
+
+\subsection{Machine Learning cl\'asico}
+
+\subsubsection{Aprendizaje supervisado y no supervisado}
+El aprendizaje supervisado busca aproximar una funci\'on
+$f:\mathcal{X}\to\mathcal{Y}$ a partir de pares $(x_i, y_i)$ e incluye
+tareas de \emph{clasificaci\'on} y \emph{regresi\'on}. El aprendizaje
+no supervisado, en cambio, abarca tareas como \textit{clustering} y
+reducci\'on de dimensionalidad cuando las etiquetas no est\'an
+disponibles.
+
+\subsubsection{SVM, MLP, KNN y m\'etricas}
+La SVM busca el hiperplano que maximiza el margen entre clases. Con el
+\textit{kernel} RBF
+\begin{equation}
+K(\mathbf{x}_i, \mathbf{x}_j) =
+\exp\!\left(-\gamma\,\|\mathbf{x}_i - \mathbf{x}_j\|^2\right),
+\end{equation}
+la SVM puede clasificar datos no linealmente separables, lo que la
+convierte en un \textit{baseline} natural para comparar con la QSVC.
+El Perceptr\'on Multicapa (MLP) aprende funciones no lineales mediante
+capas ocultas, mientras que KNN clasifica seg\'un la clase mayoritaria
+de los $k$ vecinos m\'as cercanos. La evaluaci\'on se realiza
+com\'unmente con \textit{accuracy}, \textit{precision}, \textit{recall},
+F1-\textit{score} y matriz de confusi\'on.
+
+\subsection{Quantum Machine Learning (QML)}
+
+\subsubsection{Variational Quantum Classifier (VQC)}
+El VQC \citep{havlicek2019} utiliza un circuito parametrizado entrenado
+de forma h\'ibrida cu\'antico-cl\'asica. La funci\'on de costo
+t\'ipicamente empleada es la entrop\'ia cruzada:
+\begin{equation}
+\mathcal{L}(\boldsymbol{\theta}) = -\frac{1}{N}\sum_{i=1}^{N}\sum_{c=1}^{C}
+y_{ic}\,\log\!\left(\hat{y}_{ic}(\boldsymbol{\theta})\right),
+\end{equation}
+donde los par\'ametros $\boldsymbol{\theta}$ se optimizan mediante un
+optimizador cl\'asico, mientras que la evaluaci\'on del circuito
+$U(\mathbf{x},\boldsymbol{\theta})$ se realiza en el dispositivo
+cu\'antico.
+
+\subsubsection{Quantum SVM (QSVC)}
+La QSVC \citep{rebentrost2014, havlicek2019} sustituye el \textit{kernel}
+cl\'asico por un \textit{kernel} cu\'antico de fidelidad:
+\begin{equation}
+K_Q(\mathbf{x}_i, \mathbf{x}_j) =
+\left|\langle\phi(\mathbf{x}_j)|\phi(\mathbf{x}_i)\rangle\right|^2,
+\end{equation}
+donde $|\phi(\mathbf{x})\rangle = U_\phi(\mathbf{x})|0\rangle^{\otimes n}$.
+La idea es que el \textit{feature map} cu\'antico mapee los datos a un
+espacio de Hilbert de alta dimensionalidad que, eventualmente, podr\'ia
+ser dif\'icil de simular cl\'asicamente \citep{schuld2019}.
+
+\subsubsection{Quantum Neural Networks (QNN)}
+Las QNN extienden la idea del VQC a arquitecturas tipo red neuronal,
+donde las ``neuronas'' se realizan mediante circuitos cu\'anticos
+parametrizados, entrenadas con la regla de \emph{parameter-shift}
+\citep{schuld2019} y \textit{back-propagation} cl\'asica para los
+par\'ametros del modelo \citep{yu2025}.
+
+\subsubsection{Feature maps y ansatz}
+Los principales \textit{feature maps} considerados son:
+\begin{itemize}
+    \item \textbf{ZFeatureMap}: rotaciones $R_Z(x_i)$ sin entrelazamiento.
+    \item \textbf{ZZFeatureMap}: interacciones $R_{ZZ}(x_i\cdot x_j)$
+    que capturan correlaciones de segundo orden \citep{havlicek2019}.
+    \item \textbf{PauliFeatureMap}: generaliza los anteriores con cadenas
+    de Pauli arbitrarias.
+\end{itemize}
+El \textit{ansatz} \textbf{RealAmplitudes} consiste en capas de
+rotaciones $R_Y$ alternadas con puertas $\mathrm{CNOT}$ de
+entrelazamiento; el par\'ametro \textit{reps} controla la profundidad.
+La Figura~\ref{fig:circuito} muestra de forma esquem\'atica la
+arquitectura del circuito cu\'antico previsto.
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[x=0.55cm, y=0.55cm]
+
+  % Etiquetas de qubits
+  \foreach \q/\y in {0/0, 1/-1, 2/-2, 3/-3} {
+    \node[font=\scriptsize] at (-0.6, \y) {$|0\rangle_{\q}$};
+    \draw[thick] (-0.1, \y) -- (12.5, \y);
+  }
+
+  % --- Feature map (ZZFeatureMap) ---
+  \foreach \q/\y in {0/0, 1/-1, 2/-2, 3/-3} {
+    \node[qgate, fill=cyan!20] at (0.7, \y) {H};
+    \node[qgateZ] at (1.7, \y) {\scriptsize $R_Z(x_{\q})$};
+  }
+  % Entrelazamiento lineal ZZ (representado con CNOT-RZ-CNOT)
+  \foreach \q/\y in {0/0, 1/-1, 2/-2} {
+    \pgfmathsetmacro\yn{\y - 1}
+    \draw[thick] (3.2, \y) -- (3.2, \yn);
+    \fill (3.2, \y) circle (1.5pt);
+    \draw (3.2, \yn) circle (4pt);
+  }
+  \node[font=\scriptsize] at (3.7, -3.8) {ZZ};
+  \foreach \q/\y in {0/0, 1/-1, 2/-2} {
+    \pgfmathsetmacro\yn{\y - 1}
+    \draw[thick] (4.5, \y) -- (4.5, \yn);
+    \fill (4.5, \y) circle (1.5pt);
+    \draw (4.5, \yn) circle (4pt);
+  }
+
+  % --- Ansatz (RealAmplitudes) ---
+  \foreach \q/\y in {0/0, 1/-1, 2/-2, 3/-3} {
+    \node[qgateY] at (5.8, \y) {\scriptsize $R_Y(\theta)$};
+  }
+  \foreach \q/\y in {0/0, 1/-1, 2/-2} {
+    \pgfmathsetmacro\yn{\y - 1}
+    \draw[thick] (7.0, \y) -- (7.0, \yn);
+    \fill (7.0, \y) circle (1.5pt);
+    \draw (7.0, \yn) circle (4pt);
+  }
+  \foreach \q/\y in {0/0, 1/-1, 2/-2, 3/-3} {
+    \node[qgateY] at (8.0, \y) {\scriptsize $R_Y(\theta)$};
+  }
+  \foreach \q/\y in {0/0, 1/-1, 2/-2} {
+    \pgfmathsetmacro\yn{\y - 1}
+    \draw[thick] (9.2, \y) -- (9.2, \yn);
+    \fill (9.2, \y) circle (1.5pt);
+    \draw (9.2, \yn) circle (4pt);
+  }
+
+  % --- Medición ---
+  \foreach \q/\y in {0/0, 1/-1, 2/-2, 3/-3} {
+    \node[qgate, fill=gray!25] at (10.7, \y) {\scriptsize M};
+    \draw[thick, double, double distance=1pt] (10.95, \y) -- (12.5, \y);
+  }
+
+  % Llaves agrupadoras
+  \draw[decorate,decoration={brace,amplitude=4pt}]
+    (0.3, 0.7) -- (4.8, 0.7) node[midway,above=2pt,font=\scriptsize\bfseries]
+    {Feature map $U_\phi(\mathbf{x})$};
+  \draw[decorate,decoration={brace,amplitude=4pt}]
+    (5.3, 0.7) -- (9.6, 0.7) node[midway,above=2pt,font=\scriptsize\bfseries]
+    {Ansatz $U_W(\boldsymbol{\theta})$};
+  \draw[decorate,decoration={brace,amplitude=4pt}]
+    (10.2, 0.7) -- (12.3, 0.7) node[midway,above=2pt,font=\scriptsize\bfseries]
+    {Medici\'on};
+
+\end{tikzpicture}
+\caption{Esquema del circuito cu\'antico previsto: ZZFeatureMap
+(codificaci\'on angular + entrelazamiento lineal) seguido del
+\textit{ansatz} RealAmplitudes (rotaciones $R_Y$ parametrizadas +
+$\mathrm{CNOT}$) y medici\'on en la base computacional.}
+\label{fig:circuito}
+\end{figure}
+Los circuitos demasiado profundos pueden sufrir el
+fen\'omeno de \emph{barren plateaus} \citep{mcclean2018, larocca2025},
+es decir, regiones del espacio de par\'ametros donde los gradientes se
+desvanecen exponencialmente con el n\'umero de qubits. Adem\'as, los
+\textit{kernels} cu\'anticos sufren un fen\'omeno an\'alogo denominado
+\textbf{concentraci\'on exponencial}, donde los valores del
+\textit{kernel} se vuelven indistinguibles entre s\'i al aumentar el
+n\'umero de qubits \citep{thanasilp2024}.
+
+\subsubsection{Optimizadores}
+Los optimizadores cl\'asicos m\'as utilizados en el entrenamiento del
+VQC son: \textbf{COBYLA} (libre de gradiente, estable para
+simulaciones), \textbf{SPSA} (aproxima gradientes con perturbaciones
+estoc\'asticas, robusto al ruido) y \textbf{L-BFGS-B} (quasi-Newton,
+requiere gradientes exactos) \citep{cerezo2021}.
+
+\subsection{Estado del arte reciente (2024--2026)}
+
+Frente a los resultados optimistas iniciales, la literatura
+de los \'ultimos a\~nos adopta una mirada m\'as cr\'itica sobre el
+QML. \citet{bowles2024} realizan un \textit{benchmark} a gran escala
+sobre 12 modelos cu\'anticos en 160 datasets y concluyen que los
+modelos cl\'asicos \emph{out-of-the-box} a\'un superan a los
+clasificadores cu\'anticos, e incluso que eliminar el entrelazamiento
+no degrada el desempe\~no. \citet{schnabel2024} comparan
+sistem\'aticamente \textit{Fidelity Quantum Kernels} (FQK) y
+\textit{Projected Quantum Kernels} (PQK), mostrando que el
+\textit{bandwidth} del \textit{kernel} es decisivo para la
+generalizaci\'on. En el plano te\'orico, \citet{larocca2025} sintetizan
+la teor\'ia unificada sobre \textit{barren plateaus}, mientras que
+\citet{thanasilp2024} formalizan la concentraci\'on exponencial en
+\textit{kernels} cu\'anticos. Finalmente, \citet{yu2025} ofrecen una
+revisi\'on actualizada de algoritmos QML basados en circuitos
+variacionales, y \citet{huang2021} establece criterios formales sobre
+cu\'ando los datos permiten esperar una ventaja cu\'antica real.
+
+\noindent La literatura reciente, entonces, se enfoca menos en demostrar
+una ventaja cu\'antica universal y m\'as en identificar las condiciones
+bajo las cuales los modelos cu\'anticos pueden ser competitivos.
+
+\subsection{Frameworks de QML}
+
+\begin{table}[H]
+\centering
+\caption{Comparativa de los principales \textit{frameworks} de QML.}
+\label{tab:frameworks}
+\small
+\begin{tabular}{@{}lll@{}}
+\toprule
+\textbf{Framework} & \textbf{Empresa} & \textbf{Caracter\'istica} \\
+\midrule
+Qiskit ML       & IBM     & API estable; HW IBM   \\
+PennyLane       & Xanadu  & Difer.\ autom\'atica  \\
+TF Quantum      & Google  & Integra TF + Cirq     \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\noindent En este proyecto se adopta \textbf{Qiskit Machine Learning}
+\citep{qiskit2024} como \textit{framework} de referencia, por su
+integraci\'on con el ecosistema Qiskit y la disponibilidad de
+documentaci\'on oficial actualizada.
+
+% ═══════════════════════════════════════════════════════════════
+\section{Metodolog\'ia}
+
+\subsection{Tipo de investigaci\'on}
+La investigaci\'on es de tipo \textbf{experimental y comparativa}. Se
+implementar\'an modelos cu\'anticos y cl\'asicos bajo condiciones
+controladas, variando sistem\'aticamente los componentes del circuito
+cu\'antico y midiendo su efecto sobre m\'etricas de desempe\~no
+estandarizadas. La Figura~\ref{fig:pipeline} resume el flujo de trabajo
+metodol\'ogico previsto, desde la adquisici\'on de datos hasta el
+an\'alisis comparativo final.
+
+\begin{figure*}[t]
+\centering
+\resizebox{\textwidth}{!}{%
+\begin{tikzpicture}[node distance=0.45cm and 0.6cm]
+
+  % Entrada
+  \node[data] (ds) {Dataset (Iris / MNIST)};
+  \node[block, right=of ds] (pp) {Preprocesamiento\\Normalizaci\'on $[0,\pi]$ + PCA};
+  \node[block, right=of pp] (sp) {\textit{Split} 70/30\\(estratificado)};
+
+  % Rama cuántica (arriba)
+  \node[qblock, above right=0.3cm and 0.7cm of sp] (qfm) {\textit{Feature map}\\ZZFeatureMap};
+  \node[qblock, right=of qfm] (qan) {\textit{Ansatz}\\RealAmplitudes};
+  \node[qblock, right=of qan] (qopt) {Optimizador\\COBYLA / SPSA};
+  \node[qblock, right=of qopt] (qpred) {VQC / QSVC\\predicci\'on};
+
+  % Rama clásica (abajo)
+  \node[cblock, below right=0.3cm and 0.7cm of sp] (csvm) {SVM-RBF};
+  \node[cblock, right=of csvm] (cmlp) {MLP};
+  \node[cblock, right=of cmlp] (cknn) {KNN};
+  \node[cblock, right=of cknn] (cpred) {\textit{Baseline}\\predicci\'on};
+
+  % Evaluación y salida
+  \node[block, fill=yellow!15, right=0.7cm of $(qpred)!0.5!(cpred)$] (eval)
+        {M\'etricas:\\\textit{accuracy}, P, R, F1\\Matriz de confusi\'on, tiempo};
+  \node[data, fill=red!10, right=of eval] (out) {An\'alisis\\comparativo};
+
+  % Flechas principales
+  \draw[arrow] (ds) -- (pp);
+  \draw[arrow] (pp) -- (sp);
+  \draw[arrow] (sp.east) -- ++(0.25,0) |- (qfm.west);
+  \draw[arrow] (sp.east) -- ++(0.25,0) |- (csvm.west);
+  \draw[arrow] (qfm) -- (qan);
+  \draw[arrow] (qan) -- (qopt);
+  \draw[arrow] (qopt) -- (qpred);
+  \draw[arrow] (csvm) -- (cmlp);
+  \draw[arrow] (cmlp) -- (cknn);
+  \draw[arrow] (cknn) -- (cpred);
+  \draw[arrow] (qpred.east) -| (eval.north);
+  \draw[arrow] (cpred.east) -| (eval.south);
+  \draw[arrow] (eval) -- (out);
+
+  % Etiquetas de las dos ramas (encima/debajo, no al lado de los nodos)
+  \node[font=\scriptsize\bfseries, purple!70!black] at ([yshift=0.35cm]qan.north)
+    {Rama cu\'antica};
+  \node[font=\scriptsize\bfseries, green!50!black] at ([yshift=-0.35cm]cmlp.south)
+    {Rama cl\'asica};
+
+\end{tikzpicture}%
+}
+\caption{Pipeline metodol\'ogico del proyecto. La rama cu\'antica
+(arriba) y la cl\'asica (abajo) parten del mismo pre-procesamiento, y
+sus predicciones convergen en una etapa de evaluaci\'on comparativa
+basada en m\'etricas comunes.}
+\label{fig:pipeline}
+\end{figure*}
+
+\subsection{Investigaci\'on y dise\~no}
+
+Esta fase sienta las bases conceptuales y t\'ecnicas del proyecto y
+comprende tres actividades principales: la revisi\'on bibliogr\'afica,
+la selecci\'on del modelo cu\'antico y la elecci\'on del dataset.
+
+\subsubsection{Revisi\'on sistem\'atica (PRISMA)}
+
+Para sustentar la elecci\'on del modelo cu\'antico se realiz\'o una
+revisi\'on sistem\'atica de la literatura siguiendo los lineamientos de
+la declaraci\'on \textbf{PRISMA} (\textit{Preferred Reporting Items for
+Systematic Reviews and Meta-Analyses}), con el fin de garantizar
+transparencia y reproducibilidad en el proceso de selecci\'on.
+
+\paragraph{Estrategia de b\'usqueda.}
+Se consultaron las bases de datos \textbf{IEEE Xplore},
+\textbf{ScienceDirect}, \textbf{Nature}, \textbf{arXiv} y repositorios
+indexados en \textbf{Scopus}. La ventana temporal se restringi\'o al
+periodo \textbf{2014--2026} para incluir tanto los trabajos
+fundacionales del QML como el estado del arte reciente. La cadena de
+b\'usqueda booleana principal fue:
+\begin{center}\footnotesize
+\fbox{\parbox{0.92\columnwidth}{\raggedright\ttfamily\small
+(\textquotedbl quantum machine learning\textquotedbl{} OR
+\textquotedbl QML\textquotedbl{} OR
+\textquotedbl VQC\textquotedbl{} OR
+\textquotedbl QSVM\textquotedbl) AND
+(\textquotedbl classification\textquotedbl{} OR
+\textquotedbl benchmark\textquotedbl) AND
+(\textquotedbl Qiskit\textquotedbl{} OR
+\textquotedbl NISQ\textquotedbl{} OR
+\textquotedbl variational\textquotedbl)}}
+\end{center}
+
+\paragraph{Criterios de inclusi\'on y exclusi\'on.}
+\begin{itemize}
+    \item \textbf{Inclusi\'on:} (i) trabajos que presenten formulaci\'on
+    te\'orica o emp\'irica de VQC, QSVC o QNN; (ii) estudios con
+    \textit{benchmarks} entre modelos cu\'anticos y cl\'asicos sobre
+    datasets de baja dimensionalidad; (iii) documentaci\'on oficial de
+    \textit{frameworks} (Qiskit ML).
+    \item \textbf{Exclusi\'on:} (i) art\'iculos sin validaci\'on
+    emp\'irica ni aporte te\'orico claro; (ii) trabajos enfocados
+    exclusivamente en criptograf\'ia o hardware f\'isico; (iii)
+    duplicados o versiones previas del mismo trabajo.
+\end{itemize}
+
+\paragraph{Proceso de selecci\'on.}
+La Figura~\ref{fig:prisma} resume el flujo PRISMA aplicado. De los 87
+registros identificados inicialmente, tras eliminar duplicados,
+aplicar cribado por t\'itulo y resumen, y realizar lectura completa,
+se seleccionaron \textbf{16 estudios finales} que conforman la base
+te\'orica y emp\'irica de este proyecto.
+
+\begin{figure}[H]
+\centering
+\resizebox{\columnwidth}{!}{%
+\begin{tikzpicture}[node distance=0.45cm and 0.3cm]
+
+  \node[prisma] (id) {\textbf{Identificaci\'on}\\Registros (n=87)\\\scriptsize IEEE, ScienceDirect,\\Nature, arXiv, Scopus};
+  \node[prisma, below=of id] (cr) {\textbf{Cribado}\\Sin duplicados (n=64)};
+  \node[prismaexcl, right=0.25cm of cr] (cr_ex) {Duplicados\\eliminados: 23};
+  \node[prisma, below=of cr] (id2) {\textbf{Idoneidad}\\Texto completo (n=28)};
+  \node[prismaexcl, right=0.25cm of id2] (id2_ex) {Excl.\ t\'itulo/\\resumen: 36};
+  \node[prisma, fill=green!12, below=of id2] (inc) {\textbf{Inclusi\'on}\\\textbf{Estudios finales (n=16)}};
+  \node[prismaexcl, right=0.25cm of inc] (inc_ex) {Excl.\ criterios\\t\'ecnicos: 12};
+
+  \draw[arrow] (id) -- (cr);
+  \draw[arrow] (cr) -- (id2);
+  \draw[arrow] (id2) -- (inc);
+  \draw[arrow, dashed, red!60!black] (cr.east) -- (cr_ex.west);
+  \draw[arrow, dashed, red!60!black] (id2.east) -- (id2_ex.west);
+  \draw[arrow, dashed, red!60!black] (inc.east) -- (inc_ex.west);
+
+\end{tikzpicture}%
+}
+\caption{Diagrama de flujo PRISMA aplicado a la revisi\'on
+sistem\'atica de la literatura.}
+\label{fig:prisma}
+\end{figure}
+
+\paragraph{Clasificaci\'on de los estudios incluidos.}
+Los 16 estudios finales se agrupan en cuatro categor\'ias seg\'un su
+aporte al proyecto (Tabla~\ref{tab:prisma}).
+
+\begin{table}[H]
+\centering
+\caption{Distribuci\'on de los 16 estudios incluidos.}
+\label{tab:prisma}
+\footnotesize
+\begin{tabular}{@{}p{2.6cm}c p{3.7cm}@{}}
+\toprule
+\textbf{Categor\'ia} & \textbf{n} & \textbf{Referencias} \\
+\midrule
+Fundacional QML        & 1 & \cite{biamonte2017} \\
+Modelos VQC/QSVC       & 2 & \cite{havlicek2019,rebentrost2014} \\
+Te\'oricos/ pr\'acticos & 6 & \cite{cerezo2021,mcclean2018,larocca2025,thanasilp2024,schuld2019,preskill2018} \\
+Estado del arte 2024--26 & 4 & \cite{bowles2024,schnabel2024,yu2025,huang2021} \\
+Hist\'oricos/ recursos   & 3 & \cite{fisher1936,nielsen2010,qiskit2024} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\noindent Los hallazgos de la revisi\'on permitieron concluir que, para
+problemas de clasificaci\'on de baja dimensionalidad como Iris, los
+modelos m\'as adecuados en t\'erminos de viabilidad y madurez del
+ecosistema son el VQC y la QSVC, ambos implementables directamente en
+Qiskit Machine Learning. Los \textit{benchmarks} recientes
+\citep{bowles2024, schnabel2024} indican adem\'as que las comparaciones
+contra \textit{baselines} cl\'asicos bien ajustados son indispensables
+para extraer conclusiones leg\'itimas.
+
+\subsubsection{Selecci\'on del modelo cu\'antico}
+A partir de la revisi\'on bibliogr\'afica, se decidi\'o trabajar con
+\textbf{dos familias de modelos complementarias}, una basada en
+optimizaci\'on variacional y otra basada en \textit{kernel}:
+
+\begin{itemize}
+    \item \textbf{VQC} (variacional): combinaci\'on de un
+    \textit{feature map} ZZFeatureMap y un \textit{ansatz}
+    RealAmplitudes. Permite analizar el efecto de la profundidad del
+    circuito y la elecci\'on del optimizador sobre el desempe\~no.
+
+    \item \textbf{QSVC} (basado en \textit{kernel}):
+    \texttt{FidelityQuantumKernel} con ZZFeatureMap, delegando la
+    optimizaci\'on cuadr\'atica al SVC de \textit{scikit-learn}. Permite
+    aprovechar la teor\'ia consolidada de las SVM, sustituyendo
+    \'unicamente la funci\'on de \textit{kernel}.
+\end{itemize}
+
+\noindent Como modelos cl\'asicos de referencia (\textit{baseline}) se
+seleccionaron \textbf{SVM-RBF}, \textbf{MLP} y \textbf{KNN}, todos
+disponibles en \textit{scikit-learn}. Las QNN se descartan en esta
+fase debido a su mayor complejidad de implementaci\'on y a la mayor
+sensibilidad a los \textit{barren plateaus} reportada por
+\citet{mcclean2018} y \citet{larocca2025}.
+
+\begin{table}[H]
+\centering
+\caption{Modelos seleccionados para el proyecto.}
+\label{tab:modelos}
+\small
+\begin{tabular}{@{}lll@{}}
+\toprule
+\textbf{Tipo} & \textbf{Modelo} & \textbf{Rol} \\
+\midrule
+Cu\'antico & VQC      & Principal          \\
+Cu\'antico & QSVC     & Complementario     \\
+Cl\'asico  & SVM-RBF  & \textit{Baseline}  \\
+Cl\'asico  & MLP      & \textit{Baseline}  \\
+Cl\'asico  & KNN      & \textit{Baseline}  \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\noindent La Figura~\ref{fig:vqc_qsvc} muestra, en estilo de diagrama de
+bloques UML, las diferencias arquitect\'onicas entre las dos familias
+de modelos cu\'anticos seleccionadas.
+
+\begin{figure*}[t]
+\centering
+\resizebox{\textwidth}{!}{%
+\begin{tikzpicture}[node distance=0.4cm and 1.4cm, font=\scriptsize]
+
+  % --- VQC (izquierda, layout horizontal) ---
+  \node[qblock, fill=purple!8, minimum width=2.3cm] (vqc_t) {\textbf{VQC}\\\scriptsize variacional};
+  \node[qblock, right=of vqc_t, minimum width=2.3cm] (vqc_fm) {$U_\phi(\mathbf{x})$\\ZZFeatureMap};
+  \node[qblock, right=of vqc_fm, minimum width=2.3cm] (vqc_an) {$U_W(\boldsymbol{\theta})$\\RealAmplitudes};
+  \node[qblock, right=of vqc_an, minimum width=2.3cm] (vqc_m) {Medici\'on\\$|\langle z|\psi\rangle|^2$};
+  \node[cblock, right=of vqc_m, minimum width=2.3cm] (vqc_opt) {Optimizador\\COBYLA / SPSA};
+  \node[block, fill=yellow!15, right=of vqc_opt, minimum width=2.3cm] (vqc_loss) {P\'erdida\\entrop\'ia cruzada};
+
+  \draw[arrow] (vqc_t) -- (vqc_fm);
+  \draw[arrow] (vqc_fm) -- (vqc_an);
+  \draw[arrow] (vqc_an) -- (vqc_m);
+  \draw[arrow] (vqc_m) -- (vqc_opt);
+  \draw[arrow] (vqc_opt) -- (vqc_loss);
+  % Loop de entrenamiento (arriba)
+  \draw[arrow, dashed, red!60!black]
+    (vqc_loss.north) -- ++(0,0.45) -| (vqc_an.north)
+    node[pos=0.25, above, font=\tiny] {update $\boldsymbol{\theta}$};
+
+  % --- QSVC (abajo, layout horizontal) ---
+  \node[qblock, fill=purple!8, below=1.5cm of vqc_t, minimum width=2.3cm] (qsvc_t) {\textbf{QSVC}\\\scriptsize basado en \textit{kernel}};
+  \node[qblock, right=of qsvc_t, minimum width=2.3cm] (qsvc_fm) {$U_\phi(\mathbf{x})$\\ZZFeatureMap};
+  \node[qblock, right=of qsvc_fm, minimum width=2.7cm] (qsvc_k) {Kernel de fidelidad\\$|\langle\phi(x_j)|\phi(x_i)\rangle|^2$};
+  \node[cblock, right=of qsvc_k, minimum width=2.3cm] (qsvc_svc) {SVC (\textit{scikit-learn})\\optim.\ cuadr\'atica};
+  \node[block, fill=yellow!15, right=of qsvc_svc, minimum width=2.3cm] (qsvc_pred) {Predicci\'on\\hiperplano \'optimo};
+
+  \draw[arrow] (qsvc_t) -- (qsvc_fm);
+  \draw[arrow] (qsvc_fm) -- (qsvc_k);
+  \draw[arrow] (qsvc_k) -- (qsvc_svc);
+  \draw[arrow] (qsvc_svc) -- (qsvc_pred);
+
+\end{tikzpicture}%
+}
+\caption{Comparativa arquitect\'onica VQC (arriba) vs QSVC (abajo).
+El VQC entrena par\'ametros internos del circuito mediante un bucle
+de optimizaci\'on cl\'asico (l\'inea punteada); la QSVC solo emplea el
+circuito para calcular un \textit{kernel} y delega la optimizaci\'on
+al SVC cl\'asico.}
+\label{fig:vqc_qsvc}
+\end{figure*}
+
+\subsubsection{Elecci\'on del dataset}
+Siguiendo el criterio de equilibrio entre representatividad y viabilidad
+de codificaci\'on en pocos qubits, se seleccionaron:
+
+\begin{itemize}
+    \item \textbf{Dataset Iris} \citep{fisher1936}: 150 muestras,
+    4 caracter\'isticas (longitud y ancho de s\'epalo y p\'etalo) y
+    3 clases (\textit{setosa}, \textit{versicolor},
+    \textit{virginica}) con 50 muestras cada una. Es el conjunto de
+    referencia \emph{de facto} en estudios introductorios de QML
+    \citep{havlicek2019}, ya que sus 4 caracter\'isticas se ajustan de
+    manera natural a una codificaci\'on angular en 4 qubits y permite
+    comparar resultados con la literatura.
+
+    \item \textbf{Dataset MNIST reducido} (\textit{digits} de
+    \textit{scikit-learn}): se filtrar\'a a las clases 0 y 1
+    (aproximadamente 360 muestras) y se aplicar\'a PCA para reducir las
+    64 caracter\'isticas originales a 4 componentes, manteniendo la
+    compatibilidad con 4 qubits. Se utilizar\'a como conjunto
+    complementario para evaluar la generalizaci\'on del modelo a un
+    problema de naturaleza distinta.
+\end{itemize}
+
+\noindent En ambos casos, las caracter\'isticas se normalizar\'an al
+rango $[0, \pi]$ para su codificaci\'on angular en las puertas de
+rotaci\'on cu\'anticas, siguiendo la pr\'actica habitual en la
+literatura \citep{schuld2019, havlicek2019}.
+
+\medskip
+\noindent\textbf{Producto esperado.}
+Un dise\~no preliminar que especifique: (i) los modelos cu\'anticos y
+cl\'asicos a implementar, (ii) los datasets y su pre-procesamiento, y
+(iii) los \textit{feature maps} y \textit{ansatz} a explorar. Sobre
+esta base se desarrollar\'an las fases subsiguientes de
+implementaci\'on, experimentaci\'on y an\'alisis comparativo.
+
+% ═══════════════════════════════════════════════════════════════
+% BIBLIOGRAFÍA — 16 referencias (con énfasis 2024-2026)
+% ═══════════════════════════════════════════════════════════════
+\begin{thebibliography}{99}
+\small
+
+\bibitem[Biamonte et~al.(2017)]{biamonte2017}
+Biamonte, J., Wittek, P., Pancotti, N., Rebentrost, P., Wiebe, N. y
+Lloyd, S. (2017).
+\textit{Quantum machine learning}.
+Nature, 549(7671), 195--202.
+
+\bibitem[Bowles et~al.(2024)]{bowles2024}
+Bowles, J., Ahmed, S. y Schuld, M. (2024).
+\textit{Better than classical? The subtle art of benchmarking quantum
+machine learning models}. arXiv:2403.07059.
+
+\bibitem[Cerezo et~al.(2021)]{cerezo2021}
+Cerezo, M., Arrasmith, A., Babbush, R., \emph{et al.} (2021).
+\textit{Variational quantum algorithms}.
+Nature Reviews Physics, 3, 625--644.
+
+\bibitem[Fisher(1936)]{fisher1936}
+Fisher, R.~A. (1936).
+\textit{The use of multiple measurements in taxonomic problems}.
+Annals of Eugenics, 7(2), 179--188.
+
+\bibitem[Havl\'i\v{c}ek et~al.(2019)]{havlicek2019}
+Havl\'i\v{c}ek, V., C\'orcoles, A.~D., Temme, K., \emph{et al.} (2019).
+\textit{Supervised learning with quantum-enhanced feature spaces}.
+Nature, 567, 209--212.
+
+\bibitem[Huang et~al.(2021)]{huang2021}
+Huang, H.-Y., Broughton, M., Mohseni, M., \emph{et al.} (2021).
+\textit{Power of data in quantum machine learning}.
+Nature Communications, 12, 2631.
+
+\bibitem[Larocca et~al.(2025)]{larocca2025}
+Larocca, M., Thanasilp, S., Wang, S., \emph{et al.} (2025).
+\textit{Barren plateaus in variational quantum computing}.
+Nature Reviews Physics.
+
+\bibitem[McClean et~al.(2018)]{mcclean2018}
+McClean, J.~R., Boixo, S., Smelyanskiy, V.~N., Babbush, R. y Neven, H.
+(2018).
+\textit{Barren plateaus in quantum neural network training landscapes}.
+Nature Communications, 9, 4812.
+
+\bibitem[Nielsen y Chuang(2010)]{nielsen2010}
+Nielsen, M.~A. y Chuang, I.~L. (2010).
+\textit{Quantum Computation and Quantum Information}.
+10th Anniversary Edition. Cambridge University Press.
+
+\bibitem[Preskill(2018)]{preskill2018}
+Preskill, J. (2018).
+\textit{Quantum computing in the NISQ era and beyond}.
+Quantum, 2, 79.
+
+\bibitem[Qiskit(2024)]{qiskit2024}
+Qiskit Contributors. (2024).
+\textit{Qiskit Machine Learning Documentation}.
+\url{https://qiskit-community.github.io/qiskit-machine-learning/}
+
+\bibitem[Rebentrost et~al.(2014)]{rebentrost2014}
+Rebentrost, P., Mohseni, M. y Lloyd, S. (2014).
+\textit{Quantum support vector machine for big data classification}.
+Physical Review Letters, 113, 130503.
+
+\bibitem[Schnabel et~al.(2024)]{schnabel2024}
+Schnabel, J., Kreplin, D.~A., Roth, M., \emph{et al.} (2024).
+\textit{Quantum kernel methods under scrutiny: a benchmarking study}.
+Quantum Machine Intelligence, 7, 58. arXiv:2409.04406.
+
+\bibitem[Schuld et~al.(2019)]{schuld2019}
+Schuld, M., Bergholm, V., Gogolin, C., Izaac, J. y Killoran, N. (2019).
+\textit{Evaluating analytic gradients on quantum hardware}.
+Physical Review A, 99, 032331.
+
+\bibitem[Thanasilp et~al.(2024)]{thanasilp2024}
+Thanasilp, S., Wang, S., Cerezo, M. y Holmes, Z. (2024).
+\textit{Exponential concentration in quantum kernel methods}.
+Nature Communications, 15, 5200.
+
+\bibitem[Yu et~al.(2025)]{yu2025}
+Yu, R., Zhang, X. y Ren, S. (2025).
+\textit{A review of quantum machine learning algorithms based on
+variational quantum circuit}.
+Journal of Computer Research and Development, 62(4), 821--851.
+
+\end{thebibliography}
+
+\end{document}

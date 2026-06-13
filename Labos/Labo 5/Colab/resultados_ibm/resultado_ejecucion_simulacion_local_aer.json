@@ -1,0 +1,17 @@
+{
+    "fecha_ejecucion": "2026-05-21 15:05:05",
+    "backend_ejecucion": "ibm_marrakesh",
+    "job_id": "simulacion_local_aer",
+    "estado_job": "Completado Localmente",
+    "shots": 10000,
+    "conteos_obtenidos": {
+        "1": 7036,
+        "0": 2964
+    },
+    "metricas_adicionales": {
+        "probabilidad_estado_0_simulado": 0.2964,
+        "probabilidad_estado_1_simulado": 0.7036,
+        "probabilidad_estado_0_teorico": 0.2,
+        "probabilidad_estado_1_teorico": 0.8
+    }
+}

@@ -1,0 +1,24 @@
+{
+    "ejercicio": 2,
+    "fecha": "2026-05-21 15:46:59",
+    "backend_solicitado": "ibm_kingston",
+    "tipo_backend": "Simulador Ruidoso de ibm_kingston (IBM Quantum)",
+    "conteo_inicial_0": {
+        "1": 5045,
+        "0": 4955
+    },
+    "conteo_inicial_1": {
+        "1": 7987,
+        "0": 2013
+    },
+    "matriz_transicion_obtenida": {
+        "fila_0": [
+            0.4955,
+            0.5045
+        ],
+        "fila_1": [
+            0.2013,
+            0.7987
+        ]
+    }
+}

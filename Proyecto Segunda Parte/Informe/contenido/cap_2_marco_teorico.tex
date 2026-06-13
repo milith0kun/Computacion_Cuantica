@@ -1,0 +1,13 @@
+\section{Marco Te\'orico}
+\label{sec:marco_teorico}
+
+Para contextualizar el impacto de las variaciones operativas durante la experimentaci\'on en QPU, se fundamentan te\'oricamente los m\'etodos de evaluaci\'on del error de la plataforma.
+
+\subsection{Procesadores IBM Heron r2}
+La topolog\'ia implementada por IBM en sus procesadores de escala de utilidad (156 qubits), como el backend \texttt{ibm\_fez}, se fundamenta en un esquema de acoplamiento hexagonal que reduce la interferencia de canal (\textit{cross-talk}). A pesar de estos avances de ingenier\'ia de microondas, la interacci\'on de las compuertas $CX$ a\'un est\'a limitada por errores del orden de $10^{-3}$, lo que causa la atenuaci\'on asim\'etrica de amplitudes \citep{ibm_quantum_2023}.
+
+\subsection{Fidelidad del Estado de Bell}
+El estado de superposici\'on entrelazada $|\Phi^+\rangle = \frac{1}{\sqrt{2}}(|00\rangle + |11\rangle)$ se posiciona como el patr\'on m\'etrico por excelencia en la validaci\'on del hardware cu\'antico. Idealmente, la medici\'on reiterativa de este estado converge a una distribuci\'on uniforme discreta de $P(00) = 0.5$ y $P(11) = 0.5$. La variaci\'on estad\'istica obtenida experimentalmente frente a la distribuci\'on te\'orica provee un indicador directo y verificable del volumen del ruido combinado de preparaci\'on, compuerta $CX$ y medici\'on (\textit{SPAM errors}).
+
+\subsection{Mitigaci\'on de Errores de Medici\'on (TREX)}
+La t\'ecnica \textit{Twirled Readout Error Extinction} (TREX) se basa en la aplicaci\'on aleatoria de compuertas Pauli-X inmediatamente previas a las mediciones, seguido de un post-procesamiento cl\'asico para deshacer l\'ogicamente el efecto de estas transformaciones. Esta estrategia algor\'itmica traslada el asim\'etrico ruido de medici\'on a un canal de depolizaci\'on local, permitiendo recuperar por v\'ias invertidas los valores de expectaci\'on originales sin la necesidad de escalar la profundidad del circuito principal.

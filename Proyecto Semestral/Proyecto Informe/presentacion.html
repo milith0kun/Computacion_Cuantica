@@ -41,18 +41,18 @@
     --font-sans:   "Source Sans 3", system-ui, sans-serif;
     --font-mono:   "JetBrains Mono", "Consolas", monospace;
 
-    /* Sizes — calibrados para 1920x1080 (PPT widescreen) */
-    --title-size:    clamp(2rem, 4.2vw, 4rem);
-    --h2-size:       clamp(1.6rem, 3.2vw, 2.8rem);
-    --h3-size:       clamp(1.15rem, 1.9vw, 1.7rem);
-    --body-size:     clamp(1rem, 1.45vw, 1.35rem);
-    --small-size:    clamp(0.9rem, 1.2vw, 1.15rem);
-    --caption-size:  clamp(0.78rem, 1vw, 0.95rem);
+    /* Sizes — XL para proyección 1920x1080 */
+    --title-size:    clamp(2.2rem, 4.6vw, 4.4rem);
+    --h2-size:       clamp(1.8rem, 3.6vw, 3.2rem);
+    --h3-size:       clamp(1.3rem, 2.1vw, 1.95rem);
+    --body-size:     clamp(1.1rem, 1.65vw, 1.55rem);
+    --small-size:    clamp(1rem, 1.4vw, 1.3rem);
+    --caption-size:  clamp(0.85rem, 1.1vw, 1.05rem);
 
     /* Spacing */
-    --slide-pad-x:   clamp(2.5rem, 5.8vw, 5.8rem);
+    --slide-pad-x:   clamp(2.6rem, 6vw, 6rem);
     --slide-pad-y:   clamp(1.6rem, 3vw, 2.8rem);
-    --gap:           clamp(0.9rem, 1.8vw, 1.7rem);
+    --gap:           clamp(1rem, 2vw, 1.9rem);
     --gap-sm:        clamp(0.4rem, 0.9vw, 0.85rem);
 
     /* Motion */
@@ -126,35 +126,40 @@ body {
 
 .slide-header {
     position: absolute;
-    top: clamp(0.4rem, 0.9vw, 0.75rem);
+    top: clamp(0.5rem, 1.1vw, 0.95rem);
     left: var(--slide-pad-x);
     right: var(--slide-pad-x);
     display: flex;
     justify-content: space-between;
     align-items: center;
     font-family: var(--font-mono);
-    font-size: var(--caption-size);
-    color: var(--ink-mute);
+    font-size: clamp(0.9rem, 1.15vw, 1.1rem);
+    color: var(--ink-soft);
     text-transform: uppercase;
     letter-spacing: 0.18em;
     z-index: 5;
+    font-weight: 500;
 }
 .slide-header .section-tag {
     color: var(--accent);
-    font-weight: 600;
+    font-weight: 700;
 }
 .slide-footer {
     position: absolute;
-    bottom: clamp(0.4rem, 0.9vw, 0.75rem);
+    bottom: clamp(0.5rem, 1.1vw, 0.95rem);
     left: var(--slide-pad-x);
     right: var(--slide-pad-x);
     display: flex;
     justify-content: space-between;
     align-items: center;
     font-family: var(--font-mono);
-    font-size: var(--caption-size);
-    color: var(--ink-mute);
+    font-size: clamp(0.9rem, 1.15vw, 1.1rem);
+    color: var(--ink-soft);
     z-index: 5;
+    font-weight: 500;
+    /* Fondo papel que garantiza legibilidad sin importar el contenido */
+    padding: clamp(0.3rem, 0.6vw, 0.5rem) 0;
+    background: linear-gradient(to bottom, transparent, var(--paper) 35%);
 }
 
 .slide-content {
@@ -164,10 +169,29 @@ body {
     justify-content: center;
     max-height: 100%;
     overflow: hidden;
-    padding: clamp(2.4rem, 4vw, 3.5rem) var(--slide-pad-x);
+    padding: clamp(2.8rem, 4.5vw, 4rem) var(--slide-pad-x) clamp(2.4rem, 4vw, 3.5rem);
     gap: var(--gap);
     position: relative;
     z-index: 2;
+}
+/* Content slides: alinear arriba para aprovechar el alto, gap más generoso */
+.content-slide .slide-content {
+    justify-content: flex-start;
+    padding-top: clamp(3.5rem, 6vw, 5.2rem);
+    padding-bottom: clamp(3.5rem, 5.5vw, 4.8rem);
+    gap: clamp(1.1rem, 2.2vw, 2rem);
+}
+/* Figure slides: el frame respeta espacio para reading-note y footer */
+.figure-slide .slide-content {
+    justify-content: flex-start;
+    padding-top: clamp(3rem, 5vw, 4.5rem);
+    padding-bottom: clamp(2.8rem, 4.5vw, 4rem);
+    gap: clamp(0.5rem, 1vw, 0.9rem);
+}
+/* figure-block no debe expandirse — deja espacio garantizado para la nota */
+.figure-block {
+    flex-shrink: 1;
+    min-height: 0;
 }
 
 /* Breakpoints */
@@ -233,7 +257,7 @@ strong { font-weight: 600; color: var(--ink); }
 
 .kicker {
     font-family: var(--font-mono);
-    font-size: var(--caption-size);
+    font-size: clamp(0.9rem, 1.2vw, 1.15rem);
     text-transform: uppercase;
     letter-spacing: 0.22em;
     color: var(--accent);
@@ -314,28 +338,55 @@ strong { font-weight: 600; color: var(--ink); }
 }
 
 /* ===========================================
-   TITLE SLIDE
+   TITLE SLIDE — centered, large logo (compact for 16:9)
    =========================================== */
-.title-slide {
-    background: var(--paper);
-}
-.title-slide .slide-content {
-    padding: clamp(2rem, 5vw, 4rem) var(--slide-pad-x);
+.title-slide { background: var(--paper); }
+.title-slide .slide-content,
+.title-slide .title-content {
+    padding: clamp(1rem, 2.2vw, 1.8rem) var(--slide-pad-x);
     justify-content: center;
-    align-items: flex-start;
+    align-items: center;
+    text-align: center;
+    gap: clamp(0.35rem, 0.8vw, 0.7rem);
 }
-.title-slide .ribbon {
-    height: 4px;
-    width: clamp(50px, 8vw, 90px);
-    background: var(--accent);
-    margin-bottom: clamp(1rem, 2.5vw, 1.8rem);
+.title-logo {
+    width: clamp(110px, 12vw, 180px);
+    height: auto;
+    margin-bottom: clamp(0.2rem, 0.5vw, 0.4rem);
+}
+.university-line { text-align: center; }
+.university-line .uni-name {
+    font-family: var(--font-serif);
+    font-size: clamp(0.95rem, 1.4vw, 1.3rem);
+    font-weight: 600;
+    color: var(--ink);
+    letter-spacing: 0.01em;
+    line-height: 1.2;
+}
+.university-line .uni-dept {
+    font-family: var(--font-mono);
+    font-size: clamp(0.7rem, 0.9vw, 0.85rem);
+    color: var(--ink-mute);
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    margin-top: 0.35em;
+}
+.title-divider {
+    height: 1px;
+    width: clamp(100px, 15vw, 240px);
+    background: var(--rule);
+    margin: clamp(0.2rem, 0.5vw, 0.4rem) 0;
+}
+.title-kicker {
+    margin-bottom: 0;
+    font-size: clamp(0.72rem, 0.95vw, 0.88rem);
 }
 .title-slide h1 {
-    font-size: clamp(2.5rem, 5.4vw, 5rem);
+    font-size: clamp(1.9rem, 3.8vw, 3.6rem);
     font-weight: 400;
     line-height: 1.05;
-    max-width: 22ch;
-    margin-bottom: clamp(1rem, 2vw, 1.8rem);
+    max-width: 24ch;
+    margin: 0;
 }
 .title-slide h1 em {
     font-style: italic;
@@ -343,39 +394,55 @@ strong { font-weight: 600; color: var(--ink); }
     font-weight: 400;
 }
 .title-slide .subtitle {
-    max-width: 60ch;
-    font-size: clamp(1.15rem, 1.95vw, 1.7rem);
-    margin-bottom: clamp(2rem, 4vw, 3rem);
+    max-width: 64ch;
+    font-size: clamp(0.95rem, 1.35vw, 1.25rem);
+    font-style: italic;
+    color: var(--ink-soft);
+    font-weight: 300;
+    line-height: 1.35;
+    margin: 0;
 }
-.title-slide .meta-block {
-    display: grid;
-    grid-template-columns: auto 1fr;
-    gap: 0.55em clamp(1.4rem, 2.5vw, 2.2rem);
-    align-items: center;
-    padding-top: clamp(1rem, 1.8vw, 1.5rem);
+.authors-block {
+    width: min(82%, 760px);
     border-top: 1px solid var(--rule);
-    font-size: clamp(0.95rem, 1.3vw, 1.2rem);
+    border-bottom: 1px solid var(--rule);
+    padding: clamp(0.5rem, 1.1vw, 0.95rem) clamp(0.8rem, 1.6vw, 1.4rem);
+    background: rgba(247, 244, 236, 0.55);
+    margin-top: clamp(0.3rem, 0.7vw, 0.55rem);
 }
-.title-slide .meta-block .meta-label {
+.authors-block .authors-title {
     font-family: var(--font-mono);
-    font-size: clamp(0.78rem, 1vw, 0.95rem);
+    font-size: clamp(0.7rem, 0.92vw, 0.85rem);
     text-transform: uppercase;
-    letter-spacing: 0.2em;
-    color: var(--ink-mute);
+    letter-spacing: 0.25em;
+    color: var(--accent);
+    font-weight: 600;
+    margin-bottom: clamp(0.3rem, 0.6vw, 0.5rem);
 }
-.title-slide .meta-block .meta-value {
+.authors-block .authors-list {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(0.15rem, 0.35vw, 0.3rem);
+}
+.author-row {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: clamp(0.8rem, 1.6vw, 1.6rem);
+    align-items: baseline;
+    padding: clamp(0.1rem, 0.25vw, 0.2rem) 0;
+    font-size: clamp(0.88rem, 1.15vw, 1.1rem);
+}
+.author-row .author-name {
     color: var(--ink);
     font-weight: 500;
+    text-align: left;
 }
-.uni-logo {
-    width: clamp(110px, 11vw, 180px);
-    position: absolute;
-    top: clamp(2rem, 3.5vw, 3rem);
-    right: clamp(2rem, 4vw, 3.5rem);
-    opacity: 1;
-}
-.closing-slide .uni-logo {
-    width: clamp(80px, 8vw, 130px);
+.author-row .author-code {
+    font-family: var(--font-mono);
+    color: var(--accent);
+    font-size: clamp(0.82rem, 1.05vw, 1rem);
+    letter-spacing: 0.06em;
+    font-weight: 600;
 }
 
 /* ===========================================
@@ -434,7 +501,7 @@ strong { font-weight: 600; color: var(--ink); }
 /* Section number badge (top of header) */
 .slide-number-large {
     font-family: var(--font-mono);
-    font-size: var(--small-size);
+    font-size: clamp(0.95rem, 1.25vw, 1.2rem);
     color: var(--accent);
     letter-spacing: 0.15em;
     font-weight: 600;
@@ -469,10 +536,10 @@ strong { font-weight: 600; color: var(--ink); }
 .stat-card {
     flex: 1;
     min-width: 0;
-    padding: clamp(0.9rem, 1.6vw, 1.4rem);
+    padding: clamp(1.1rem, 2vw, 1.8rem);
     background: var(--paper-soft);
     border: 1px solid var(--rule);
-    border-left: 3px solid var(--accent);
+    border-left: 4px solid var(--accent);
 }
 .stat-card.classical { border-left-color: var(--classical); }
 .stat-card.quantum   { border-left-color: var(--quantum); }
@@ -495,7 +562,7 @@ strong { font-weight: 600; color: var(--ink); }
 .stat-card.classical .value { color: var(--classical); }
 .stat-card.quantum .value   { color: var(--quantum); }
 .stat-card .desc {
-    font-size: var(--small-size);
+    font-size: clamp(0.95rem, 1.3vw, 1.25rem);
     color: var(--ink-soft);
     line-height: 1.5;
 }
@@ -513,18 +580,17 @@ strong { font-weight: 600; color: var(--ink); }
     gap: clamp(0.3rem, 0.7vw, 0.55rem);
 }
 .figure-frame {
-    flex: 1;
     width: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
     background: #ffffff;
     border: 1px solid var(--rule);
-    padding: clamp(0.4rem, 1vw, 0.8rem);
+    padding: clamp(0.4rem, 0.9vw, 0.75rem);
     min-height: 0;
 }
 .figure-frame img {
-    max-height: min(62vh, 620px);
+    max-height: min(50vh, 510px);
     max-width: 100%;
     width: auto;
     height: auto;
@@ -552,24 +618,25 @@ strong { font-weight: 600; color: var(--ink); }
 .reading-note {
     display: grid;
     grid-template-columns: max-content 1fr;
-    gap: clamp(0.6rem, 1.4vw, 1.2rem);
-    padding: clamp(0.6rem, 1.2vw, 1rem) clamp(0.8rem, 1.5vw, 1.3rem);
+    gap: clamp(0.6rem, 1.3vw, 1.2rem);
+    padding: clamp(0.7rem, 1.3vw, 1.1rem) clamp(0.9rem, 1.6vw, 1.4rem);
     background: var(--paper-soft);
-    border-left: 3px solid var(--accent);
+    border-left: 4px solid var(--accent);
     align-items: start;
+    flex-shrink: 0;
 }
 .reading-note .rn-label {
     font-family: var(--font-mono);
-    font-size: var(--caption-size);
+    font-size: clamp(0.85rem, 1.1vw, 1.05rem);
     color: var(--accent);
     text-transform: uppercase;
     letter-spacing: 0.2em;
     font-weight: 600;
-    padding-top: 0.18em;
+    padding-top: 0.15em;
     white-space: nowrap;
 }
 .reading-note .rn-text {
-    font-size: clamp(0.95rem, 1.3vw, 1.25rem);
+    font-size: clamp(0.95rem, 1.25vw, 1.2rem);
     color: var(--ink);
     line-height: 1.5;
 }
@@ -586,7 +653,7 @@ strong { font-weight: 600; color: var(--ink); }
     background: transparent;
 }
 .data-table th, .data-table td {
-    padding: clamp(0.4rem, 0.9vw, 0.7rem) clamp(0.6rem, 1.1vw, 1rem);
+    padding: clamp(0.6rem, 1.2vw, 1rem) clamp(0.8rem, 1.4vw, 1.3rem);
     text-align: left;
 }
 .data-table thead th {
@@ -612,11 +679,11 @@ strong { font-weight: 600; color: var(--ink); }
     list-style: none;
     display: flex;
     flex-direction: column;
-    gap: clamp(0.35rem, 0.8vw, 0.65rem);
+    gap: clamp(0.55rem, 1.1vw, 0.95rem);
 }
 .bullet-list li {
     position: relative;
-    padding-left: 1.2em;
+    padding-left: 1.3em;
     color: var(--ink);
     font-size: var(--body-size);
     line-height: 1.5;
@@ -637,27 +704,29 @@ strong { font-weight: 600; color: var(--ink); }
     counter-reset: item;
     display: flex;
     flex-direction: column;
-    gap: clamp(0.4rem, 0.9vw, 0.75rem);
+    gap: clamp(0.7rem, 1.4vw, 1.25rem);
+    font-size: var(--body-size);
 }
 .numbered-list li {
     counter-increment: item;
     position: relative;
-    padding-left: 2.2em;
+    padding-left: 2.4em;
     color: var(--ink);
     line-height: 1.5;
+    font-size: var(--body-size);
 }
 .numbered-list li::before {
     content: counter(item);
     position: absolute;
     left: 0;
-    top: 0.05em;
+    top: 0.1em;
     font-family: var(--font-mono);
-    font-size: var(--small-size);
+    font-size: clamp(0.95rem, 1.25vw, 1.2rem);
     color: var(--accent);
     font-weight: 600;
-    width: 1.6em;
+    width: 1.7em;
     text-align: right;
-    padding-right: 0.4em;
+    padding-right: 0.5em;
     border-right: 1px solid var(--rule);
 }
 
@@ -687,7 +756,7 @@ strong { font-weight: 600; color: var(--ink); }
     width: 100%;
 }
 .pipeline .step {
-    padding: clamp(0.7rem, 1.3vw, 1rem);
+    padding: clamp(1rem, 1.7vw, 1.4rem);
     background: var(--paper-soft);
     border: 1px solid var(--rule);
     position: relative;
@@ -725,30 +794,33 @@ strong { font-weight: 600; color: var(--ink); }
     margin-bottom: 0.35em;
 }
 .pipeline .step-desc {
-    font-size: clamp(0.85rem, 1.1vw, 1.05rem);
+    font-size: clamp(0.95rem, 1.25vw, 1.2rem);
     color: var(--ink-soft);
-    line-height: 1.45;
+    line-height: 1.5;
 }
 
 /* ===========================================
-   AGENDA
+   AGENDA — distribuye el espacio vertical
    =========================================== */
 .agenda-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: clamp(0.5rem, 1.2vw, 0.9rem) clamp(1rem, 3vw, 2.5rem);
+    gap: clamp(0.4rem, 0.9vw, 0.7rem) clamp(1.5rem, 3.5vw, 3rem);
+    margin-top: clamp(0.6rem, 1.2vw, 1rem);
+    flex: 1;
+    align-content: space-around;
 }
 .agenda-row {
     display: grid;
-    grid-template-columns: 2.5em 1fr;
+    grid-template-columns: 3.2em 1fr;
     align-items: baseline;
-    gap: 0.8em;
-    padding: clamp(0.4rem, 0.9vw, 0.7rem) 0;
+    gap: clamp(0.6rem, 1vw, 1rem);
+    padding: clamp(0.9rem, 1.8vw, 1.5rem) 0;
     border-bottom: 1px solid var(--rule);
 }
 .agenda-row .a-num {
     font-family: var(--font-mono);
-    font-size: var(--small-size);
+    font-size: clamp(1rem, 1.3vw, 1.2rem);
     color: var(--accent);
     font-weight: 600;
     letter-spacing: 0.05em;
@@ -772,8 +844,8 @@ strong { font-weight: 600; color: var(--ink); }
    QUOTE / CALL-OUT (formal pull quote)
    =========================================== */
 .callout {
-    padding: clamp(0.9rem, 1.8vw, 1.5rem);
-    border-top: 2px solid var(--accent);
+    padding: clamp(1.1rem, 2.2vw, 1.9rem) clamp(1rem, 2vw, 1.6rem);
+    border-top: 3px solid var(--accent);
     border-bottom: 1px solid var(--rule);
     background: transparent;
 }
@@ -788,7 +860,7 @@ strong { font-weight: 600; color: var(--ink); }
 }
 .callout p {
     font-family: var(--font-serif);
-    font-size: clamp(1.1rem, 1.8vw, 1.55rem);
+    font-size: clamp(1.2rem, 1.95vw, 1.75rem);
     color: var(--ink);
     line-height: 1.45;
     font-weight: 300;
@@ -802,15 +874,15 @@ strong { font-weight: 600; color: var(--ink); }
 .param-block {
     background: var(--paper-soft);
     border: 1px solid var(--rule);
-    padding: clamp(0.7rem, 1.4vw, 1.1rem);
+    padding: clamp(1rem, 1.8vw, 1.5rem);
 }
 .param-block .pb-title {
     font-family: var(--font-mono);
-    font-size: var(--caption-size);
+    font-size: clamp(0.85rem, 1.1vw, 1.05rem);
     text-transform: uppercase;
     letter-spacing: 0.2em;
     color: var(--accent);
-    margin-bottom: 0.6em;
+    margin-bottom: 0.7em;
     font-weight: 600;
 }
 .param-block .pb-row {
@@ -826,52 +898,125 @@ strong { font-weight: 600; color: var(--ink); }
 .param-block .pb-val { font-family: var(--font-mono); color: var(--ink); font-weight: 500; }
 
 /* ===========================================
-   CLOSING SLIDE
+   CLOSING SLIDE — centered, compact for 16:9
    =========================================== */
-.closing-slide {
-    background: var(--paper);
-}
-.closing-slide .slide-content {
-    align-items: flex-start;
+.closing-slide { background: var(--paper); }
+.closing-slide .slide-content,
+.closing-slide .closing-content {
+    padding: clamp(1.2rem, 2.5vw, 2rem) var(--slide-pad-x);
+    align-items: center;
     justify-content: center;
-    padding: var(--slide-pad-x);
+    text-align: center;
+    gap: clamp(0.45rem, 1vw, 0.9rem);
 }
-.closing-slide .ribbon {
-    height: 4px;
-    width: clamp(50px, 8vw, 90px);
-    background: var(--accent);
-    margin-bottom: clamp(1.2rem, 2.6vw, 2rem);
+.closing-logo {
+    width: clamp(95px, 11vw, 165px);
+    height: auto;
+    margin-bottom: clamp(0.2rem, 0.5vw, 0.4rem);
+}
+.closing-slide .kicker {
+    margin-bottom: 0;
+    font-size: clamp(0.72rem, 0.95vw, 0.88rem);
 }
 .closing-slide h1 {
-    font-size: clamp(3rem, 7vw, 6rem);
+    font-size: clamp(2.2rem, 4.6vw, 4.2rem);
     font-weight: 400;
     max-width: 14ch;
     line-height: 1.05;
-    margin-bottom: clamp(1rem, 2vw, 1.6rem);
+    margin: 0;
 }
 .closing-slide h1 em { font-style: italic; color: var(--accent); }
+.closing-slide .subtitle {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: clamp(0.95rem, 1.3vw, 1.2rem);
+    color: var(--ink-soft);
+    font-weight: 300;
+    max-width: 60ch;
+    line-height: 1.35;
+    margin: 0;
+}
 .closing-slide .closing-tags {
     display: flex;
-    gap: clamp(0.5rem, 1.2vw, 1rem);
+    gap: clamp(0.5rem, 1.1vw, 0.95rem);
     flex-wrap: wrap;
-    margin-top: clamp(1rem, 2vw, 1.6rem);
+    justify-content: center;
+    margin: clamp(0.25rem, 0.6vw, 0.5rem) 0 0;
 }
 .tag {
-    padding: 0.3em 0.9em;
+    padding: 0.35em 1em;
     border: 1px solid currentColor;
     font-family: var(--font-mono);
-    font-size: var(--small-size);
+    font-size: clamp(0.8rem, 1.05vw, 1rem);
     color: var(--accent);
-    letter-spacing: 0.04em;
+    letter-spacing: 0.06em;
+    font-weight: 500;
 }
 .tag.classical { color: var(--classical); }
 .tag.quantum   { color: var(--quantum); }
-.closing-slide .signature {
-    margin-top: clamp(1.5rem, 3vw, 2.5rem);
-    padding-top: clamp(0.7rem, 1.4vw, 1.1rem);
+
+.closing-divider {
+    height: 1px;
+    width: clamp(100px, 14vw, 220px);
+    background: var(--rule);
+    margin: clamp(0.2rem, 0.5vw, 0.4rem) 0;
+}
+
+.closing-authors {
+    width: min(88%, 1000px);
     border-top: 1px solid var(--rule);
-    font-size: var(--small-size);
-    color: var(--ink-soft);
+    border-bottom: 1px solid var(--rule);
+    padding: clamp(0.55rem, 1.1vw, 0.95rem) clamp(0.8rem, 1.6vw, 1.4rem);
+    background: rgba(247, 244, 236, 0.55);
+}
+.closing-authors .ca-title {
+    font-family: var(--font-mono);
+    font-size: clamp(0.7rem, 0.92vw, 0.85rem);
+    text-transform: uppercase;
+    letter-spacing: 0.25em;
+    color: var(--accent);
+    font-weight: 600;
+    margin-bottom: clamp(0.3rem, 0.6vw, 0.5rem);
+}
+.closing-authors .ca-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: clamp(0.4rem, 0.9vw, 0.8rem);
+}
+.closing-authors .ca-item {
+    text-align: center;
+    padding: 0 clamp(0.25rem, 0.6vw, 0.5rem);
+    border-left: 1px solid var(--rule);
+}
+.closing-authors .ca-item:first-child { border-left: none; }
+.closing-authors .ca-name {
+    font-family: var(--font-serif);
+    font-size: clamp(0.85rem, 1.1vw, 1.05rem);
+    color: var(--ink);
+    font-weight: 500;
+    line-height: 1.2;
+    margin-bottom: 0.2em;
+}
+.closing-authors .ca-code {
+    font-family: var(--font-mono);
+    font-size: clamp(0.78rem, 1vw, 0.95rem);
+    color: var(--accent);
+    letter-spacing: 0.08em;
+    font-weight: 600;
+}
+.closing-foot {
+    font-family: var(--font-mono);
+    font-size: clamp(0.72rem, 0.95vw, 0.88rem);
+    color: var(--ink-mute);
+    letter-spacing: 0.05em;
+    margin-top: clamp(0.2rem, 0.5vw, 0.4rem);
+    max-width: 95%;
+    line-height: 1.4;
+}
+@media (max-width: 800px) {
+    .closing-authors .ca-grid { grid-template-columns: 1fr; }
+    .closing-authors .ca-item { border-left: none; border-top: 1px solid var(--rule); padding-top: 0.4rem; }
+    .closing-authors .ca-item:first-child { border-top: none; padding-top: 0; }
 }
 
 </style>
@@ -889,21 +1034,35 @@ strong { font-weight: 600; color: var(--ink); }
      01 — PORTADA
      =================================================================== -->
 <section class="slide title-slide">
-    <img src="graficos/escudo_transparente.png" alt="UNSAAC" class="uni-logo">
-    <div class="slide-content">
-        <div class="ribbon reveal"></div>
-        <div class="kicker reveal">Proyecto Semestral · Computación Cuántica · 2026</div>
+    <div class="slide-content title-content">
+        <img src="graficos/escudo_transparente.png" alt="Escudo UNSAAC" class="title-logo reveal">
+        <div class="university-line reveal">
+            <div class="uni-name">Universidad Nacional de San Antonio Abad del Cusco</div>
+            <div class="uni-dept">Departamento Académico de Informática · Computación Cuántica</div>
+        </div>
+
+        <div class="title-divider reveal"></div>
+
+        <div class="kicker reveal title-kicker">Proyecto Semestral · Mayo 2026</div>
         <h1 class="reveal">Clasificación <em>cuántica</em> sobre el dataset Iris</h1>
-        <p class="subtitle reveal">Comparación de los modelos VQC y QSVC frente a baselines clásicos (SVM-RBF, MLP, KNN)</p>
-        <div class="meta-block reveal">
-            <div class="meta-label">Autor</div>
-            <div class="meta-value">Edmil Jampier Saire Bustamante</div>
-            <div class="meta-label">Institución</div>
-            <div class="meta-value">Universidad Nacional de San Antonio Abad del Cusco</div>
-            <div class="meta-label">Departamento</div>
-            <div class="meta-value">Departamento Académico de Informática</div>
-            <div class="meta-label">Curso</div>
-            <div class="meta-value">Computación Cuántica — Mayo 2026</div>
+        <p class="subtitle reveal">Comparación de los modelos VQC y QSVC frente a baselines clásicos<br>SVM-RBF, MLP y KNN</p>
+
+        <div class="authors-block reveal">
+            <div class="authors-title">Autores</div>
+            <div class="authors-list">
+                <div class="author-row">
+                    <span class="author-name">Lozano Llacctahuaman, Medaly</span>
+                    <span class="author-code">195050</span>
+                </div>
+                <div class="author-row">
+                    <span class="author-name">Puma Potosino, José Francisco</span>
+                    <span class="author-code">164248</span>
+                </div>
+                <div class="author-row">
+                    <span class="author-name">Saire Bustamante, Edmil Jampier</span>
+                    <span class="author-code">174449</span>
+                </div>
+            </div>
         </div>
     </div>
 </section>
@@ -1991,22 +2150,41 @@ strong { font-weight: 600; color: var(--ink); }
      31 — CIERRE / Q&A
      =================================================================== -->
 <section class="slide closing-slide">
-    <img src="graficos/escudo_transparente.png" alt="UNSAAC" class="uni-logo">
-    <div class="slide-content">
-        <div class="ribbon reveal"></div>
+    <div class="slide-content closing-content">
+        <img src="graficos/escudo_transparente.png" alt="Escudo UNSAAC" class="closing-logo reveal">
+
         <div class="kicker reveal">Fin de la exposición</div>
         <h1 class="reveal">Gracias por su <em>atención</em></h1>
-        <p class="subtitle reveal" style="max-width: 50ch">Preguntas, comentarios y discusión sobre los resultados, la metodología o los siguientes pasos.</p>
+        <p class="subtitle reveal">Preguntas, comentarios y discusión sobre los resultados,<br>la metodología o los siguientes pasos del proyecto.</p>
 
         <div class="closing-tags reveal">
-            <div class="tag classical">SVM-RBF — 93.3%</div>
-            <div class="tag quantum">QSVC — 77.8%</div>
-            <div class="tag quantum">VQC — 37.8%</div>
+            <div class="tag classical">SVM-RBF · 93.3%</div>
+            <div class="tag quantum">QSVC · 77.8%</div>
+            <div class="tag quantum">VQC · 37.8%</div>
         </div>
 
-        <div class="signature reveal">
-            <strong>Edmil Jampier Saire Bustamante</strong> &nbsp;·&nbsp; UNSAAC &nbsp;·&nbsp; Departamento Académico de Informática<br>
-            Curso de Computación Cuántica &nbsp;·&nbsp; Mayo 2026
+        <div class="closing-divider reveal"></div>
+
+        <div class="closing-authors reveal">
+            <div class="ca-title">Autores</div>
+            <div class="ca-grid">
+                <div class="ca-item">
+                    <div class="ca-name">Lozano Llacctahuaman, Medaly</div>
+                    <div class="ca-code">195050</div>
+                </div>
+                <div class="ca-item">
+                    <div class="ca-name">Puma Potosino, José Francisco</div>
+                    <div class="ca-code">164248</div>
+                </div>
+                <div class="ca-item">
+                    <div class="ca-name">Saire Bustamante, Edmil Jampier</div>
+                    <div class="ca-code">174449</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="closing-foot reveal">
+            Universidad Nacional de San Antonio Abad del Cusco &nbsp;·&nbsp; Departamento Académico de Informática &nbsp;·&nbsp; Computación Cuántica · Mayo 2026
         </div>
     </div>
 </section>

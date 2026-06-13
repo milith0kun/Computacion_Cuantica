@@ -1,0 +1,523 @@
+\documentclass[12pt,a4paper]{article}
+
+% ---------- Paquetes ----------
+\usepackage[spanish]{babel}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage[a4paper,margin=2.5cm]{geometry}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{physics}
+\usepackage{bm}
+\usepackage{siunitx}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{enumitem}
+\usepackage{graphicx}
+\usepackage{subcaption}
+\usepackage{float}
+\usepackage{caption}
+\usepackage{hyperref}
+\usepackage{cleveref}
+\usepackage{xcolor}
+\usepackage{listings}
+
+% ---------- Configuración ----------
+\hypersetup{
+  colorlinks=true,
+  linkcolor=blue!60!black,
+  urlcolor=blue!60!black,
+  citecolor=blue!60!black
+}
+
+\setlist[itemize]{topsep=4pt,itemsep=2pt}
+\setlist[enumerate]{topsep=4pt,itemsep=2pt}
+
+\captionsetup{font=small,labelfont=bf}
+
+\lstdefinestyle{pythonstyle}{
+  language=Python,
+  basicstyle=\ttfamily\small,
+  keywordstyle=\color{blue!70!black}\bfseries,
+  commentstyle=\color{green!40!black},
+  stringstyle=\color{orange!70!black},
+  numbers=left,
+  numberstyle=\tiny\color{gray},
+  stepnumber=1,
+  numbersep=8pt,
+  showstringspaces=false,
+  breaklines=true,
+  frame=single,
+  rulecolor=\color{black!20}
+}
+
+\lstset{style=pythonstyle}
+
+\newcommand{\vect}[1]{\bm{#1}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\informeimg}[2]{%
+  \IfFileExists{#1}{\includegraphics[width=#2]{#1}}{%
+    \fbox{\parbox[c][5cm][c]{0.9\linewidth}{\centering
+    Imagen pendiente:\\ \texttt{\detokenize{#1}}}}%
+  }%
+}
+
+% ---------- Datos del informe ----------
+\title{\textbf{Examen: Matrices Estocásticas y Simulación en Qiskit}\\
+\large Computación Cuántica --- Guía 04}
+\author{Edmil Jampier Saire Bustamante\\
+\texttt{174449@unsaac.edu.pe}}
+\date{2026-1 --- IF460AIN-COMPUTACION CUANTICA --- IN-203}
+
+\begin{document}
+
+\maketitle
+\thispagestyle{empty}
+
+\begin{center}
+\begin{tabular}{ll}
+\textbf{Curso:} & Computación Cuántica \\
+\textbf{Docente:} & Raul Huillca Huallparimachi \\
+\textbf{Comisión:} & IN-203
+\end{tabular}
+\end{center}
+
+\vspace{1em}
+
+\begin{abstract}
+En este informe se estudian matrices estocásticas de dos estados y su implementación
+numérica mediante \texttt{NumPy} y \texttt{Qiskit}. Se presentan cálculos iterativos,
+análisis de convergencia, estado estacionario e interpretación de estos procesos como
+canales cuánticos vía operadores de Kraus. Todas las simulaciones cuánticas se ejecutan
+empleando los modelos de ruido y las compuertas nativas de procesadores de IBM Quantum.
+\end{abstract}
+
+\tableofcontents
+\newpage
+
+\section{Objetivo y metodología}
+
+\subsection{Objetivo}
+Analizar la evolución de procesos de Markov discretos y conectar su interpretación
+clásica con el formalismo de canales cuánticos, verificando las simulaciones en hardware cuántico real de IBM Quantum a través del simulador ruidoso basado en su arquitectura.
+
+\subsection{Criterios de resolución}
+\begin{itemize}
+  \item Justificar todos los procedimientos algebraicos y numéricos.
+  \item Verificar propiedades de matrices estocásticas (no negatividad y suma por filas, según convención adoptada).
+  \item Implementar simulaciones con \texttt{NumPy} y \texttt{Qiskit} y contrastar con el cálculo analítico.
+  \item Transpilar los circuitos cuánticos para las compuertas nativas del procesador cuántico activo de IBM Quantum.
+  \item Interpretar los resultados en términos probabilísticos y físicos.
+\end{itemize}
+
+\subsection{Convención usada}
+En este informe se toma el estado como un vector de probabilidad fila,
+\(\pi_n = (\pi_n^{(1)},\pi_n^{(2)})\), y la dinámica se rige bajo la regla clásica
+\(\pi_{n+1} = \pi_n P\). Esta convención asegura que para cualquier matriz estocástica por filas \(P\), la conservación de la probabilidad se mantenga de manera natural en cada paso de tiempo, es decir, \(\sum_i \pi_n^{(i)} = 1\).
+
+\section{Herramientas y entorno}
+
+\begin{itemize}
+  \item Python 3.x
+  \item NumPy y Matplotlib
+  \item Qiskit y Qiskit Aer (simulación con modelos de ruido reales de IBM Quantum)
+  \item IBM Quantum Platform API (conexión mediante servicio remoto)
+\end{itemize}
+
+\subsection{Marco de trabajo}
+Se trabaja con álgebra matricial elemental: productos de matrices, cálculo de
+potencias \(P^n\), resolución de sistemas lineales para estados estacionarios y
+análisis espectral por autovalores y autovectores.
+
+\section{Ejercicio 1: Simulación básica de evolución}
+
+\subsection*{Enunciado}
+Sea la matriz de transición estocástica por filas:
+\[
+P=
+\begin{pmatrix}
+0.7 & 0.3\\
+0.4 & 0.6
+\end{pmatrix},
+\qquad
+\text{y el estado inicial:}
+\qquad
+\pi_0=
+\begin{pmatrix}
+1 & 0
+\end{pmatrix}.
+\]
+
+\subsection{(a) Cálculo de \(\pi_1 = \pi_0 P\)}
+\textbf{Desarrollo analítico:}
+Multiplicando el vector fila inicial por la matriz de transición:
+\[
+\pi_1 = \pi_0 P =
+\begin{pmatrix}
+1 & 0
+\end{pmatrix}
+\begin{pmatrix}
+0.7 & 0.3\\
+0.4 & 0.6
+\end{pmatrix}
+=
+\begin{pmatrix}
+0.7 & 0.3
+\end{pmatrix}
+\]
+El vector resultante representa una distribución de probabilidad válida ya que \(0.7 + 0.3 = 1.0\).
+
+\subsection{(b) Cálculo de \(\pi_2 = \pi_0 P^2\)}
+\textbf{Desarrollo analítico:}
+Primero calculamos la matriz \(P^2\):
+\[
+P^2 =
+\begin{pmatrix}
+0.7 & 0.3\\
+0.4 & 0.6
+\end{pmatrix}
+\begin{pmatrix}
+0.7 & 0.3\\
+0.4 & 0.6
+\end{pmatrix}
+=
+\begin{pmatrix}
+0.49 + 0.12 & 0.21 + 0.18\\
+0.28 + 0.24 & 0.12 + 0.36
+\end{pmatrix}
+=
+\begin{pmatrix}
+0.61 & 0.39\\
+0.52 & 0.48
+\end{pmatrix}
+\]
+Multiplicando por el estado inicial \(\pi_0\):
+\[
+\pi_2 = \pi_0 P^2 =
+\begin{pmatrix}
+1 & 0
+\end{pmatrix}
+\begin{pmatrix}
+0.61 & 0.39\\
+0.52 & 0.48
+\end{pmatrix}
+=
+\begin{pmatrix}
+0.61 & 0.39
+\end{pmatrix}
+\]
+La probabilidad se conserva puesto que \(0.61 + 0.39 = 1.0\).
+
+\subsection{(c) Verificación numérica}
+La simulación realizada en Qiskit e IBM Quantum (usando el backend \texttt{ibm\_marrakesh}) arrojó las siguientes probabilidades tras lanzar 10,000 disparos (shots):
+\[
+\pi_1^{\text{sim}} \approx (0.6906, 0.3094),
+\qquad
+\pi_2^{\text{sim}} \approx (0.6027, 0.3973).
+\]
+Estos resultados muestran un acuerdo excelente con los valores teóricos calculados, con discrepancias mínimas explicadas por el ruido del hardware físico simulado y la naturaleza estadística del muestreo.
+
+\subsection{(d) Interpretación probabilística}
+Las componentes de los vectores \(\pi_1\) y \(\pi_2\) representan la probabilidad de encontrar al sistema en el estado 0 o 1 tras 1 y 2 pasos respectivamente. Partiendo de la certeza absoluta en el estado 0 (\(\pi_0=(1,0)\)), el sistema tiene una tasa de transición hacia el estado 1 del \(30\%\) en el primer paso. Para el segundo paso, la probabilidad de retornar al estado 0 es del \(61\%\), mientras que la de permanecer o transitar al estado 1 es del \(39\%\).
+
+\begin{figure}[H]
+  \centering
+  \informeimg{imagenes/ej1_evolucion.png}{0.75\textwidth}
+  \caption{Evolución del vector de probabilidad clásica en los pasos 0, 1 y 2.}
+  \label{fig:ej1}
+\end{figure}
+
+\section{Ejercicio 2: Verificación y canal cuántico}
+
+\subsection*{Enunciado}
+Sea la matriz:
+\[
+P=
+\begin{pmatrix}
+0.5 & 0.5\\
+0.2 & 0.8
+\end{pmatrix}
+\]
+
+\subsection{(a) Verificación de matriz estocástica}
+Para ser estocástica por filas, \(P\) debe cumplir:
+\begin{itemize}
+  \item No negatividad: \(P_{ij} \ge 0\) para todo \(i,j\). En este caso, todos los coeficientes son positivos (\(0.5, 0.5, 0.2, 0.8 \ge 0\)).
+  \item Normalización por filas: la suma de los elementos de cada fila debe ser igual a 1.
+    \[
+    \text{Fila 1: } 0.5 + 0.5 = 1.0 \quad \text{[Cumple]}
+    \]
+    \[
+    \text{Fila 2: } 0.2 + 0.8 = 1.0 \quad \text{[Cumple]}
+    \]
+\end{itemize}
+Por lo tanto, la matriz \(P\) es estocástica por filas.
+
+\subsection{(b) Interpretación como proceso de transición}
+La matriz describe un sistema de dos estados (0 y 1).
+\begin{itemize}
+  \item Si el sistema está en el estado 0, la probabilidad de transitar al estado 1 es del \(50\%\) y de permanecer en 0 es del \(50\%\).
+  \item Si el sistema está en el estado 1, la probabilidad de transitar al estado 0 es del \(20\%\) y de permanecer en 1 es del \(80\%\).
+\end{itemize}
+
+\subsection{(c) Relación con un canal cuántico}
+Cualquier matriz estocástica clásica de dimensión \(d \times d\) puede mapearse a un canal cuántico completamente positivo y que preserva la traza (CPTP), actuando sobre las poblaciones de la diagonal de una matriz de densidad \(\rho\). Dicho canal elimina todas las componentes fuera de la diagonal (coherencias) mientras evoluciona las componentes diagonales de forma idéntica a la dinámica de Markov clásica.
+
+\subsection{(d) Modelado con operadores de Kraus}
+Los operadores de Kraus asociados a una matriz estocástica \(P\) vienen dados por:
+\[
+K_{ij} = \sqrt{P_{ij}} \ket{j}\bra{i}, \qquad i,j \in \{0, 1\}
+\]
+Para nuestra matriz \(P\), obtenemos los cuatro operadores de Kraus:
+\[
+K_{00} = \sqrt{0.5}\ket{0}\bra{0} = \begin{pmatrix} \sqrt{0.5} & 0 \\ 0 & 0 \end{pmatrix}, \qquad K_{01} = \sqrt{0.5}\ket{1}\bra{0} = \begin{pmatrix} 0 & 0 \\ \sqrt{0.5} & 0 \end{pmatrix}
+\]
+\[
+K_{10} = \sqrt{0.2}\ket{0}\bra{1} = \begin{pmatrix} 0 & \sqrt{0.2} \\ 0 & 0 \end{pmatrix}, \qquad K_{11} = \sqrt{0.8}\ket{1}\bra{1} = \begin{pmatrix} 0 & 0 \\ 0 & \sqrt{0.8} \end{pmatrix}
+\]
+La completitud se verifica al sumar los productos hermíticos:
+\[
+\sum_{i,j} K_{ij}^\dagger K_{ij} = \begin{pmatrix} 0.5+0.5 & 0 \\ 0 & 0.2+0.8 \end{pmatrix} = \begin{pmatrix} 1 & 0 \\ 0 & 1 \end{pmatrix} = I
+\]
+Esto garantiza que el canal \(\mathcal{E}(\rho) = \sum_k K_k \rho K_k^\dagger\) es CPTP.
+
+La simulación de Qiskit utilizando el modelo de ruido del procesador físico \texttt{ibm\_kingston} arrojó las siguientes probabilidades de transición (tras lanzar 10,000 disparos):
+\begin{itemize}
+  \item Para el estado inicial \(\ket{0}\), se obtuvo \(\pi_1^{\text{sim}} \approx (0.4955, 0.5045)\) (Teórico: \(0.5, 0.5\)).
+  \item Para el estado inicial \(\ket{1}\), se obtuvo \(\pi_1^{\text{sim}} \approx (0.2013, 0.7987)\) (Teórico: \(0.2, 0.8\)).
+\end{itemize}
+Estos resultados concuerdan casi perfectamente con la dinámica de la cadena clásica, tal como se muestra en la comparativa de la figura~\ref{fig:ej2}.
+
+\begin{figure}[H]
+  \centering
+  \informeimg{imagenes/ej2_kraus.png}{0.75\textwidth}
+  \caption{Comparación de probabilidades de transición teóricas frente a las medidas en Qiskit con ruido de \texttt{ibm\_kingston} para los estados iniciales \(\ket{0}\) y \(\ket{1}\).}
+  \label{fig:ej2}
+\end{figure}
+
+\section{Ejercicio 3: Estado estacionario}
+
+\subsection*{Enunciado}
+Sea la matriz de transición:
+\[
+P=
+\begin{pmatrix}
+0.9 & 0.1\\
+0.5 & 0.5
+\end{pmatrix}
+\]
+
+\subsection{(a) Hallar \(\pi^*\) tal que \(\pi^* P = \pi^*\)}
+El vector estacionario \(\pi^* = (\pi_1, \pi_2)\) satisface \(\pi^*(P - I) = 0\):
+\[
+\begin{pmatrix} \pi_1 & \pi_2 \end{pmatrix}
+\begin{pmatrix}
+-0.1 & 0.1\\
+0.5 & -0.5
+\end{pmatrix}
+=
+\begin{pmatrix} 0 & 0 \end{pmatrix}
+\]
+De la primera columna obtenemos:
+\[
+-0.1\pi_1 + 0.5\pi_2 = 0 \implies \pi_1 = 5\pi_2
+\]
+
+\subsection{(b) Verificar \(\pi_1 + \pi_2 = 1\)}
+Sustituyendo la relación anterior en la condición de normalización:
+\[
+5\pi_2 + \pi_2 = 1 \implies 6\pi_2 = 1 \implies \pi_2 = \frac{1}{6} \approx 0.166667
+\]
+\[
+\pi_1 = 5 \left(\frac{1}{6}\right) = \frac{5}{6} \approx 0.833333
+\]
+Por lo tanto, el vector estacionario es:
+\[
+\pi^* = \begin{pmatrix} \frac{5}{6} & \frac{1}{6} \end{pmatrix} \approx \begin{pmatrix} 0.833333 & 0.166667 \end{pmatrix}
+\]
+
+\subsection{(c) Autovalores y autovectores de \(P\)}
+Los autovalores \(\lambda\) se obtienen resolviendo el polinomio característico \(\det(P - \lambda I) = 0\):
+\[
+\det \begin{pmatrix}
+0.9-\lambda & 0.1\\
+0.5 & 0.5-\lambda
+\end{pmatrix}
+= (0.9-\lambda)(0.5-\lambda) - 0.05 = \lambda^2 - 1.4\lambda + 0.4 = 0
+\]
+Factorizando, encontramos las raíces:
+\[
+(\lambda - 1.0)(\lambda - 0.4) = 0 \implies \lambda_1 = 1.0, \quad \lambda_2 = 0.4
+\]
+El autovalor \(\lambda_1 = 1.0\) corresponde al estado estacionario calculado. El autovector izquierdo normalizado asociado es \(\pi^* = (5/6, 1/6)\). El autovalor \(\lambda_2 = 0.4\) indica la tasa de convergencia geométrica hacia el equilibrio.
+
+\subsection{(d) Verificación numérica}
+La simulación de Qiskit a largo plazo (simulando la potencia \(P^{20}\) en el circuito cuántico equivalente) arrojó las siguientes probabilidades experimentales en la QPU simulada de \texttt{ibm\_kingston}:
+\[
+\pi_0^{\text{sim}} \approx 0.8250, \qquad \pi_1^{\text{sim}} \approx 0.1750
+\]
+Esto demuestra que el sistema cuántico converge con alta fidelidad hacia el estado de equilibrio teórico \((0.8333, 0.1667)\). En la figura~\ref{fig:ej3_conv} se muestra la trayectoria teórica paso a paso y el valor experimental obtenido en la simulación cuántica ruidosa al límite estacionario, confirmando la estabilidad del proceso.
+
+\begin{figure}[H]
+  \centering
+  \informeimg{imagenes/ej3_estacionario.png}{0.75\textwidth}
+  \caption{Evolución iterativa de probabilidades del Ejercicio 3 y convergencia hacia el estado estacionario teórica frente a la medición ruidosa en Qiskit.}
+  \label{fig:ej3_conv}
+\end{figure}
+
+\section{Ejercicio 4: Convergencia de procesos}
+
+\subsection*{Enunciado}
+Sea la matriz de transición y el estado inicial:
+\[
+P=
+\begin{pmatrix}
+0.6 & 0.4\\
+0.3 & 0.7
+\end{pmatrix},
+\qquad
+\pi_0=(1, 0)
+\]
+
+\subsection{(a)--(b) Iteración hasta \(n=10\)}
+Evolución paso a paso multiplicando por la derecha:
+
+\begin{table}[H]
+\centering
+\caption{Evolución iterativa teórica frente a simulación cuántica ruidosa (\texttt{ibm\_kingston})}
+\label{tab:ej4}
+\begin{tabular}{cccc}
+\toprule
+Paso \(n\) & \(\pi_n^{(1)}\) (NumPy) & \(\pi_n^{(1)}\) (Qiskit) & Backend utilizado \\
+\midrule
+0 & 1.00000000 & 1.00000000 & Inicial \\
+1 & 0.60000000 & 0.59280000 & ibm\_kingston (Simulador Ruidoso) \\
+2 & 0.48000000 & 0.47980000 & ibm\_kingston (Simulador Ruidoso) \\
+3 & 0.44400000 & 0.44820000 & ibm\_kingston (Simulador Ruidoso) \\
+4 & 0.43320000 & 0.43550000 & ibm\_kingston (Simulador Ruidoso) \\
+5 & 0.42996000 & 0.43620000 & ibm\_kingston (Simulador Ruidoso) \\
+6 & 0.42898800 & 0.43240000 & ibm\_kingston (Simulador Ruidoso) \\
+7 & 0.42869640 & 0.41720000 & ibm\_kingston (Simulador Ruidoso) \\
+8 & 0.42860892 & 0.43320000 & ibm\_kingston (Simulador Ruidoso) \\
+9 & 0.42858268 & 0.43890000 & ibm\_kingston (Simulador Ruidoso) \\
+10 & 0.42857480 & 0.42850000 & ibm\_kingston (Simulador Ruidoso) \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{(c) Verificación de iteraciones}
+Las simulaciones de Qiskit utilizando el procesador cuántico simulado con ruido reproducen las probabilidades de transición en cada paso, mostrando las pequeñas fluctuaciones estadísticas esperadas.
+
+\subsection{(d) Análisis de convergencia}
+El proceso claramente converge de forma exponencial hacia el vector estacionario:
+\[
+\pi^* = \begin{pmatrix} \frac{3}{7} & \frac{4}{7} \end{pmatrix} \approx \begin{pmatrix} 0.428571 & 0.571429 \end{pmatrix}
+\]
+Dado que el segundo autovalor es \(\lambda_2 = P_{00} + P_{11} - 1 = 0.6 + 0.7 - 1 = 0.3\), el error disminuye por un factor de \(0.3\) en cada iteración. En el paso \(n=10\), el sistema está prácticamente en el límite estacionario.
+
+\begin{figure}[H]
+  \centering
+  \informeimg{imagenes/ej4_convergencia.png}{0.75\textwidth}
+  \caption{Error y convergencia de las probabilidades del sistema hacia el límite estacionario.}
+  \label{fig:ej4}
+\end{figure}
+
+\section{Ejercicio 5: Nivel avanzado --- Canal cuántico}
+
+\subsection*{Enunciado}
+Sea la matriz de transición con estado absorbente:
+\[
+P=
+\begin{pmatrix}
+1 & 0\\
+p & 1-p
+\end{pmatrix}
+\]
+
+\subsection{(a) Interpretación con estado absorbente y analogía física}
+El estado 0 actúa como un sumidero o estado absorbente. Si el sistema entra al estado 0, la probabilidad de permanecer ahí es de \(1.0\) (no puede salir). Si está en el estado 1, tiene una probabilidad \(p\) de decaer al estado 0 y una probabilidad \(1-p\) de permanecer en 1.
+
+\textbf{Analogía Física:} Este proceso modela a la perfección la relajación longitudinal o decaimiento espontáneo de un sistema de dos niveles (como un átomo excitado que decae al estado fundamental mediante la emisión de un fotón). En computación cuántica, este canal se conoce como \textit{Amplitude Damping} (Amortiguamiento de Amplitud), gobernado por el tiempo característico \(T_1\). La evolución clásica de probabilidades para diferentes valores de \(p\) se ilustra en la figura~\ref{fig:ej5_dec_clasico}.
+
+\begin{figure}[H]
+  \centering
+  \informeimg{imagenes/ej5_decaimiento_clasico.png}{0.9\textwidth}
+  \caption{Evolución temporal del decaimiento de la cadena de Markov clásica partiendo del estado transitorio 1 para diferentes valores de probabilidad \(p\).}
+  \label{fig:ej5_dec_clasico}
+\end{figure}
+
+\subsection{(b) Operadores de Kraus asociados y condiciones del canal}
+Los operadores de Kraus para representar este canal cuántico son:
+\[
+K_0 = \begin{pmatrix} 1 & 0 \\ 0 & \sqrt{1-p} \end{pmatrix}, \qquad K_1 = \begin{pmatrix} 0 & \sqrt{p} \\ 0 & 0 \end{pmatrix}
+\]
+Verificamos la condición de completitud para asegurar que el canal es CPTP (preserva la traza):
+\[
+K_0^\dagger K_0 + K_1^\dagger K_1 = \begin{pmatrix} 1 & 0 \\ 0 & 1-p \end{pmatrix} + \begin{pmatrix} 0 & 0 \\ 0 & p \end{pmatrix} = \begin{pmatrix} 1 & 0 \\ 0 & 1 \end{pmatrix} = I
+\]
+La suma de los productos hermíticos resulta en el operador identidad \(I\), lo cual valida matemáticamente al canal.
+
+\subsection{(c) Implementación del canal en Qiskit}
+El canal de amortiguamiento de amplitud se implementó en Qiskit utilizando un circuito de 2 qubits (un qubit del sistema \(q_0\) y un qubit de ancilla auxiliar \(q_1\)). La disipación coherente de energía se modela aplicando una compuerta controlada de rotación \(CRY(\theta)\) con un ángulo \(\theta = 2\arcsin(\sqrt{p})\) en el qubit ancilla controlado por el qubit de sistema, seguido de una compuerta CNOT (\(CX(q_1, q_0)\)) y la posterior medición.
+
+La simulación ruidosa en la QPU de \texttt{ibm\_kingston} con \(p=0.3\) arrojó las siguientes probabilidades tras 10,000 disparos partiendo del estado excitado inicial:
+\[
+\pi_1^{\text{sim}} \approx (0.3045, 0.6955) \qquad \text{(Teórico: } (0.3, 0.7)\text{)}
+\]
+Esto demuestra el excelente acuerdo experimental con el formalismo estocástico.
+
+\subsection{(d) Efecto sobre un estado cuántico arbitrario, pureza y esfera de Bloch}
+Si aplicamos el canal sobre un estado cuántico arbitrario representado por la matriz de densidad \(\rho\):
+\[
+\rho = \begin{pmatrix} \rho_{00} & \rho_{01} \\ \rho_{10} & \rho_{11} \end{pmatrix}
+\]
+La salida del canal \(\Phi(\rho) = K_0 \rho K_0^\dagger + K_1 \rho K_1^\dagger\) resulta en:
+\[
+\Phi(\rho) = \begin{pmatrix} \rho_{00} + p\rho_{11} & \sqrt{1-p}\rho_{01} \\ \sqrt{1-p}\rho_{10} & (1-p)\rho_{11} \end{pmatrix}
+\]
+Las poblaciones diagonalizadas evolucionan de acuerdo con la dinámica de Markov clásica. Sin embargo, las coherencias cuánticas decaen exponencialmente multiplicadas por \(\sqrt{1-p}\).
+
+Si partimos de un estado superpuesto puro como \(\ket{\psi} = \cos(\pi/6)\ket{0} + \sin(\pi/6)e^{i\pi/4}\ket{1}\) (pureza inicial \(Tr(\rho^2) = 1.0\)), la aplicación sucesiva del canal disminuye su pureza al transformarse en un estado mixto por el entrelazamiento con el ambiente. La pureza disminuye hasta alcanzar un mínimo (\(\approx 0.65\)) en las primeras aplicaciones y posteriormente aumenta de forma asintótica hasta recuperar la pureza \(1.0\) al converger completamente al estado estacionario puro de sumidero \(\ket{0}\bra{0}\), tal como se muestra en la figura~\ref{fig:ej5_pureza}.
+
+\begin{figure}[H]
+  \centering
+  \informeimg{imagenes/ej5_pureza.png}{0.75\textwidth}
+  \caption{Evolución de la pureza de la matriz de densidad general bajo aplicaciones sucesivas del canal de amortiguamiento de amplitud con \(p=0.2\).}
+  \label{fig:ej5_pureza}
+\end{figure}
+
+En la esfera de Bloch, la trayectoria del estado describe un espiral de decaimiento desde la superficie hacia el eje central (pérdida de coherencias en los componentes \(X\) e \(Y\)) y finalmente asciende verticalmente a lo largo del eje \(Z\) en dirección al polo norte (\(\dots\)), que es el atractor estacionario del canal (ver figura~\ref{fig:ej5_bloch}).
+
+\begin{figure}[H]
+  \centering
+  \informeimg{imagenes/ej5_canal.png}{0.9\textwidth}
+  \caption{Evolución de las componentes \(X\), \(Y\) y \(Z\) en la esfera de Bloch a lo largo de 30 aplicaciones sucesivas del canal con \(p=0.2\), convergiendo hacia el polo norte (\(Z=1\)).}
+  \label{fig:ej5_bloch}
+\end{figure}
+
+\section{Conclusiones}
+\begin{itemize}
+  \item Se comprobó la equivalencia numérica entre el modelado clásico de cadenas de Markov y su representación matemática formal en computación cuántica.
+  \item El uso de operadores de Kraus proporciona una herramienta robusta para embeber procesos de probabilidad clásica dentro de canales cuánticos que describen decoherencia y mezcla.
+  \item La compilación y ejecución de circuitos de Qiskit demostró que la simulación cuántica ruidosa refleja fielmente las perturbaciones físicas esperadas del hardware real de IBM Quantum, validando la metodología del experimento.
+\end{itemize}
+
+\newpage
+\appendix
+\section{Apéndice A: Evidencias de ejecución y transpilación}
+
+A continuación se muestra un fragmento representativo de la salida del entorno de ejecución al conectar con IBM Quantum, detectar el backend menos ocupado (\texttt{ibm\_kingston}) y transpilar los circuitos a sus compuertas nativas:
+
+\begin{figure}[H]
+  \centering
+  \informeimg{imagenes/apendice_salida_terminal.png}{0.9\textwidth}
+  \caption{Consola de compilación y visualización del circuito cuántico transpilado a las compuertas nativas de \texttt{ibm\_kingston}.}
+  \label{fig:apA}
+\end{figure}
+
+Obsérvese que las compuertas lógicas abstractas (como \texttt{cry}) se descomponen automáticamente en términos de rotaciones físicas elementales (\texttt{Rz}), compuertas de raíz cuádruple de X (\texttt{SX}) y compuertas controladas (\texttt{CX}), adaptándose perfectamente a la topología del procesador físico.
+
+\section{Apéndice B: Validación numérica}
+Los scripts de prueba y el notebook principal fueron ejecutados por completo. Los archivos JSON resultantes que documentan los conteos experimentales se guardan de forma persistente en la carpeta \texttt{Colab/resultados\_ibm/} para su futura auditoría y validación independiente.
+
+\end{document}

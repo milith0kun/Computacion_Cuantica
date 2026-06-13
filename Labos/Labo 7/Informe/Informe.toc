@@ -1,0 +1,7 @@
+\babel@toc {spanish}{}\relax 
+\contentsline {section}{\numberline {1}1. Reconocer vectores de probabilidad}{2}{section.1}%
+\contentsline {section}{\numberline {2}2. Reconocer matrices estocásticas}{2}{section.2}%
+\contentsline {section}{\numberline {3}3. Convertir matriz a notación de Dirac}{3}{section.3}%
+\contentsline {section}{\numberline {4}4. Reconocer vectores de estados cuánticos}{4}{section.4}%
+\contentsline {section}{\numberline {5}5. Orden alfabético de productos cartesianos}{5}{section.5}%
+\contentsline {section}{\numberline {6}6. Calcular productos tensoriales}{5}{section.6}%

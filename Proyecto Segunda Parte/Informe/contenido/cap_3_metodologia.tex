@@ -1,0 +1,17 @@
+\section{Metodolog\'ia y Restricciones Operativas}
+\label{sec:metodologia}
+
+Dada la transici\'on de la simulaci\'on en procesadores locales hacia el c\'omputo f\'isico a trav\'es de la nube de \textbf{IBM Quantum}, se requiri\'o implementar una metodolog\'ia sumamente ajustada a las pol\'iticas de uso (Open Plan, 10 minutos de QPU por mes calendario).
+
+\subsection{Estandarizaci\'on del Dataset}
+El an\'alisis utiliz\'o el conjunto tabular Iris y un subconjunto num\'erico binario (d\'igitos 0 y 1) del conjunto MNIST. Ambos datasets sufrieron transformaciones algor\'itmicas intensivas:
+\begin{enumerate}
+    \item \textbf{Normalizaci\'on de ngulos:} Escalamiento de valores f\'isicos al dominio $x \in [0, \pi]$ para inyecci\'on de p\'arametros en rotores Pauli-Z y Pauli-Y del \textit{ZZFeatureMap}.
+    \item \textbf{Reducci\'on de Dimensionalidad Extrema:} Con el prop\'osito de incrustar vectores de imagen (MNIST) en un registro de 4 qubits, se ejecut\'o un PCA cl\'asico reteniendo \'unicamente las 4 componentes principales de mayor varianza.
+\end{enumerate}
+
+\subsection{Dimensionamiento Muestral (Subset Hardware)}
+La evaluaci\'on de un Kernel de Fidelidad Cu\'antica implica la construcci\'on y env\'io transpílado de matrices de circuitos cuyo costo crece exponencialmente con el tama\~no muestral ($O(n^2)$). Ante el techo duro de tiempo QPU, el dise\~no del experimento forz\'o el particionamiento aleatorio (\textit{random seed = 42}) en subconjuntos de evaluaci\'on miniaturizados: \textbf{10 vectores de entrenamiento y 5 vectores de prueba} por corrida. 
+
+\subsection{Par\'ametros Cu\'anticos y QPU}
+Toda invocaci\'on algor\'itmica al hardware deleg\'o a la primitiva \texttt{SamplerV2} en el backend \texttt{ibm\_fez} (156 qubits Heron). El optimizador seleccionado para asegurar la convergencia del vector variacional en la prueba local (\textit{Baseline VQC}) fue \textit{COBYLA}, incrementando su profundidad de b\'usqueda de 200 a 300 iteraciones (respecto a la Parte 1). Las evaluaciones de expectaci\'on utilizaron 2048 \textit{shots} por distribuci\'on de probabilidad para equilibrar resoluci\'on matem\'atica y tiempo de ejecuci\'on as\'incrona.

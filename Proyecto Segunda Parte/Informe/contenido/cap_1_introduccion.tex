@@ -1,0 +1,10 @@
+\section{Introducci\'on}
+\label{sec:introduccion}
+
+Durante la etapa computacional conocida como \textit{Noisy Intermediate-Scale Quantum} (NISQ), los algoritmos h\'ibridos y de aprendizaje autom\'atico cu\'antico (QML) emergen como candidatos principales para alcanzar ventaja cu\'antica. Sin embargo, su ejecuci\'on pr\'actica est\'a invariablemente condicionada por la decoherencia intr\'inseca y el ruido operacional de los procesadores actuales \citep{preskill2018quantum}.
+
+En la primera fase de este proyecto, se explor\'o emp\'iricamente el rendimiento de un Clasificador Cu\'antico Variacional (VQC) \citep{cerezo2021} y una M\'aquina de Vectores de Soporte Cu\'antica (QSVC) \citep{havlicek2019} utilizando un simulador ideal (\textit{StatevectorSimulator}). Los resultados demostraron que la QSVC pose\'ia una ventaja matem\'atica te\'orica respecto al VQC sub-entrenado, pero a\'un ced\'ia frente a la eficiencia emp\'irica de los cl\'asicos algoritmos SVM-RBF y Redes Neuronales.
+
+La presente \textbf{Segunda Parte} del estudio persigue un doble objetivo: en primer lugar, subsanar la convergencia defectuosa observada en el VQC mediante la dilataci\'on del \'indice de optimizaci\'on. En segundo y principal lugar, migrar la ejecuci\'on de la generaci\'on del Kernel Cu\'antico desde un entorno libre de ruido hacia procesadores f\'isicos de la plataforma IBM Quantum (familia \textit{Heron r2}).
+
+La pregunta de investigaci\'on rectora de esta fase experimenta no s\'olo busca medir el grado de \textit{degradaci\'on} que sufre la m\'etrica de exactitud (Accuracy) ante el ruido de hardware, sino tambi\'en evaluar la verdadera aplicabilidad de t\'ecnicas algor\'itmicas dise\~nadas para la supresi\'on de errores, espec\'ificamente la mitigaci\'on local de errores de medici\'on de qubits (TREX), sobre conjuntos de datos fuertemente limitados por cuotas operacionales.

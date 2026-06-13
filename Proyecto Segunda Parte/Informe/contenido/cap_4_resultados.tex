@@ -1,0 +1,58 @@
+\section{Resultados}
+\label{sec:resultados}
+
+\subsection{Modelo Variacional Corregido}
+Como se evidencia en la Figura \ref{fig:baseline}, el modelo Variacional VQC ajustado (300 iteraciones COBYLA, 3 semillas iniciales) logr\'o un promedio de 50.37\% de precisi\'on sobre el conjunto Iris, escalando a un m\'aximo de 57.78\%. Este comportamiento demuestra que la deficiencia algor\'itmica se encontraba en una interrupci\'on temprana de la funci\'on de costo (\textit{loss landscape}). 
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\linewidth]{graficos/exp1_baseline_corregido.png}
+    \caption{M\'etricas de exactitud del VQC mejorado y la frontera l\'imite cl\'asica (SVM 93.3\%).}
+    \label{fig:baseline}
+\end{figure}
+
+\subsection{Verificaci\'on Geom\'etrica del Ruido (Bell)}
+La inicializaci\'on sim\'etrica del circuito de prueba para el estado m\'aximamente entrelazado $|\Phi^+\rangle$ sobre \texttt{ibm\_fez} arroj\'o histogramas de probabilidad distorsionados frente al vector de simulaci\'on (Figura \ref{fig:bell}). Las amplitudes p\'erdidas sobre los componentes $|00\rangle$ y $|11\rangle$ act\'uan como traza de decoherencia geom\'etrica del hardware (\textit{leakage} y errores $T_1$).
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\linewidth]{graficos/exp2_bell_state.png}
+    \caption{Comparaci\'on de distribuciones de probabilidad entre \textit{Statevector} e \textit{ibm\_fez} para el estado de Bell.}
+    \label{fig:bell}
+\end{figure}
+
+\subsection{Kernel QSVC: Evaluaci\'on de Dimensionalidad}
+La Figura \ref{fig:qsvc_kernel} reporta el cl\'imax experimental: la matriz de Kernel Cu\'antico construida bajo simulador vs. hardware, aplicadas a un microsc\'opico subconjunto de 10 variables continuas. Ambas ejecuciones arrojaron un id\'entico colapso t\'ecnico: \textbf{40.00\% de accuracy}.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\linewidth]{graficos/exp3_qsvc_hw_vs_sim.png}
+    \caption{Matrices de similitud subyacentes del Kernel y su rendimiento estancado (40.0\%) en hardware y simulaci\'on bajo limitaci\'on estricta de muestra.}
+    \label{fig:qsvc_kernel}
+\end{figure}
+
+\subsection{Mitigaci\'on TREX y M\'etricas de Imagen}
+La implementaci\'on activa de la mitigaci\'on local (Figura \ref{fig:trex}) mantuvo invariable el factor de predicci\'on (40.0\%). Adicionalmente, el rendimiento cruzado del modelo sobre tensores de imagen MNIST comprimidos (Figura \ref{fig:mnist}) fue analizado as\'incronamente y consolidado estad\'isticamente.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\linewidth]{graficos/exp4_error_mitigation.png}
+    \caption{Gr\'afico de estabilidad de predicci\'on post-procesamiento TREX.}
+    \label{fig:trex}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\linewidth]{graficos/exp5_mnist_hardware.png}
+    \caption{Desempe\~no comparativo de clasificaci\'on binaria para el dataset \textit{digits} super-reducido (PCA a 4D).}
+    \label{fig:mnist}
+\end{figure}
+
+Finalmente, la visi\'on panor\'amica de los m\'etodos QML evaluados queda recopilada transversalmente mediante el espectro radial (Figura \ref{fig:radar}).
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\linewidth]{graficos/resumen_final_radar.png}
+    \caption{Radar de Rendimiento de Precisi\'on y Estabilidad F1 (Macro) para los 5 escenarios probados.}
+    \label{fig:radar}
+\end{figure}

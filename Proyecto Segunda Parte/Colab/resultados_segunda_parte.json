@@ -1,0 +1,63 @@
+{
+  "SVM-RBF": {
+    "accuracy": 0.9333333333333333,
+    "f1": 0.9332591768631814,
+    "tiempo": 0.0,
+    "entorno": "Clásico"
+  },
+  "MLP": {
+    "accuracy": 0.9333333333333333,
+    "f1": 0.9332591768631814,
+    "tiempo": 0.10949206352233887,
+    "entorno": "Clásico"
+  },
+  "KNN": {
+    "accuracy": 0.9333333333333333,
+    "f1": 0.9326599326599326,
+    "tiempo": 0.0,
+    "entorno": "Clásico"
+  },
+  "VQC (Simulador)": {
+    "accuracy": 0.6,
+    "f1": 0.4803224276908488,
+    "tiempo": 45.77268600463867,
+    "entorno": "Simulador",
+    "nota": "0.5111±0.0654 (3 seeds)"
+  },
+  "QSVC (Simulador)": {
+    "accuracy": 0.7777777777777778,
+    "f1": 0.7771825396825397,
+    "tiempo": 19.365619897842407,
+    "entorno": "Simulador"
+  },
+  "QSVC (HW sin mitg.)": {
+    "accuracy": 0.4,
+    "f1": 0.38888888888888884,
+    "tiempo": 106.24162364006042,
+    "entorno": "Hardware (ibm_marrakesh)"
+  },
+  "QSVC (HW + TREX)": {
+    "accuracy": 0.4,
+    "f1": 0.38888888888888884,
+    "tiempo": 119.81042647361755,
+    "entorno": "Hardware (ibm_marrakesh)"
+  },
+  "MNIST SVM-RBF": {
+    "accuracy": 1.0,
+    "f1": "-",
+    "tiempo": 0.01,
+    "entorno": "Clásico"
+  },
+  "MNIST QSVC (Sim)": {
+    "accuracy": 0.4,
+    "f1": "-",
+    "tiempo": 0.17882585525512695,
+    "entorno": "Simulador"
+  },
+  "MNIST QSVC (HW)": {
+    "accuracy": 0.4,
+    "f1": "-",
+    "tiempo": 106.21297264099121,
+    "entorno": "Hardware (ibm_marrakesh)"
+  }
+}
