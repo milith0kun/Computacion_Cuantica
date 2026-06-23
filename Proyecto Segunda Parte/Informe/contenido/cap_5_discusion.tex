@@ -1,10 +1,30 @@
-\section{Discusi\'on Te\'orica y Conclusiones del Anal\'isis Experimental}
+\section{Discusi\'on Te\'orica y An\'alisis de Resultados}
 \label{sec:discusion}
 
-El pilar anal\'itico fundamental derivado de la experimentaci\'on directa en la QPU de IBM radica en la interpretaci\'on del fen\'omeno de estancamiento m\'etrico (40.0\% \textit{accuracy}) reflejado fidedignamente tanto en el simulador cu\'antico aislado de ruido como en el \textit{backend ibm\_fez}. 
+\subsection{Impacto dual: ruido de hardware y escasez muestral}
 
-Este comportamiento isof\'ormico demuestra que la limitaci\'on del hardware ruidoso no jug\'o un rol estad\'istico dominante en la degeneraci\'on del modelo. Muy por el contrario, fue la \textbf{dr\'astica limitaci\'on del subconjunto de entrenamiento} (10 muestras frente a un total de 150 para la distribuci\'on can\'onica Iris) lo que destroz\'o la geometr\'ia interna del clasificador SVM acoplado al kernel cu\'antico \citep{schuld2019}. Un clasificador lineal (SVM) empotrado en un espacio de Hilbert superior no tiene la densidad topol\'ogica requerida para se\~nalizar fronteras de decisi\'on generalizables si no posee suficientes vectores de soporte para asentar el margen matem\'atico.
+El hallazgo central de esta experimentaci\'on radica en la \textbf{separaci\'on cuantificable} entre los efectos de la limitaci\'on muestral y el ruido de hardware sobre el rendimiento del clasificador cu\'antico QSVC.
 
-Consecuencia directa de esta par\'alisis m\'etrica fue la nulidad pr\'actica del algor\'itmo de correcci\'on \textbf{TREX}. Las sub-rutinas matem\'aticas de esta tecnolog\'ia de mitigaci\'on de lectura est\'an dise\~nadas para limpiar las distribuciones finas de la medici\'on f\'isica; pero una medici\'on f\'isica corregida de un kernel \textit{geom\'etricamente nulo} seguir\'a prediciendo \textit{outliers} a un ritmo estancado, tal como se comprob\'o en los resultados tabulados.
+La QSVC evaluada sobre el dataset Iris completo (105 train / 45 test) alcanz\'o un 77.78\% de accuracy en simulador ideal, demostrando que la arquitectura ZZFeatureMap + kernel de fidelidad posee capacidad discriminativa razonable cuando dispone de suficientes datos. Sin embargo, al restringir el subset a 13 muestras de entrenamiento y 9 de prueba ---impuesto por las cuotas de la plataforma gratuita de IBM Quantum---, el accuracy en simulador cay\'o dr\'asticamente a 33.33\%. Esta ca\'ida de $\sim$44 puntos porcentuales se atribuye exclusivamente a la \textbf{insuficiencia de densidad topol\'ogica}: un clasificador SVM empotrado en un espacio de Hilbert de dimensi\'on $2^4 = 16$ no dispone de suficientes vectores de soporte para asentar fronteras de decisi\'on generalizables con tan pocas muestras \citep{schuld2019}.
 
-Respecto al colapso de la red cu\'antica frente al an\'alisis multivariante (\textbf{MNIST}), este hallazgo solidifica emp\'iricamente que las sub-rutinas de compresi\'on visual agresiva (Principal Component Analysis limitado a 4 valores at\'omicos) filtran la m\'edula frecuencial de una matriz gr\'afica. Aunque un modelo SVM cl\'asico report\'o artificialmente un 100\% (producto natural de un sobreajuste grosero de pocas variables en una arquitectura lineal sobre parametrizada), los feature maps cu\'anticos como \textit{ZZFeatureMap} requieren distribuciones param\'etricas que eviten regiones r\'igidas donde la amplitud variacional decae.
+Sobre esta base ya degradada, el hardware real (\texttt{ibm\_fez}) redujo el accuracy a\'un m\'as, hasta un 11.11\% ---equivalente a clasificar correctamente apenas 1 de cada 9 muestras---. Esta ca\'ida adicional de $\sim$22 puntos porcentuales constituye evidencia directa de que el \textbf{ruido NISQ s\'i degrada significativamente} el rendimiento del kernel cu\'antico, contradiciendo la hip\'otesis nula de que la limitaci\'on muestral es el \'unico factor determinante. La decoherencia durante la evaluaci\'on del circuito \textit{compute-uncompute} distorsiona las distribuciones de probabilidad de salida, contaminando los valores del kernel y, consecuentemente, destruyendo la geometr\'ia de separaci\'on que la SVM necesita para clasificar.
+
+\subsection{Ineficacia de la mitigaci\'on TREX}
+
+La t\'ecnica TREX mantuvo invariable el accuracy en 11.11\%, id\'entico al escenario sin mitigaci\'on. Esta nulidad pr\'actica se explica por la naturaleza de la degradaci\'on: TREX est\'a dise\~nado para corregir asimetr\'ias sistem\'aticas en los errores de lectura (\\textit{SPAM errors}), pero cuando el kernel cu\'antico est\'a \textbf{geom\'etricamente colapsado} ---tanto por falta de datos como por ruido coherente acumulado durante la ejecuci\'on del circuito--- la correcci\'on de lectura no logra recuperar la informaci\'on ya perdida en las compuertas intermedias. Se requieren t\'ecnicas de mitigaci\'on m\'as agresivas, como \textbf{ZNE} (\textit{Zero Noise Extrapolation}), que operan sobre el ruido de compuerta y no solo sobre el de medici\'on.
+
+\subsection{El caso at\'ipico de MNIST}
+
+El resultado m\'as inesperado fue el comportamiento del dataset binario MNIST (0 vs. 1), donde el hardware (88.89\%) super\'o al simulador (77.78\%). Este fen\'omeno, aparentemente parad\'ojico, se explica considerando que:
+
+\begin{itemize}
+    \item La tarea es \emph{binaria} (2 clases vs. 3 de Iris), lo que incrementa la probabilidad base de acierto por azar.
+    \item Con solo 9 muestras de prueba, cada muestra representa $\sim$11.1\% del accuracy, por lo que una sola clasificaci\'on diferente cambia el resultado en esa magnitud.
+    \item Las perturbaciones estoc\'asticas del ruido cu\'antico pueden, en problemas de baja complejidad, actuar como una forma de \textit{regularizaci\'on impl\'icita} que favoresce la separabilidad \citep{huang2021}.
+\end{itemize}
+
+\noindent Este resultado no debe interpretarse como evidencia de ventaja cu\'antica, sino como un artefacto estad\'istico derivado de la baja resoluci\'on muestral. Con datasets m\'as grandes, es esperable que el simulador supere sistem\'aticamente al hardware ruidoso.
+
+\subsection{Brecha cu\'antico-cl\'asica}
+
+Respecto al desempe\~no comparativo, los modelos cl\'asicos (SVM-RBF, MLP, KNN) mantuvieron un 93.33\% uniforme sobre Iris con el dataset completo, frente al mejor resultado cu\'antico de 60\% (VQC, semilla 123). Esta brecha de 33 puntos porcentuales, consistente con los hallazgos de \citet{bowles2024} en su \textit{benchmark} a gran escala, refuerza la conclusi\'on de que los modelos cu\'anticos actuales no ofrecen ventaja competitiva frente a algoritmos cl\'asicos bien calibrados, particularmente bajo las restricciones operacionales de la era NISQ.

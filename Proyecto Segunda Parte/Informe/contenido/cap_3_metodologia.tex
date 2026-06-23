@@ -10,7 +10,13 @@ El entorno experimental comprende recursos de hardware y software distribuidos, 
 \subsubsection{Hardware}
 Se utilizaron dos entornos de hardware diferenciados:
 \begin{itemize}
-    \item \textbf{C\'omputo Cl\'asico (Simulaci\'on):} Estaci\'on de trabajo local con procesador de m\'ultiples n\'ucleos y memoria RAM est\'andar para la orquestaci\'on, preprocesamiento y ejecuci\'on del simulador \texttt{Statevector}.
+    \item \textbf{C\'omputo Cl\'asico (Simulaci\'on):} Estaci\'on de trabajo local utilizada para la orquestaci\'on, preprocesamiento y ejecuci\'on del simulador \texttt{Statevector}.
+    \begin{itemize}
+        \item \textbf{Procesador (CPU):} AMD Ryzen 7 9700X 8-Core Processor.
+        \item \textbf{Memoria RAM:} 32 GB.
+        \item \textbf{Unidad de almacenamiento:} 1 TB SSD NVMe (Kingston).
+        \item \textbf{Unidad de procesamiento gr\'afico (GPU):} NVIDIA GeForce GTX 1050 Ti (4GB VRAM).
+    \end{itemize}
     \item \textbf{C\'omputo Cu\'antico (Hardware Real):} Procesador cu\'antico \texttt{ibm\_fez} de IBM Quantum.
     \begin{itemize}
         \item \textbf{Arquitectura:} IBM Heron r2.
@@ -49,7 +55,7 @@ Antes de la inyecci\'on cu\'antica, los datos fueron sometidos a las siguientes 
     \item \textbf{Limpieza de datos:} Verificaci\'on de integridad y ausencia de valores nulos.
     \item \textbf{Reducci\'on de Dimensionalidad:} Aplicaci\'on de An\'alisis de Componentes Principales (PCA) a MNIST para comprimir a 4 dimensiones compatibles con un registro de 4 qubits.
     \item \textbf{Normalizaci\'on:} Escalamiento Min-Max para confinar todas las caracter\'isticas al intervalo $x \in [0, \pi]$, habilitando la codificaci\'on angular (\textit{Angle Embedding}).
-    \item \textbf{Divisi\'on de conjuntos:} Separaci\'on en conjuntos de entrenamiento y prueba. En el hardware real, la muestra se redujo dr\'asticamente a 10 muestras de entrenamiento y 5 de prueba debido a restricciones de cuota computacional.
+    \item \textbf{Divisi\'on de conjuntos:} Separaci\'on en conjuntos de entrenamiento (70\%) y prueba (30\%). En el hardware real, la muestra se redujo dr\'asticamente a 13 muestras de entrenamiento y 9 de prueba debido a restricciones de cuota computacional, lo que implica una resoluci\'on de accuracy de $\pm$11.1\% por muestra de test.
 \end{itemize}
 
 \subsection{Dise\~no experimental}
@@ -102,7 +108,7 @@ Las condiciones de ejecuci\'on estandarizadas abarcaron:
 \begin{itemize}
     \item \textbf{Configuraci\'on de par\'ametros:} Optimizador COBYLA calibrado a 300 iteraciones m\'aximas para forzar convergencia en VQC.
     \item \textbf{N\'umero de iteraciones (Shots):} 2048 disparos por circuito para garantizar robustez estad\'istica.
-    \item \textbf{Control de variables externas:} Se ejecutaron los \textit{jobs} en modo as\'incrono, limitados r\'igidamente a la cuota mensual m\'axima de 10 minutos de QPU permitida por la plataforma abierta de IBM.
+    \item \textbf{Control de variables externas:} Se ejecutaron los \textit{jobs} en modo as\'incrono, priorizando el ahorro de recursos. La ejecuci\'on completa en hardware consumi\'o un total de $\sim$594 segundos ($\sim$9.9 minutos) de QPU, maximizando el uso de la cuota mensual gratuita de 10 minutos permitida por IBM Quantum.
 \end{itemize}
 
 \subsection{Reproducibilidad}

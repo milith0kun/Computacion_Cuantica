@@ -11,12 +11,10 @@
 \citation{preskill2018quantum}
 \citation{cerezo2021}
 \citation{havlicek2019}
-\citation{nielsen2010}
 \babel@aux{spanish}{}
 \@writefile{toc}{\contentsline {section}{\numberline {1}Introducci\'on}{1}{section.1}\protected@file@percent }
 \newlabel{sec:introduccion}{{1}{1}{Introducci\'on}{section.1}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {2}Marco Te\'orico}{1}{section.2}\protected@file@percent }
-\newlabel{sec:marco_teorico}{{2}{1}{Marco Te\'orico}{section.2}{}}
+\citation{nielsen2010}
 \citation{nielsen2010}
 \citation{nielsen2010}
 \citation{havlicek2019}
@@ -25,8 +23,8 @@
 \citation{schuld2019}
 \citation{yu2025}
 \citation{havlicek2019}
-\citation{mcclean2018,larocca2025}
-\citation{thanasilp2024}
+\@writefile{toc}{\contentsline {section}{\numberline {2}Marco Te\'orico}{2}{section.2}\protected@file@percent }
+\newlabel{sec:marco_teorico}{{2}{2}{Marco Te\'orico}{section.2}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {2.1}Computaci\'on cu\'antica}{2}{subsection.2.1}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {2.1.1}Qubits y estados cu\'anticos}{2}{subsubsection.2.1.1}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {2.1.2}Puertas cu\'anticas}{2}{subsubsection.2.1.2}\protected@file@percent }
@@ -39,9 +37,8 @@
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {2.3.2}Quantum SVM (QSVC)}{2}{subsubsection.2.3.2}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {2.3.3}Quantum Neural Networks (QNN)}{2}{subsubsection.2.3.3}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {2.3.4}Feature maps y ansatz}{2}{subsubsection.2.3.4}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces Esquema del circuito cu\'antico previsto: ZZFeatureMap (codificaci\'on angular + entrelazamiento lineal) seguido del \textit  {ansatz} RealAmplitudes (rotaciones $R_Y$ parametrizadas + $\mathrm  {CNOT}$) y medici\'on en la base computacional.}}{2}{figure.caption.1}\protected@file@percent }
-\providecommand*\caption@xref[2]{\@setref\relax\@undefined{#1}}
-\newlabel{fig:circuito}{{1}{2}{Esquema del circuito cu\'antico previsto: ZZFeatureMap (codificaci\'on angular + entrelazamiento lineal) seguido del \textit {ansatz} RealAmplitudes (rotaciones $R_Y$ parametrizadas + $\mathrm {CNOT}$) y medici\'on en la base computacional}{figure.caption.1}{}}
+\citation{mcclean2018,larocca2025}
+\citation{thanasilp2024}
 \citation{cerezo2021}
 \citation{bowles2024}
 \citation{schnabel2024}
@@ -51,61 +48,99 @@
 \citation{huang2021}
 \citation{qiskit2024}
 \citation{ibm_quantum_2023}
+\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces Esquema del circuito cu\'antico previsto: ZZFeatureMap (codificaci\'on angular + entrelazamiento lineal) seguido del \textit  {ansatz} RealAmplitudes (rotaciones $R_Y$ parametrizadas + $\mathrm  {CNOT}$) y medici\'on en la base computacional.}}{3}{figure.caption.1}\protected@file@percent }
+\providecommand*\caption@xref[2]{\@setref\relax\@undefined{#1}}
+\newlabel{fig:circuito}{{1}{3}{Esquema del circuito cu\'antico previsto: ZZFeatureMap (codificaci\'on angular + entrelazamiento lineal) seguido del \textit {ansatz} RealAmplitudes (rotaciones $R_Y$ parametrizadas + $\mathrm {CNOT}$) y medici\'on en la base computacional}{figure.caption.1}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces ZZFeatureMap descompuesto en puertas b\'asicas (H, P, CX). Se observan las rotaciones de fase $P(2x_i)$ que codifican cada \textit  {feature} y las interacciones $ZZ$ implementadas mediante pares CNOT-P-CNOT entre qubits vecinos (entrelazamiento lineal, 2 repeticiones).}}{3}{figure.caption.2}\protected@file@percent }
+\newlabel{fig:zzfm_decomp}{{2}{3}{ZZFeatureMap descompuesto en puertas b\'asicas (H, P, CX). Se observan las rotaciones de fase $P(2x_i)$ que codifican cada \textit {feature} y las interacciones $ZZ$ implementadas mediante pares CNOT-P-CNOT entre qubits vecinos (entrelazamiento lineal, 2 repeticiones)}{figure.caption.2}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces Circuito VQC completo: ZZFeatureMap (codificaci\'on de datos) $+$ barrera $+$ RealAmplitudes (16 par\'ametros entrenables $\theta $) $+$ medici\'on. El flujo es: $|0000\rangle \to U_\phi (\mathbf  {x}) \to U_W(\boldsymbol  {\theta }) \to $ Medici\'on.}}{3}{figure.caption.3}\protected@file@percent }
+\newlabel{fig:vqc_completo}{{3}{3}{Circuito VQC completo: ZZFeatureMap (codificaci\'on de datos) $+$ barrera $+$ RealAmplitudes (16 par\'ametros entrenables $\theta $) $+$ medici\'on. El flujo es: $|0000\rangle \to U_\phi (\mathbf {x}) \to U_W(\boldsymbol {\theta }) \to $ Medici\'on}{figure.caption.3}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces ZZFeatureMap con datos reales del dataset Iris inyectados: cada valor num\'erico ($x_0{=}0.70$, $x_1{=}0.65$, $x_2{=}1.06$, $x_3{=}1.31$~rad) se convierte en un \'angulo de rotaci\'on de fase en las compuertas del circuito cu\'antico.}}{3}{figure.caption.4}\protected@file@percent }
+\newlabel{fig:codificacion_real}{{4}{3}{ZZFeatureMap con datos reales del dataset Iris inyectados: cada valor num\'erico ($x_0{=}0.70$, $x_1{=}0.65$, $x_2{=}1.06$, $x_3{=}1.31$~rad) se convierte en un \'angulo de rotaci\'on de fase en las compuertas del circuito cu\'antico}{figure.caption.4}{}}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {2.3.5}Optimizadores}{3}{subsubsection.2.3.5}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {2.4}Estado del arte reciente (2024--2026)}{3}{subsection.2.4}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {2.5}Frameworks de QML}{3}{subsection.2.5}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces Comparativa de los principales \textit  {frameworks} de QML.}}{3}{table.caption.2}\protected@file@percent }
-\newlabel{tab:frameworks}{{1}{3}{Comparativa de los principales \textit {frameworks} de QML}{table.caption.2}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces Comparativa de los principales \textit  {frameworks} de QML.}}{3}{table.caption.5}\protected@file@percent }
+\newlabel{tab:frameworks}{{1}{3}{Comparativa de los principales \textit {frameworks} de QML}{table.caption.5}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {2.6}Procesadores IBM Heron r2}{3}{subsection.2.6}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.7}Fidelidad del Estado de Bell}{3}{subsection.2.7}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.8}Mitigaci\'on de Errores de Medici\'on (TREX)}{3}{subsection.2.8}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {3}Experimentaci\'on}{3}{section.3}\protected@file@percent }
-\newlabel{sec:experimentacion}{{3}{3}{Experimentaci\'on}{section.3}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.1}Introducci\'on a la experimentaci\'on}{3}{subsection.3.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.2}Entorno experimental}{3}{subsection.3.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.1}Hardware}{3}{subsubsection.3.2.1}\protected@file@percent }
-\citation{havlicek2019}
-\citation{cerezo2021}
-\citation{huang2021}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.7}Fidelidad del Estado de Bell}{4}{subsection.2.7}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.8}Mitigaci\'on de Errores de Medici\'on (TREX)}{4}{subsection.2.8}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {3}Experimentaci\'on}{4}{section.3}\protected@file@percent }
+\newlabel{sec:experimentacion}{{3}{4}{Experimentaci\'on}{section.3}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.1}Introducci\'on a la experimentaci\'on}{4}{subsection.3.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.2}Entorno experimental}{4}{subsection.3.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.1}Hardware}{4}{subsubsection.3.2.1}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.2}Software}{4}{subsubsection.3.2.2}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.3}Datos utilizados}{4}{subsection.3.3}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {3.3.1}Origen de los datos}{4}{subsubsection.3.3.1}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {3.3.2}Descripci\'on del conjunto de datos}{4}{subsubsection.3.3.2}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {3.3.3}Preprocesamiento de datos}{4}{subsubsection.3.3.3}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.4}Dise\~no experimental}{4}{subsection.3.4}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.4.1}Objetivo experimental}{4}{subsubsection.3.4.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.4.2}M\'etricas de evaluaci\'on}{4}{subsubsection.3.4.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.4.3}Escenarios de prueba}{4}{subsubsection.3.4.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.4.4}Comparaci\'on con trabajos relacionados}{4}{subsubsection.3.4.4}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.5}Implementaci\'on del sistema}{4}{subsection.3.5}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.5.1}Arquitectura}{4}{subsubsection.3.5.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.5.2}Tecnolog\'ias utilizadas}{4}{subsubsection.3.5.2}\protected@file@percent }
+\citation{havlicek2019}
+\citation{cerezo2021}
+\citation{huang2021}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.4.1}Objetivo experimental}{5}{subsubsection.3.4.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.4.2}M\'etricas de evaluaci\'on}{5}{subsubsection.3.4.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.4.3}Escenarios de prueba}{5}{subsubsection.3.4.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.4.4}Comparaci\'on con trabajos relacionados}{5}{subsubsection.3.4.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.5}Implementaci\'on del sistema}{5}{subsection.3.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.5.1}Arquitectura}{5}{subsubsection.3.5.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.5.2}Tecnolog\'ias utilizadas}{5}{subsubsection.3.5.2}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.6}Ejecuci\'on de experimentos}{5}{subsection.3.6}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.7}Reproducibilidad}{5}{subsection.3.7}\protected@file@percent }
 \@writefile{toc}{\contentsline {section}{\numberline {4}Resultados}{5}{section.4}\protected@file@percent }
 \newlabel{sec:resultados}{{4}{5}{Resultados}{section.4}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.1}Modelo Variacional Corregido}{5}{subsection.4.1}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces M\'etricas de exactitud del VQC mejorado y la frontera l\'imite cl\'asica (SVM 93.3\%).}}{5}{figure.caption.3}\protected@file@percent }
-\newlabel{fig:baseline}{{2}{5}{M\'etricas de exactitud del VQC mejorado y la frontera l\'imite cl\'asica (SVM 93.3\%)}{figure.caption.3}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.2}Verificaci\'on Geom\'etrica del Ruido (Bell)}{5}{subsection.4.2}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces Comparaci\'on de distribuciones de probabilidad entre \textit  {Statevector} e \textit  {ibm\_fez} para el estado de Bell.}}{5}{figure.caption.4}\protected@file@percent }
-\newlabel{fig:bell}{{3}{5}{Comparaci\'on de distribuciones de probabilidad entre \textit {Statevector} e \textit {ibm\_fez} para el estado de Bell}{figure.caption.4}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.3}Kernel QSVC: Evaluaci\'on de Dimensionalidad}{5}{subsection.4.3}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces Matrices de similitud subyacentes del Kernel y su rendimiento estancado (40.0\%) en hardware y simulaci\'on bajo limitaci\'on estricta de muestra.}}{5}{figure.caption.5}\protected@file@percent }
-\newlabel{fig:qsvc_kernel}{{4}{5}{Matrices de similitud subyacentes del Kernel y su rendimiento estancado (40.0\%) en hardware y simulaci\'on bajo limitaci\'on estricta de muestra}{figure.caption.5}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.4}Mitigaci\'on TREX y M\'etricas de Imagen}{5}{subsection.4.4}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces Gr\'afico de estabilidad de predicci\'on post-procesamiento TREX.}}{5}{figure.caption.6}\protected@file@percent }
-\newlabel{fig:trex}{{5}{5}{Gr\'afico de estabilidad de predicci\'on post-procesamiento TREX}{figure.caption.6}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces Desempe\~no comparativo de clasificaci\'on binaria para el dataset \textit  {digits} super-reducido (PCA a 4D).}}{5}{figure.caption.7}\protected@file@percent }
-\newlabel{fig:mnist}{{6}{5}{Desempe\~no comparativo de clasificaci\'on binaria para el dataset \textit {digits} super-reducido (PCA a 4D)}{figure.caption.7}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.1}Baselines Cl\'asicos}{5}{subsection.4.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.2}Modelo Variacional Corregido (VQC)}{5}{subsection.4.2}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {2}{\ignorespaces Resultados del VQC corregido por semilla de inicializaci\'on.}}{6}{table.caption.6}\protected@file@percent }
+\newlabel{tab:vqc_seeds}{{2}{6}{Resultados del VQC corregido por semilla de inicializaci\'on}{table.caption.6}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces M\'etricas de exactitud del VQC mejorado y la frontera l\'imite cl\'asica (SVM 93.33\%).}}{6}{figure.caption.7}\protected@file@percent }
+\newlabel{fig:baseline}{{5}{6}{M\'etricas de exactitud del VQC mejorado y la frontera l\'imite cl\'asica (SVM 93.33\%)}{figure.caption.7}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.3}Verificaci\'on Geom\'etrica del Ruido (Estado de Bell)}{6}{subsection.4.3}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces Circuito de Bell descompuesto: compuerta Hadamard sobre $q_0$ seguida de CNOT($q_0$, $q_1$), que genera el estado $|\Phi ^+\rangle = \frac  {1}{\sqrt  {2}}(|00\rangle + |11\rangle )$.}}{6}{figure.caption.8}\protected@file@percent }
+\newlabel{fig:bell_circuit}{{6}{6}{Circuito de Bell descompuesto: compuerta Hadamard sobre $q_0$ seguida de CNOT($q_0$, $q_1$), que genera el estado $|\Phi ^+\rangle = \frac {1}{\sqrt {2}}(|00\rangle + |11\rangle )$}{figure.caption.8}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {7}{\ignorespaces Comparaci\'on de distribuciones de probabilidad entre \textit  {Statevector} e \textit  {ibm\_fez} para el estado de Bell. Fidelidad: 0.9834.}}{6}{figure.caption.9}\protected@file@percent }
+\newlabel{fig:bell}{{7}{6}{Comparaci\'on de distribuciones de probabilidad entre \textit {Statevector} e \textit {ibm\_fez} para el estado de Bell. Fidelidad: 0.9834}{figure.caption.9}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.4}Kernel QSVC: Simulador vs. Hardware}{6}{subsection.4.4}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {8}{\ignorespaces Circuito \textit  {compute-uncompute} para el c\'alculo del kernel cu\'antico: $K(\mathbf  {x}_i, \mathbf  {x}_j) = |\langle 0^n | U_\phi ^\dagger (\mathbf  {x}_j) \cdot U_\phi (\mathbf  {x}_i) | 0^n \rangle |^2$. Se muestra con datos reales del dataset Iris.}}{6}{figure.caption.10}\protected@file@percent }
+\newlabel{fig:kernel_circuit}{{8}{6}{Circuito \textit {compute-uncompute} para el c\'alculo del kernel cu\'antico: $K(\mathbf {x}_i, \mathbf {x}_j) = |\langle 0^n | U_\phi ^\dagger (\mathbf {x}_j) \cdot U_\phi (\mathbf {x}_i) | 0^n \rangle |^2$. Se muestra con datos reales del dataset Iris}{figure.caption.10}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {3}{\ignorespaces QSVC sobre subset reducido: simulador vs. hardware.}}{6}{table.caption.11}\protected@file@percent }
+\newlabel{tab:qsvc_hw}{{3}{6}{QSVC sobre subset reducido: simulador vs. hardware}{table.caption.11}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {9}{\ignorespaces Matrices de similitud del kernel cu\'antico y rendimiento comparado entre simulador (33.33\%) y hardware real (11.11\%) bajo restricci\'on estricta de muestra.}}{6}{figure.caption.12}\protected@file@percent }
+\newlabel{fig:qsvc_kernel}{{9}{6}{Matrices de similitud del kernel cu\'antico y rendimiento comparado entre simulador (33.33\%) y hardware real (11.11\%) bajo restricci\'on estricta de muestra}{figure.caption.12}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.5}Mitigaci\'on TREX}{6}{subsection.4.5}\protected@file@percent }
 \citation{schuld2019}
-\citation{larocca2025,biamonte2017}
+\@writefile{lof}{\contentsline {figure}{\numberline {10}{\ignorespaces Estabilidad de predicci\'on post-procesamiento TREX. Accuracy invariable (11.11\%) respecto al escenario sin mitigaci\'on.}}{7}{figure.caption.13}\protected@file@percent }
+\newlabel{fig:trex}{{10}{7}{Estabilidad de predicci\'on post-procesamiento TREX. Accuracy invariable (11.11\%) respecto al escenario sin mitigaci\'on}{figure.caption.13}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.6}Clasificaci\'on MNIST en Hardware}{7}{subsection.4.6}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {4}{\ignorespaces Resultados MNIST: cl\'asico, simulador y hardware.}}{7}{table.caption.14}\protected@file@percent }
+\newlabel{tab:mnist}{{4}{7}{Resultados MNIST: cl\'asico, simulador y hardware}{table.caption.14}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {11}{\ignorespaces Desempe\~no comparativo de clasificaci\'on binaria MNIST (0 vs. 1) super-reducido (PCA a 4D).}}{7}{figure.caption.15}\protected@file@percent }
+\newlabel{fig:mnist}{{11}{7}{Desempe\~no comparativo de clasificaci\'on binaria MNIST (0 vs. 1) super-reducido (PCA a 4D)}{figure.caption.15}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.7}Resumen Comparativo General}{7}{subsection.4.7}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {5}{\ignorespaces Resumen comparativo de todos los modelos evaluados.}}{7}{table.caption.16}\protected@file@percent }
+\newlabel{tab:resumen}{{5}{7}{Resumen comparativo de todos los modelos evaluados}{table.caption.16}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {12}{\ignorespaces Radar de rendimiento: Accuracy y F1 (macro) para todos los escenarios evaluados.}}{7}{figure.caption.17}\protected@file@percent }
+\newlabel{fig:radar}{{12}{7}{Radar de rendimiento: Accuracy y F1 (macro) para todos los escenarios evaluados}{figure.caption.17}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {5}Discusi\'on Te\'orica y An\'alisis de Resultados}{7}{section.5}\protected@file@percent }
+\newlabel{sec:discusion}{{5}{7}{Discusi\'on Te\'orica y An\'alisis de Resultados}{section.5}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.1}Impacto dual: ruido de hardware y escasez muestral}{7}{subsection.5.1}\protected@file@percent }
+\citation{huang2021}
+\citation{bowles2024}
+\citation{larocca2025}
+\citation{bowles2024}
+\citation{huang2021,biamonte2017}
 \bibstyle{apalike}
 \bibdata{contenido/bibliog}
 \bibcite{biamonte2017}{{1}{2017}{{Biamonte et~al.}}{{}}}
 \bibcite{bowles2024}{{2}{2024}{{Bowles et~al.}}{{}}}
 \bibcite{cerezo2021}{{3}{2021}{{Cerezo et~al.}}{{}}}
 \bibcite{havlicek2019}{{4}{2019}{{Havl{\'\i }{\v {c}}ek et~al.}}{{}}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.2}Ineficacia de la mitigaci\'on TREX}{8}{subsection.5.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.3}El caso at\'ipico de MNIST}{8}{subsection.5.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.4}Brecha cu\'antico-cl\'asica}{8}{subsection.5.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {6}Conclusiones y Trabajo Futuro}{8}{section.6}\protected@file@percent }
+\newlabel{sec:conclusiones}{{6}{8}{Conclusiones y Trabajo Futuro}{section.6}{}}
 \bibcite{huang2021}{{5}{2021}{{Huang et~al.}}{{}}}
 \bibcite{ibm_quantum_2023}{{6}{2023}{{IBM Quantum}}{{}}}
 \bibcite{larocca2025}{{7}{2025}{{Larocca et~al.}}{{}}}
@@ -118,10 +153,4 @@
 \bibcite{schuld2019}{{14}{2019}{{Schuld and Killoran}}{{}}}
 \bibcite{thanasilp2024}{{15}{2024}{{Thanasilp et~al.}}{{}}}
 \bibcite{yu2025}{{16}{2025}{{Yu et~al.}}{{}}}
-\@writefile{lof}{\contentsline {figure}{\numberline {7}{\ignorespaces Radar de Rendimiento de Precisi\'on y Estabilidad F1 (Macro) para los 5 escenarios probados.}}{6}{figure.caption.8}\protected@file@percent }
-\newlabel{fig:radar}{{7}{6}{Radar de Rendimiento de Precisi\'on y Estabilidad F1 (Macro) para los 5 escenarios probados}{figure.caption.8}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {5}Discusi\'on Te\'orica y Conclusiones del Anal\'isis Experimental}{6}{section.5}\protected@file@percent }
-\newlabel{sec:discusion}{{5}{6}{Discusi\'on Te\'orica y Conclusiones del Anal\'isis Experimental}{section.5}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {6}Conclusiones y Trabajo Futuro}{6}{section.6}\protected@file@percent }
-\newlabel{sec:conclusiones}{{6}{6}{Conclusiones y Trabajo Futuro}{section.6}{}}
-\gdef \@abspage@last{6}
+\gdef \@abspage@last{9}

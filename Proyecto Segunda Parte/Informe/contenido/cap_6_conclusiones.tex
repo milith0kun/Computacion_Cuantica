@@ -1,12 +1,20 @@
 \section{Conclusiones y Trabajo Futuro}
 \label{sec:conclusiones}
 
-Este proyecto valid\'o la integraci\'on completa entre el stack qu\'imico-computacional \textit{Qiskit} y un modelo m\'etrico cu\'antico operado f\'isicamente en un procesador de IBM. A modo de s\'intesis:
+Este proyecto valid\'o la integraci\'on completa entre el stack cu\'antico-computacional \textit{Qiskit} y modelos m\'etricos cu\'anticos operados f\'isicamente en un procesador IBM Heron r2 (\texttt{ibm\_fez}, 156 qubits). A modo de s\'intesis:
 
 \begin{itemize}
-    \item \textbf{Verificaci\'on Variacional:} Se estandariz\'o que los modelos de Ansatz lineal exigen, como m\'inimo matem\'atico, trescientas iteraciones de evaluaci\'on de costo COBYLA para escapar de m\'inimos locales tempranos en tareas QML.
-    \item \textbf{La Carencia del NISQ de Cuota:} El procesamiento cu\'antico de nube gratis (Open Plan) ahoga la expresividad real de cualquier red de m\'aquina. La decisi\'on de muestreo restrictiva en hardware expuso una asimetr\'ia estad\'istica donde las variables dependientes fallaron por \textit{Underfitting} Muestral m\'as que por ruido topol\'ogico.
+    \item \textbf{Verificaci\'on del hardware:} La preparaci\'on del estado de Bell alcanz\'o una fidelidad de 0.9834, confirmando la alta calidad del hardware para operaciones de entrelazamiento b\'asico.
+    \item \textbf{Impacto dual cuantificado:} Se demostr\'o que la degradaci\'on del rendimiento de la QSVC en hardware real responde a dos factores simult\'aneos y acumulativos: (i) la reducci\'on muestral de 105 a 13 muestras de entrenamiento provoc\'o una ca\'ida de 77.78\% a 33.33\% en simulador ideal ($-$44 pp), y (ii) el ruido NISQ redujo adicionalmente el resultado de 33.33\% a 11.11\% en hardware ($-$22 pp).
+    \item \textbf{Verificaci\'on Variacional:} El VQC requiere, como m\'inimo, 300 iteraciones de COBYLA para escapar de m\'inimos locales tempranos, alcanzando un m\'aximo de 60\% de accuracy ---a\'un 33 pp por debajo de la frontera cl\'asica---.
+    \item \textbf{Ineficacia de TREX:} La mitigaci\'on de errores de lectura (TREX) no logr\'o recuperar rendimiento bajo la degradaci\'on combinada de escasez muestral y ruido de compuerta.
+    \item \textbf{Anomal\'ia MNIST:} La clasificaci\'on binaria en hardware (88.89\%) super\'o al simulador (77.78\%), fen\'omeno atribuible a la baja resoluci\'on estad\'istica ($\pm$11.1\% por muestra) y no a una ventaja cu\'antica genuina.
 \end{itemize}
 
 \subsection*{Proyecciones a Futuro}
-La investigaci\'on requiere abandonar la experimentaci\'on h\'ibrida trivial y migrar a recursos f\'isicos asignados (Premium Access Programs) que habiliten la inyecci\'on continua de la totalidad de datos en el Kernel f\'isico. Bajo tal prerrogativa, el uso de las t\'ecnicas V2 nativas (\textit{EstimatorV2}) junto a m\'etodos de supresi\'on de ruido algor\'itmico puro como \textbf{ZNE} (Zero Noise Extrapolation) podr\'ian proveer, por primera vez, un campo de evaluaci\'on parejo donde medir fehacientemente la latencia frente al modelo cl\'asico Multicapa Perceptr\'on (MLP) \citep{larocca2025, biamonte2017}.
+La investigaci\'on requiere tres l\'ineas de avance complementarias:
+\begin{enumerate}
+    \item \textbf{Escala muestral:} Migrar a planes de acceso premium (IBM Premium Access Programs) que permitan inyectar la totalidad de los datos en el kernel f\'isico, eliminando el factor de escasez muestral y aislando el efecto puro del ruido.
+    \item \textbf{Mitigaci\'on avanzada:} Implementar t\'ecnicas que operen sobre el ruido de compuerta, como \textbf{ZNE} (Zero Noise Extrapolation) o \textbf{PEC} (Probabilistic Error Cancellation), junto a la primitiva \textit{EstimatorV2}, para evaluar su capacidad de recuperaci\'on sobre kernels cu\'anticos \citep{larocca2025}.
+    \item \textbf{Benchmark justo:} Replicar la evaluaci\'on sistem\'atica de \citet{bowles2024} con las 160 bases de datos, utilizando hardware real con datasets completos, para determinar bajo qu\'e condiciones espec\'ificas los modelos cu\'anticos pueden ser competitivos frente a los cl\'asicos \citep{huang2021, biamonte2017}.
+\end{enumerate}

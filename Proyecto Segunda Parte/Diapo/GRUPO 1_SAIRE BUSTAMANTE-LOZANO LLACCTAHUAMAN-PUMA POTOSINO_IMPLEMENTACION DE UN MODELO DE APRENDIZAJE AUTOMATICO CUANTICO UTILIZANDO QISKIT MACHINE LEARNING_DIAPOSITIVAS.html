@@ -1,0 +1,866 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Experimentación QML — Grupo 1 — UNSAAC</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #fdfae7;
+            --primary: #1e2bfa;
+            --text: #111111;
+            --text-muted: #6b6b6b;
+            --text-light: #9a9a9a;
+            --accent-light: rgba(30, 43, 250, 0.08);
+            --border: rgba(30, 43, 250, 0.2);
+            --card-bg: rgba(30, 43, 250, 0.04);
+            --positive: #059669;
+            --negative: #dc2626;
+            --stage-bg: #f5f2d8;
+            --font-display: 'Space Grotesk', sans-serif;
+            --font-body: 'Inter', sans-serif;
+            --pad-x: 80px;
+            --pad-top: 68px;
+            --pad-bottom: 100px;
+            --r-pill: 100px;
+            --r-card: 14px;
+            --r-card-sm: 10px;
+            --ease: cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html, body {
+            width: 100%; height: 100%; overflow: hidden;
+            background: var(--stage-bg);
+            font-family: var(--font-body);
+            color: var(--text);
+            -webkit-font-smoothing: antialiased;
+        }
+        .deck-viewport { position: fixed; inset: 0; overflow: hidden; background: var(--stage-bg); }
+        .deck-stage { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; overflow: hidden; transform-origin: 0 0; }
+        .slide {
+            position: absolute; inset: 0; width: 1920px; height: 1080px; overflow: hidden;
+            visibility: hidden; opacity: 0; pointer-events: none;
+            background: var(--bg);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+            transform: translateX(40px);
+        }
+        .slide.visible { visibility: visible; opacity: 1; pointer-events: auto; z-index: 1; transform: translateX(0); }
+        img { max-width: 100%; max-height: 100%; }
+        @media print {
+            html, body { width: 1920px; height: auto; overflow: visible; background: var(--bg); }
+            .deck-viewport { position: static; overflow: visible; }
+            .deck-stage { position: static; transform: none !important; }
+            .slide { position: relative; display: block !important; visibility: visible !important; opacity: 1 !important; pointer-events: auto !important; width: 1920px; height: 1080px; break-after: page; transform: none !important; }
+            .deck-chrome { display: none !important; }
+        }
+
+        /* --- Layout --- */
+        .s-wrap { position: relative; z-index: 1; width: 100%; height: 100%; padding: var(--pad-top) var(--pad-x) var(--pad-bottom); display: flex; flex-direction: column; }
+        .s-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
+        .eyebrow { font-family: var(--font-display); font-weight: 600; font-size: 16px; color: var(--primary); text-transform: uppercase; letter-spacing: 0.08em; }
+        .tag-pill { display: inline-block; background: var(--accent-light); color: var(--primary); padding: 7px 18px; border-radius: var(--r-pill); font-family: var(--font-display); font-weight: 500; font-size: 14px; }
+
+        /* --- Typography --- */
+        h1 { font-family: var(--font-display); font-weight: 700; font-size: 68px; line-height: 1.1; letter-spacing: -0.02em; color: var(--text); }
+        h2 { font-family: var(--font-display); font-weight: 600; font-size: 42px; line-height: 1.15; letter-spacing: -0.02em; color: var(--text); margin-bottom: 16px; }
+        h3 { font-family: var(--font-display); font-weight: 500; font-size: 24px; line-height: 1.3; letter-spacing: -0.02em; color: var(--text); }
+        .body-text { font-family: var(--font-body); font-weight: 400; font-size: 18px; line-height: 1.6; color: var(--text-muted); }
+        .metric-value { font-family: var(--font-display); font-weight: 700; font-size: 48px; line-height: 1; color: var(--primary); }
+        .stat-num { font-family: var(--font-display); font-weight: 700; font-size: 34px; line-height: 1; color: var(--primary); }
+        .sub-text { font-size: 16px; color: var(--text-muted); font-family: var(--font-body); line-height: 1.6; }
+        .meta-text { font-family: var(--font-display); font-weight: 400; font-size: 14px; letter-spacing: 0.05em; color: var(--text-light); }
+
+        /* --- Cards --- */
+        .card { background: var(--card-bg); border: 1.5px solid var(--border); border-radius: var(--r-card); padding: 28px 32px; }
+        .card-sm { background: var(--card-bg); border: 1px solid var(--border); border-radius: var(--r-card-sm); padding: 22px 26px; }
+        .highlight-block { background: var(--accent-light); border-left: 4px solid var(--primary); border-radius: 12px; padding: 22px 28px; }
+
+        /* --- Grids --- */
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; }
+        .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 24px; }
+        .grid-2-1 { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 32px; }
+        .flex-col { display: flex; flex-direction: column; }
+        .flex-grow { flex: 1; }
+        .gap-sm { gap: 16px; }
+        .gap-md { gap: 24px; }
+
+        /* --- Tables --- */
+        .data-table { width: 100%; border-collapse: collapse; font-size: 17px; }
+        .data-table th { font-family: var(--font-display); font-weight: 600; font-size: 14px; color: var(--primary); text-align: left; padding: 12px 16px; border-bottom: 2px solid var(--border); text-transform: uppercase; letter-spacing: 0.06em; }
+        .data-table td { padding: 11px 16px; color: var(--text-muted); border-bottom: 1px solid rgba(30,43,250,0.08); }
+        .num { font-family: var(--font-display); font-weight: 600; color: var(--primary); }
+        .num-pos { font-family: var(--font-display); font-weight: 600; color: var(--positive); }
+        .num-neg { font-family: var(--font-display); font-weight: 600; color: var(--negative); }
+
+        /* --- Full-page image slide (dark bg for contrast with dark charts) --- */
+        .slide-img { background: #0d1117; }
+        .slide-img .s-wrap { padding: 48px 60px 80px; }
+        .slide-img .s-header .eyebrow { color: rgba(30, 43, 250, 0.7); }
+        .slide-img .tag-pill { background: rgba(30, 43, 250, 0.15); color: #8b95ff; }
+        .slide-img h2 { color: #e6e8f0; font-size: 36px; margin-bottom: 12px; }
+        .slide-img .sub-text { color: #8b95a5; }
+        .slide-img .img-full { flex: 1; display: flex; align-items: center; justify-content: center; overflow: hidden; border-radius: 12px; }
+        .slide-img .img-full img { width: 100%; height: 100%; object-fit: contain; }
+        .slide-img .slide-counter { color: #5a6070; }
+
+        /* --- Cover decoration --- */
+        .cover-deco { position: absolute; top: 0; right: 0; width: 40%; height: 100%; background: var(--accent-light); clip-path: polygon(30% 0, 100% 0, 100% 100%, 0% 100%); z-index: 0; }
+        .cover-dots { position: absolute; display: grid; grid-template-columns: repeat(3, 6px); gap: 12px; opacity: 0.25; z-index: 0; }
+        .cover-dots span { width: 6px; height: 6px; border-radius: 50%; background: var(--primary); }
+        .accent-line { width: 60px; height: 4px; background: var(--primary); border-radius: 2px; }
+        .step-circle { width: 52px; height: 52px; border-radius: 50%; background: var(--primary); color: var(--bg); display: flex; align-items: center; justify-content: center; font-family: var(--font-display); font-weight: 700; font-size: 22px; flex-shrink: 0; }
+
+        /* --- Animations --- */
+        .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.5s var(--ease), transform 0.5s var(--ease); }
+        .reveal-scale { opacity: 0; transform: scale(0.95); transition: opacity 0.5s var(--ease), transform 0.5s var(--ease); }
+        .slide.visible .reveal, .slide.visible .reveal-scale { opacity: 1; transform: translateY(0) scale(1); }
+        .d1{transition-delay:.05s!important}.d2{transition-delay:.15s!important}.d3{transition-delay:.25s!important}.d4{transition-delay:.35s!important}.d5{transition-delay:.45s!important}.d6{transition-delay:.55s!important}.d7{transition-delay:.65s!important}
+
+        /* --- Chrome --- */
+        .slide-counter { position: absolute; bottom: 28px; left: var(--pad-x); font-family: var(--font-display); font-weight: 500; font-size: 14px; letter-spacing: 0.05em; color: var(--text-muted); z-index: 10; }
+        .progress-track-outer { position: absolute; bottom: 0; left: 0; right: 0; height: 3px; z-index: 100; }
+        .progress-fill { height: 100%; background: var(--primary); transition: width 0.4s var(--ease); }
+        .nav-hint { position: absolute; bottom: 28px; left: 50%; transform: translateX(-50%); font-family: var(--font-display); font-size: 13px; color: var(--text-light); letter-spacing: 0.04em; z-index: 10; }
+    
+    
+    /* --- Styles for PDF Export (Print) --- */
+    @media print {
+        @page {
+            size: 1920px 1080px;
+            margin: 0;
+        }
+        html, body {
+            width: 1920px !important;
+            height: 1080px !important;
+            overflow: visible !important;
+            background: #fdfae7 !important;
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
+        }
+        .deck-viewport {
+            width: 1920px !important;
+            height: 1080px !important;
+            overflow: visible !important;
+        }
+        .deck-stage {
+            width: 1920px !important;
+            height: auto !important;
+            transform: none !important;
+            display: block !important;
+            position: static !important;
+        }
+        .slide {
+            width: 1920px !important;
+            height: 1080px !important;
+            display: block !important;
+            opacity: 1 !important;
+            visibility: visible !important;
+            position: relative !important;
+            page-break-after: always !important;
+            break-after: page !important;
+            transform: none !important;
+            top: 0 !important;
+            left: 0 !important;
+        }
+        /* Keep dark backgrounds for image slides */
+        .slide-img {
+            background: #0d1117 !important;
+        }
+        /* Hide navigation hints and buttons */
+        .nav-hint, .progress-track-outer, #editToggle, .edit-hotzone {
+            display: none !important;
+        }
+        /* FORCE ANIMATED REVEAL ELEMENTS TO BE VISIBLE IN PRINT */
+        .reveal, .reveal-scale {
+            opacity: 1 !important;
+            transform: none !important;
+            transition: none !important;
+        }
+    }
+
+    </style>
+</head>
+<body>
+<div class="deck-viewport">
+<main class="deck-stage" id="deckStage">
+
+<!-- ========== SLIDE 01 — PORTADA ========== -->
+<section class="slide visible" id="s01">
+    <div class="cover-deco"></div>
+    <div class="cover-dots" style="top: 100px; right: 90px;"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+    <div class="s-wrap" style="justify-content: center;">
+        <!-- Logo + Institución -->
+        <div class="reveal d1" style="display: flex; align-items: center; gap: 20px; margin-bottom: 32px;">
+            <img src="assets/escudo.png" alt="Escudo UNSAAC" style="width: 140px; height: auto; mix-blend-mode: multiply; filter: contrast(1.1) brightness(0.97); margin-left: -15px;">
+            <div>
+                <p style="font-family: var(--font-display); font-weight: 600; font-size: 16px; color: var(--text); letter-spacing: 0.04em; text-transform: uppercase;">Universidad Nacional de San Antonio Abad del Cusco</p>
+                <p style="font-family: var(--font-body); font-size: 14px; color: var(--text-muted);">Escuela Profesional de Ingeniería Informática y de Sistemas</p>
+            </div>
+        </div>
+        <div class="reveal d2 accent-line" style="margin-bottom: 28px;"></div>
+        <h1 class="reveal d3" style="max-width: 1050px; font-size: 62px;">Implementación de un Modelo de Aprendizaje Automático Cuántico</h1>
+        <p class="reveal d4 body-text" style="font-size: 22px; margin-top: 16px; max-width: 800px;">
+            Utilizando <strong style="color: var(--primary);">Qiskit Machine Learning</strong> sobre hardware cuántico real IBM Quantum
+        </p>
+        <div class="reveal d5" style="display: flex; gap: 12px; margin-top: 32px;">
+            <span class="tag-pill">Capítulo de Experimentación</span>
+            <span class="tag-pill">IBM Heron r2 · ibm_fez</span>
+        </div>
+        <div class="reveal d6" style="margin-top: auto;">
+            <p style="font-family: var(--font-display); font-weight: 600; font-size: 18px; color: var(--text); letter-spacing: -0.01em;">GRUPO 1</p>
+            <div style="display: flex; gap: 40px; margin-top: 10px;">
+                <p class="body-text" style="font-size: 17px;">Saire Bustamante</p>
+                <p class="body-text" style="font-size: 17px;">Lozano Llactahuaman</p>
+                <p class="body-text" style="font-size: 17px;">Puma Potosino</p>
+            </div>
+            <p class="meta-text" style="margin-top: 12px;">Junio 2026</p>
+        </div>
+    </div>
+    <div class="slide-counter"><span class="c-num">01</span> / <span class="c-total">22</span></div>
+</section>
+
+<!-- ========== SLIDE 02 — AGENDA ========== -->
+<section class="slide" id="s02">
+    <div class="s-wrap">
+        <div class="s-header reveal d1"><span class="eyebrow">Agenda</span><span class="tag-pill">22 slides</span><span class="tag-pill presenter-pill">Presenta: Lozano Llactahuaman</span></div>
+        <h2 class="reveal d2">Estructura de la Presentación</h2>
+        <div class="grid-2 flex-grow reveal d3" style="margin-top: 8px;">
+            <div class="flex-col gap-sm">
+                <div class="card-sm" style="display:flex;gap:20px;align-items:center;"><span class="stat-num">01</span><div><h3 style="font-size:20px;">Fundamentos Teóricos</h3><p class="sub-text">Qubits, puertas, QML, NISQ</p></div></div>
+                <div class="card-sm" style="display:flex;gap:20px;align-items:center;"><span class="stat-num">02</span><div><h3 style="font-size:20px;">Entorno y Datos</h3><p class="sub-text">Hardware, software, datasets</p></div></div>
+                <div class="card-sm" style="display:flex;gap:20px;align-items:center;"><span class="stat-num">03</span><div><h3 style="font-size:20px;">Diseño Experimental</h3><p class="sub-text">3 escenarios progresivos</p></div></div>
+                <div class="card-sm" style="display:flex;gap:20px;align-items:center;"><span class="stat-num">04</span><div><h3 style="font-size:20px;">Exp. 1: Baseline vs. VQC</h3><p class="sub-text">Clásico vs. variacional</p></div></div>
+                <div class="card-sm" style="display:flex;gap:20px;align-items:center;"><span class="stat-num">05</span><div><h3 style="font-size:20px;">Exp. 2: Estado de Bell</h3><p class="sub-text">Verificación de fidelidad HW</p></div></div>
+            </div>
+            <div class="flex-col gap-sm">
+                <div class="card-sm" style="display:flex;gap:20px;align-items:center;"><span class="stat-num">06</span><div><h3 style="font-size:20px;">Exp. 3: QSVC Sim. vs. HW</h3><p class="sub-text">Degradación del kernel</p></div></div>
+                <div class="card-sm" style="display:flex;gap:20px;align-items:center;"><span class="stat-num">07</span><div><h3 style="font-size:20px;">Exp. 4: Mitigación TREX</h3><p class="sub-text">Corrección de errores SPAM</p></div></div>
+                <div class="card-sm" style="display:flex;gap:20px;align-items:center;"><span class="stat-num">08</span><div><h3 style="font-size:20px;">Exp. 5: MNIST Hardware</h3><p class="sub-text">Resultado atípico</p></div></div>
+                <div class="card-sm" style="display:flex;gap:20px;align-items:center;"><span class="stat-num">09</span><div><h3 style="font-size:20px;">Resumen Comparativo</h3><p class="sub-text">11 modelos, tabla + radar</p></div></div>
+                <div class="card-sm" style="display:flex;gap:20px;align-items:center;"><span class="stat-num">10</span><div><h3 style="font-size:20px;">Conclusiones y Futuro</h3><p class="sub-text">Hallazgos y líneas de trabajo</p></div></div>
+            </div>
+        </div>
+    </div>
+    <div class="slide-counter"><span class="c-num">02</span> / <span class="c-total">22</span></div>
+</section>
+
+<!-- ========== SLIDE 03 — MARCO TEÓRICO: COMPUTACIÓN CUÁNTICA ========== -->
+<section class="slide" id="s03">
+    <div class="s-wrap">
+        <div class="s-header reveal d1"><span class="eyebrow">Marco Teórico</span><span class="tag-pill">Fundamentos</span><span class="tag-pill presenter-pill">Presenta: Lozano Llactahuaman</span></div>
+        <h2 class="reveal d2">Computación Cuántica: Conceptos Clave</h2>
+        <div class="grid-3 flex-grow reveal d3" style="align-items:start;">
+            <div class="card flex-col gap-sm">
+                <h3>Qubits y Superposición</h3>
+                <p class="sub-text">El qubit existe en superposición de |0⟩ y |1⟩:</p>
+                <div class="highlight-block" style="font-family:var(--font-display);font-size:20px;color:var(--text);text-align:center;">|ψ⟩ = α|0⟩ + β|1⟩</div>
+                <p class="sub-text">Un sistema de <em>n</em> qubits vive en un espacio de Hilbert de dimensión <strong style="color:var(--primary);">2ⁿ</strong>.</p>
+            </div>
+            <div class="card flex-col gap-sm">
+                <h3>Puertas Cuánticas</h3>
+                <p class="sub-text">Operaciones unitarias. Las rotaciones R<sub>Y</sub>(θ) y R<sub>Z</sub>(θ) codifican datos angularmente.</p>
+                <p class="sub-text">Las puertas <strong>CNOT</strong> generan entrelazamiento, recurso esencial para correlaciones no triviales.</p>
+            </div>
+            <div class="card flex-col gap-sm">
+                <h3>Circuitos Parametrizados</h3>
+                <ul class="sub-text" style="padding-left:20px;margin-top:8px;">
+                    <li style="margin-bottom:6px;"><strong>Feature Map</strong> U<sub>φ</sub>(x) — codifica datos</li>
+                    <li style="margin-bottom:6px;"><strong>Ansatz</strong> U<sub>W</sub>(θ) — parámetros entrenables</li>
+                    <li><strong>Medición</strong> — proyecta sobre base Z</li>
+                </ul>
+            </div>
+        </div>
+        <div class="reveal d4 highlight-block" style="margin-top:20px;">
+            <p class="sub-text" style="color:var(--text);"><strong>Feature Maps usados:</strong> ZZFeatureMap (interacciones R<sub>ZZ</sub> de segundo orden) + Ansatz RealAmplitudes (R<sub>Y</sub> + CNOT). Optimizador COBYLA (libre de gradiente, 300 iter). Shots: 2048 por circuito.</p>
+        </div>
+    </div>
+    <div class="slide-counter"><span class="c-num">03</span> / <span class="c-total">22</span></div>
+</section>
+
+<!-- ========== SLIDE 03b — CIRCUITOS VQC (NUEVO) ========== -->
+<section class="slide" id="s04">
+    <div class="s-wrap">
+        <div class="s-header reveal d1"><span class="eyebrow">Marco Teórico</span><span class="tag-pill">Circuitos QML</span><span class="tag-pill presenter-pill">Presenta: Lozano Llactahuaman</span></div>
+        <h2 class="reveal d2">Circuitos Cuánticos del VQC</h2>
+        <div class="grid-2 flex-grow reveal d3" style="align-items: center; gap: 30px;">
+            <div class="card flex-col gap-sm" style="align-items: center; text-align: center; background: #0d1117; border: 1px solid rgba(255,255,255,0.1); padding: 20px; height: 100%;">
+                <h3 style="color: #e6e8f0; margin-bottom: 8px;">ZZFeatureMap (Codificación)</h3>
+                <p class="sub-text" style="color: #8b95a5; margin-bottom: 12px;">Mapea características clásicas x a ángulos de rotación.</p>
+                <div style="flex: 1; display: flex; align-items: center; justify-content: center; overflow: hidden; border-radius: 8px; background: white; padding: 10px; width: 100%;">
+                    <img src="assets/vis3_zzfeaturemap_2.png" alt="ZZFeatureMap" style="max-height: 360px; width: 100%; object-fit: contain;">
+                </div>
+            </div>
+            <div class="card flex-col gap-sm" style="align-items: center; text-align: center; background: #0d1117; border: 1px solid rgba(255,255,255,0.1); padding: 20px; height: 100%;">
+                <h3 style="color: #e6e8f0; margin-bottom: 8px;">RealAmplitudes Ansatz (Entrenamiento)</h3>
+                <p class="sub-text" style="color: #8b95a5; margin-bottom: 12px;">Parámetros θ optimizables y entrelazamiento lineal.</p>
+                <div style="flex: 1; display: flex; align-items: center; justify-content: center; overflow: hidden; border-radius: 8px; background: white; padding: 10px; width: 100%;">
+                    <img src="assets/vis4_realamplitudes_vqc_2.png" alt="RealAmplitudes" style="max-height: 360px; width: 100%; object-fit: contain;">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="slide-counter"><span class="c-num">04</span> / <span class="c-total">22</span></div>
+</section>
+
+
+<!-- ========== SLIDE 04 — MARCO TEÓRICO: QML ========== -->
+<section class="slide" id="s05">
+    <div class="s-wrap">
+        <div class="s-header reveal d1"><span class="eyebrow">Marco Teórico</span><span class="tag-pill">QML</span><span class="tag-pill presenter-pill">Presenta: Lozano Llactahuaman</span></div>
+        <h2 class="reveal d2">Modelos de Quantum Machine Learning</h2>
+        <div class="grid-2 flex-grow reveal d3" style="align-items:start;">
+            <div class="card flex-col gap-sm">
+                <h3>VQC — Variational Quantum Classifier</h3>
+                <p class="sub-text">Circuito parametrizado entrenado de forma híbrida. La entropía cruzada se minimiza con un optimizador clásico; el circuito se evalúa en el QPU.</p>
+                <div class="highlight-block" style="margin-top:8px;">
+                    <p class="sub-text" style="color:var(--text);">Problema: circuitos profundos sufren <strong>barren plateaus</strong> — gradientes que se desvanecen exponencialmente.</p>
+                </div>
+            </div>
+            <div class="card flex-col gap-sm">
+                <h3>QSVC — Quantum SVM Classifier</h3>
+                <p class="sub-text">Kernel cuántico de fidelidad:</p>
+                <div class="highlight-block" style="font-family:var(--font-display);font-size:18px;color:var(--text);text-align:center;margin:8px 0;">K<sub>Q</sub>(x<sub>i</sub>, x<sub>j</sub>) = |⟨φ(x<sub>j</sub>)|φ(x<sub>i</sub>)⟩|²</div>
+                <p class="sub-text">Feature map mapea datos a espacio de Hilbert de dimensión 2⁴ = 16, potencialmente difícil de simular clásicamente.</p>
+            </div>
+        </div>
+        <div class="grid-2 reveal d4" style="margin-top:20px;">
+            <div class="card-sm">
+                <h3 style="font-size:20px;">Estado del Arte (2024–2026)</h3>
+                <p class="sub-text" style="margin-top:8px;">Bowles et al. (2024): benchmark de 12 modelos cuánticos en 160 datasets concluye que los clásicos <em>out-of-the-box</em> aún superan a los cuánticos.</p>
+            </div>
+            <div class="card-sm">
+                <h3 style="font-size:20px;">Mitigación TREX</h3>
+                <p class="sub-text" style="margin-top:8px;">Twirled Readout Error Extinction: puertas Pauli-X aleatorias antes de medir, trasladando el ruido asimétrico a un canal de depolarización local invertible.</p>
+            </div>
+        </div>
+    </div>
+    <div class="slide-counter"><span class="c-num">05</span> / <span class="c-total">22</span></div>
+</section>
+
+<!-- ========== SLIDE 05 — ENTORNO EXPERIMENTAL ========== -->
+<section class="slide" id="s06">
+    <div class="s-wrap">
+        <div class="s-header reveal d1"><span class="eyebrow">Entorno Experimental</span><span class="tag-pill">Infraestructura</span><span class="tag-pill presenter-pill">Presenta: Lozano Llactahuaman</span></div>
+        <h2 class="reveal d2">Infraestructura Híbrida: Clásica + Cuántica</h2>
+        <div class="grid-2 flex-grow reveal d3">
+            <div class="card flex-col gap-sm">
+                <h3>Cómputo Clásico</h3>
+                <table class="data-table"><tr><td style="color:var(--text-light);width:120px;">CPU</td><td>AMD Ryzen 7 9700X (8 cores)</td></tr><tr><td style="color:var(--text-light);">RAM</td><td>32 GB DDR5</td></tr><tr><td style="color:var(--text-light);">SSD</td><td>1 TB NVMe Kingston</td></tr><tr><td style="color:var(--text-light);">GPU</td><td>NVIDIA GTX 1050 Ti (4 GB)</td></tr><tr><td style="color:var(--text-light);">Entorno</td><td>Jupyter / Google Colab</td></tr></table>
+            </div>
+            <div class="card flex-col gap-sm">
+                <h3>Hardware Cuántico Real</h3>
+                <table class="data-table"><tr><td style="color:var(--text-light);width:120px;">Sistema</td><td style="font-weight:600;color:var(--primary);">ibm_fez</td></tr><tr><td style="color:var(--text-light);">Chip</td><td>IBM Heron r2</td></tr><tr><td style="color:var(--text-light);">Qubits</td><td>156 qubits físicos</td></tr><tr><td style="color:var(--text-light);">Topología</td><td>Hexagonal pesado (anti-crosstalk)</td></tr><tr><td style="color:var(--text-light);">Acceso</td><td>IBM Quantum Cloud (gratuito)</td></tr></table>
+            </div>
+        </div>
+        <div class="reveal d4 highlight-block" style="margin-top:20px;">
+            <p class="sub-text" style="color:var(--text);"><strong>Restricción:</strong> Cuota gratuita ~10 min/mes de QPU. Consumo total: ~594s (~9.9 min). Subset forzado: 13 train + 9 test. Stack: Python 3.10+, Qiskit, Qiskit ML, Qiskit Runtime, Scikit-learn.</p>
+        </div>
+    </div>
+    <div class="slide-counter"><span class="c-num">06</span> / <span class="c-total">22</span></div>
+</section>
+
+<!-- ========== SLIDE 06 — DATOS ========== -->
+<section class="slide" id="s07">
+    <div class="s-wrap">
+        <div class="s-header reveal d1"><span class="eyebrow">Datos Utilizados</span><span class="tag-pill">Datasets</span><span class="tag-pill presenter-pill">Presenta: Lozano Llactahuaman</span></div>
+        <h2 class="reveal d2">Conjuntos de Datos y Preprocesamiento</h2>
+        <div class="grid-2 flex-grow reveal d3">
+            <div class="card flex-col gap-sm">
+                <h3>Iris Dataset (3 clases)</h3>
+                <table class="data-table"><tr><td style="color:var(--text-light);">Registros</td><td>150 muestras, 4 variables</td></tr><tr><td style="color:var(--text-light);">Clases</td><td>Setosa, Versicolor, Virginica</td></tr><tr><td style="color:var(--text-light);">Split normal</td><td>105 train / 45 test</td></tr><tr><td style="color:var(--text-light);">Split HW</td><td class="num-neg">13 train / 9 test</td></tr><tr><td style="color:var(--text-light);">Normalización</td><td>Min-Max → [0, π]</td></tr></table>
+            </div>
+            <div class="card flex-col gap-sm">
+                <h3>MNIST Reducido (binario: 0 vs. 1)</h3>
+                <table class="data-table"><tr><td style="color:var(--text-light);">Original</td><td>64 atributos (8×8 px)</td></tr><tr><td style="color:var(--text-light);">PCA</td><td>Compresión a 4D (73.4% var.)</td></tr><tr><td style="color:var(--text-light);">Clases</td><td>2 (dígitos "0" y "1")</td></tr><tr><td style="color:var(--text-light);">Split HW</td><td class="num-neg">13 train / 9 test</td></tr><tr><td style="color:var(--text-light);">Codificación</td><td>Angle Embedding</td></tr></table>
+            </div>
+        </div>
+        <div class="reveal d4 highlight-block" style="margin-top:20px;border-left-color:var(--negative);">
+            <p class="sub-text" style="color:var(--text);"><strong style="color:var(--negative);">Restricción crítica:</strong> Con 9 muestras de test, cada muestra = ±11.1% del accuracy.</p>
+        </div>
+    </div>
+    <div class="slide-counter"><span class="c-num">07</span> / <span class="c-total">22</span></div>
+</section>
+
+<!-- ========== SLIDE 06b — CODIFICACION DE DATOS (NUEVO) ========== -->
+<section class="slide" id="s08">
+    <div class="s-wrap">
+        <div class="s-header reveal d1"><span class="eyebrow">Preprocesamiento</span><span class="tag-pill">Feature Mapping</span><span class="tag-pill presenter-pill">Presenta: Lozano Llactahuaman</span></div>
+        <h2 class="reveal d2">Codificación Angular de Características Clásicas</h2>
+        <div class="grid-2 flex-grow reveal d3" style="align-items: center; gap: 30px;">
+            <div class="card flex-col gap-sm" style="justify-content: center; height: 100%;">
+                <h3>Pipeline de Mapeo a Qubits</h3>
+                <p class="body-text" style="font-size: 17px; line-height: 1.6;">El dataset Iris (4D) se normaliza en el rango <strong>[0, π]</strong> para representar rotaciones sobre la esfera de Bloch.</p>
+                <p class="body-text" style="font-size: 17px; line-height: 1.6; margin-top: 15px;">Cada característica x<sub>i</sub> se asocia con un qubit, aplicando compuertas de rotación parametrizadas por el feature map.</p>
+                <div class="highlight-block" style="margin-top: 20px;">
+                    <p class="sub-text" style="color: var(--text);">Esto explota el espacio de estados de Hilbert para buscar fronteras de decisión no lineales en el espacio clásico.</p>
+                </div>
+            </div>
+            <div class="card flex-col gap-sm" style="align-items: center; justify-content: center; background: #0d1117; border: 1px solid rgba(255,255,255,0.1); padding: 20px; height: 100%;">
+                <h3 style="color: #e6e8f0; margin-bottom: 12px;">Circuito de Codificación (Detallado)</h3>
+                <div style="flex: 1; display: flex; align-items: center; justify-content: center; overflow: hidden; border-radius: 8px; background: white; padding: 12px; width: 100%;">
+                    <img src="assets/vis5_codificacion_datos_3.png" alt="Codificación Datos" style="max-height: 450px; width: 100%; object-fit: contain;">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="slide-counter"><span class="c-num">08</span> / <span class="c-total">22</span></div>
+</section>
+
+
+<!-- ========== SLIDE 07 — DISEÑO EXPERIMENTAL ========== -->
+<section class="slide" id="s09">
+    <div class="s-wrap">
+        <div class="s-header reveal d1"><span class="eyebrow">Diseño Experimental</span><span class="tag-pill">3 Escenarios</span><span class="tag-pill presenter-pill">Presenta: Saire Bustamante</span></div>
+        <h2 class="reveal d2">Escenarios de Prueba Progresivos</h2>
+        <div class="grid-3 flex-grow reveal d3">
+            <div class="card flex-col" style="border-top:4px solid var(--positive);">
+                <div style="display:flex;gap:16px;align-items:center;margin-bottom:16px;"><div class="step-circle">1</div><h3>Simulación Ideal</h3></div>
+                <p class="sub-text" style="font-weight:600;margin-bottom:12px;color:var(--positive);">Statevector Simulator (Sin Ruido)</p><ul class="sub-text" style="padding-left:20px;margin-bottom:16px;line-height:1.6;list-style-type:square;"><li style="margin-bottom:10px;"><strong>Modelos:</strong> SVM, MLP, KNN clásicos + VQC y QSVC cuánticos.</li><li style="margin-bottom:10px;"><strong>Muestras:</strong> Dataset completo (105 de entrenamiento / 45 de prueba).</li><li style="margin-bottom:10px;"><strong>Objetivo:</strong> Establecer la precisión teórica óptima libre de perturbaciones físicas.</li></ul>
+                <div style="margin-top:auto;padding-top:16px;display:flex;gap:8px;"><span class="tag-pill" style="background:rgba(5,150,105,0.1);color:var(--positive);">Sin ruido</span><span class="tag-pill" style="background:rgba(5,150,105,0.1);color:var(--positive);">Datos completos</span></div>
+            </div>
+            <div class="card flex-col" style="border-top:4px solid #d97706;">
+                <div style="display:flex;gap:16px;align-items:center;margin-bottom:16px;"><div class="step-circle" style="opacity:0.85;">2</div><h3>HW sin Mitigación</h3></div>
+                <p class="sub-text" style="font-weight:600;margin-bottom:12px;color:#d97706;">QPU Física Real (ibm_fez)</p><ul class="sub-text" style="padding-left:20px;margin-bottom:16px;line-height:1.6;list-style-type:square;"><li style="margin-bottom:10px;"><strong>Procesador:</strong> IBM Heron r2 (156 qubits físicos con topología hexagonal pesada).</li><li style="margin-bottom:10px;"><strong>Restricción:</strong> Muestra reducida (13 entrenamiento / 9 prueba) por límite de cuota.</li><li style="margin-bottom:10px;"><strong>Efectos:</strong> Exposición a ruido de fase, decoherencia T1/T2 y errores de compuertas.</li></ul>
+                <div style="margin-top:auto;padding-top:16px;display:flex;gap:8px;"><span class="tag-pill" style="background:rgba(220,38,38,0.08);color:var(--negative);">Con ruido</span><span class="tag-pill" style="background:rgba(220,38,38,0.08);color:var(--negative);">Datos mínimos</span></div>
+            </div>
+            <div class="card flex-col" style="border-top:4px solid var(--primary);">
+                <div style="display:flex;gap:16px;align-items:center;margin-bottom:16px;"><div class="step-circle" style="opacity:0.7;">3</div><h3>HW + TREX</h3></div>
+                <p class="sub-text" style="font-weight:600;margin-bottom:12px;color:var(--primary);">QPU Real con Mitigación SPAM</p><ul class="sub-text" style="padding-left:20px;margin-bottom:16px;line-height:1.6;list-style-type:square;"><li style="margin-bottom:10px;"><strong>Técnica:</strong> Twirled Readout Error Extinction mediante promediado de Pauli.</li><li style="margin-bottom:10px;"><strong>Enfoque:</strong> Corrección de errores de lectura al final de la medición.</li><li style="margin-bottom:10px;"><strong>Evaluación:</strong> Analizar si la corrección SPAM rescata un kernel geométricamente colapsado.</li></ul>
+                <div style="margin-top:auto;padding-top:16px;display:flex;gap:8px;"><span class="tag-pill">Mitigado</span><span class="tag-pill" style="background:rgba(220,38,38,0.08);color:var(--negative);">Datos mínimos</span></div>
+            </div>
+        </div>
+        <div class="reveal d4" style="display:flex;gap:12px;margin-top:20px;">
+            <span class="meta-text">Métricas:</span><span class="tag-pill">Accuracy</span><span class="tag-pill">F1-Score macro</span><span class="tag-pill">Tiempo QPU</span><span class="tag-pill">Matriz de confusión</span>
+        </div>
+        <div class="reveal d5" style="font-size:12px; margin-top:15px; color:var(--text-light); line-height:1.4;">
+            <strong>HW:</strong> Hardware &nbsp;|&nbsp; 
+            <strong>QPU:</strong> Quantum Processing Unit &nbsp;|&nbsp; 
+            <strong>TREX:</strong> Twirled Readout Error Extinction &nbsp;|&nbsp; 
+            <strong>SPAM:</strong> State Preparation and Measurement (Preparación y Medición de Estados)
+        </div>
+    </div>
+    <div class="slide-counter"><span class="c-num">09</span> / <span class="c-total">22</span></div>
+</section>
+
+<!-- ========== SLIDE 08 — EXP 1: DATOS ========== -->
+<section class="slide" id="s10">
+    <div class="s-wrap">
+        <div class="s-header reveal d1"><span class="eyebrow">Experimento 1</span><span class="tag-pill">Baseline vs. VQC</span><span class="tag-pill presenter-pill">Presenta: Saire Bustamante</span></div>
+        <h2 class="reveal d2">Línea Base Clásica vs. VQC Simulado</h2>
+        <div class="grid-2 flex-grow reveal d3">
+            <div class="flex-col gap-md">
+                <div class="card">
+                    <h3 style="margin-bottom:14px;">Modelos Clásicos (Iris completo)</h3>
+                    <table class="data-table"><thead><tr><th>Modelo</th><th>Accuracy</th><th>F1</th></tr></thead><tbody>
+                        <tr><td>SVM-RBF</td><td class="num-pos">93.33%</td><td class="num-pos">0.933</td></tr>
+                        <tr><td>MLP</td><td class="num-pos">93.33%</td><td class="num-pos">0.933</td></tr>
+                        <tr><td>KNN</td><td class="num-pos">93.33%</td><td class="num-pos">0.933</td></tr>
+                    </tbody></table>
+                    <div style="font-size:12px; margin-top:10px; color:var(--text-light); line-height:1.4;">
+                        <strong>SVM-RBF:</strong> Máquina de Soporte Vectorial (Kernel RBF) &nbsp;|&nbsp; 
+                        <strong>MLP:</strong> Perceptrón Multicapa (Red Neuronal) &nbsp;|&nbsp; 
+                        <strong>KNN:</strong> K-Vecinos Más Cercanos
+                    </div>
+                </div>
+                <div class="card">
+                    <h3 style="margin-bottom:14px;">VQC (3 semillas, COBYLA 300 iter.)</h3>
+                    <table class="data-table"><thead><tr><th>Semilla</th><th>Accuracy</th><th>Iter.</th><th>Tiempo</th></tr></thead><tbody>
+                        <tr><td style="font-family:var(--font-display);">42</td><td class="num-neg">55.56%</td><td>152</td><td>36.1s</td></tr>
+                        <tr><td style="font-family:var(--font-display);">123</td><td class="num" style="color:#d97706;">60.00%</td><td>164</td><td>41.1s</td></tr>
+                        <tr><td style="font-family:var(--font-display);">789</td><td class="num-neg">46.67%</td><td>130</td><td>32.5s</td></tr>
+                    </tbody></table>
+                    <div style="font-size:12px; margin-top:10px; color:var(--text-light); line-height:1.4;">
+                        <strong>VQC:</strong> Clasificador Cuántico Variacional &nbsp;|&nbsp; 
+                        <strong>COBYLA:</strong> Constrained Optimization by Linear Approximation (Optimizador)
+                    </div>
+                </div>
+            </div>
+            <div class="flex-col gap-md" style="justify-content:center;">
+                <div class="card" style="text-align:center;">
+                    <p class="sub-text">Brecha Cuántico-Clásica</p>
+                    <div class="metric-value" style="font-size:72px;color:var(--negative);margin:12px 0;">−33 pp</div>
+                    <p class="sub-text">VQC (60%) vs. SVM (93.3%)</p>
+                </div>
+                <div class="highlight-block">
+                    <p class="sub-text" style="color:var(--text);">El <em>loss landscape</em> variacional presenta mínimos locales difíciles de superar. Consistente con Bowles et al. (2024).</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="slide-counter"><span class="c-num">10</span> / <span class="c-total">22</span></div>
+</section>
+
+<!-- ========== SLIDE 09 — EXP 1: GRÁFICO (PÁGINA COMPLETA) ========== -->
+<section class="slide slide-img" id="s11">
+    <div class="s-wrap">
+        <div class="s-header reveal d1"><span class="eyebrow">Experimento 1 — Visualización</span><span class="tag-pill">Gráfico completo</span><span class="tag-pill presenter-pill">Presenta: Saire Bustamante</span></div>
+        <h2 class="reveal d2">Accuracy, Convergencia VQC y F1-Score por Modelo</h2>
+        <div class="reveal-scale d3 img-full"><img src="assets/exp1_baseline_corregido.png" alt="Exp 1: Accuracy por modelo, convergencia VQC, F1-Score"></div>
+    </div>
+    <div class="slide-counter"><span class="c-num">11</span> / <span class="c-total">22</span></div>
+</section>
+
+<!-- ========== SLIDE 10 — EXP 2: BELL STATE (MODIFICADO) ========== -->
+<section class="slide" id="s12">
+    <div class="s-wrap">
+        <div class="s-header reveal d1"><span class="eyebrow">Experimento 2 — Estado de Bell</span><span class="tag-pill">Fidelidad: 0.9834</span><span class="tag-pill presenter-pill">Presenta: Saire Bustamante</span></div>
+        <h2 class="reveal d2">Circuito y Distribución de Probabilidad: Simulador vs. ibm_fez</h2>
+        <div class="grid-2 flex-grow reveal d3" style="margin-top: 10px; align-items: center; gap: 20px;">
+            <div class="flex-col gap-sm" style="height: 100%;">
+                <div class="card flex-col gap-xs" style="flex: 1; align-items: center; text-align: center; background: #0d1117; border: 1px solid rgba(255,255,255,0.1); padding: 15px;">
+                    <h3 style="color: #e6e8f0; margin-bottom: 8px; font-size: 18px;">Circuito de Bell (H + CNOT)</h3>
+                    <div style="flex: 1; display: flex; align-items: center; justify-content: center; overflow: hidden; border-radius: 8px; background: white; padding: 8px; width: 100%;">
+                        <img src="assets/vis_bell_circuit_2.png" alt="Circuito de Bell" style="max-height: 220px; width: 100%; object-fit: contain;">
+                    </div>
+                </div>
+                <div class="highlight-block" style="margin-top: 10px;">
+                    <p class="sub-text" style="color: var(--text); font-size: 13px;">Generación del estado entrelazado |\Phi<sup>+</sup>&rangle; = 1/√2 (|00&rangle; + |11&rangle;). Las pequeñas fugas hacia |01&rangle; y |10&rangle; en hardware real se deben a errores de lectura (SPAM) y relajación térmica T<sub>1</sub>.</p>
+                </div>
+            </div>
+            <div class="card flex-col" style="height: 100%; padding: 10px; background: #0d1117; border: 1px solid rgba(255,255,255,0.1); align-items: center; justify-content: center;">
+                <h3 style="color: #e6e8f0; margin-bottom: 8px; font-size: 18px;">Histograma de Probabilidad</h3>
+                <div style="flex: 1; display: flex; align-items: center; justify-content: center; overflow: hidden; border-radius: 8px; background: white; padding: 5px; width: 100%;">
+                    <img src="assets/exp2_bell_state.png" alt="Bell State" style="max-height: 450px; width: 100%; object-fit: contain;">
+                </div>
+            </div>
+        </div>
+        <div class="reveal d4" style="font-size:12px; margin-top:15px; color:var(--text-light); line-height:1.4;">
+            <strong>H:</strong> Compuerta Hadamard (crea superposición) &nbsp;|&nbsp; 
+            <strong>CNOT:</strong> Compuerta NO Controlada (crea entrelazamiento) &nbsp;|&nbsp; 
+            <strong>SPAM:</strong> State Preparation and Measurement (Errores de lectura) &nbsp;|&nbsp; 
+            <strong>T₁:</strong> Tiempo de Relajación Térmica
+        </div>
+    </div>
+    <div class="slide-counter"><span class="c-num">12</span> / <span class="c-total">22</span></div>
+</section>
+
+<!-- ========== SLIDE 11 — EXP 3: DATOS ========== -->
+<section class="slide" id="s13">
+    <div class="s-wrap">
+        <div class="s-header reveal d1"><span class="eyebrow">Experimento 3</span><span class="tag-pill">Núcleo de la investigación</span><span class="tag-pill presenter-pill">Presenta: Saire Bustamante</span></div>
+        <h2 class="reveal d2">QSVC: Simulador vs. Hardware Real</h2>
+        <div class="grid-2 flex-grow reveal d3">
+            <div class="flex-col gap-md">
+                <div class="card">
+                    <h3 style="margin-bottom:14px;">Resultados del Kernel QSVC</h3>
+                    <table class="data-table"><thead><tr><th>Entorno</th><th>Accuracy</th><th>F1</th><th>Tiempo</th></tr></thead><tbody>
+                        <tr><td>Simulador (full)</td><td class="num">77.78%</td><td class="num">0.777</td><td>19.7s</td></tr>
+                        <tr><td>Simulador (subset)</td><td class="num" style="color:#d97706;">33.33%</td><td>0.324</td><td>0.46s</td></tr>
+                        <tr><td>HW ibm_fez</td><td class="num-neg">11.11%</td><td class="num-neg">0.111</td><td>182s</td></tr>
+                    </tbody></table>
+                </div>
+                <div class="highlight-block" style="border-left-color:var(--negative);">
+                    <p class="sub-text" style="color:var(--text);"><strong>Degradación dual:</strong></p>
+                    <p class="sub-text" style="margin-top:8px;">1. Escasez muestral: 77.8% → 33.3% <span class="num-neg">(−44 pp)</span><br>2. Ruido NISQ: 33.3% → 11.1% <span class="num-neg">(−22 pp)</span></p>
+                </div>
+            </div>
+            <div class="flex-col gap-md" style="justify-content:center;align-items:center;">
+                <div class="card" style="text-align:center;width:100%;">
+                    <p class="sub-text">Degradación total</p>
+                    <div class="metric-value" style="font-size:88px;color:var(--negative);margin:8px 0;">−66 pp</div>
+                    <p class="sub-text">77.8% (sim. full) → 11.1% (hw)</p>
+                    <p class="meta-text" style="margin-top:12px;">= 1 de 9 muestras correctas</p>
+                </div>
+            </div>
+        </div>
+        <div class="reveal d4" style="font-size:12px; margin-top:15px; color:var(--text-light); line-height:1.4;">
+            <strong>QSVC:</strong> Quantum Support Vector Classifier (Clasificador Cuántico) &nbsp;|&nbsp; 
+            <strong>F1:</strong> F1-Score (Métrica de balance) &nbsp;|&nbsp; 
+            <strong>HW:</strong> Hardware &nbsp;|&nbsp; 
+            <strong>NISQ:</strong> Noisy Intermediate-Scale Quantum (Era cuántica con ruido)
+        </div>
+    </div>
+    <div class="slide-counter"><span class="c-num">13</span> / <span class="c-total">22</span></div>
+</section>
+
+<!-- ========== SLIDE 12 — EXP 3: GRÁFICO (MODIFICADO) ========== -->
+<section class="slide" id="s14">
+    <div class="s-wrap">
+        <div class="s-header reveal d1"><span class="eyebrow">Experimento 3 — Matrices de Kernel</span><span class="tag-pill">Similitud</span><span class="tag-pill presenter-pill">Presenta: Saire Bustamante</span></div>
+        <h2 class="reveal d2">Circuito Compute-Uncompute y Matrices de Kernel Cuántico</h2>
+        <div class="grid-2 flex-grow reveal d3" style="margin-top: 10px; align-items: center; gap: 20px;">
+            <div class="flex-col gap-sm" style="height: 100%;">
+                <div class="card flex-col gap-xs" style="flex: 1; align-items: center; text-align: center; background: #0d1117; border: 1px solid rgba(255,255,255,0.1); padding: 15px;">
+                    <h3 style="color: #e6e8f0; margin-bottom: 8px; font-size: 18px;">Esquema Compute-Uncompute</h3>
+                    <div style="flex: 1; display: flex; align-items: center; justify-content: center; overflow: hidden; border-radius: 8px; background: white; padding: 8px; width: 100%;">
+                        <img src="assets/vis6_compute_uncompute_2.png" alt="Compute-Uncompute" style="max-height: 220px; width: 100%; object-fit: contain;">
+                    </div>
+                </div>
+                <div class="highlight-block" style="margin-top: 10px;">
+                    <p class="sub-text" style="color: var(--text); font-size: 13px;">El kernel cuántico calcula K(x<sub>i</sub>, x<sub>j</sub>) = |&langle;0<sup>n</sup>| U<sub>ϕ</sub><sup>&dagger;</sup>(x<sub>j</sub>) U<sub>ϕ</sub>(x<sub>i</sub>) |0<sup>n</sup>&rangle;|<sup>2</sup>. En hardware real, la decoherencia destruye la estructura diagonal del kernel de entrenamiento.</p>
+                </div>
+            </div>
+            <div class="card flex-col" style="height: 100%; padding: 10px; background: #0d1117; border: 1px solid rgba(255,255,255,0.1); align-items: center; justify-content: center;">
+                <h3 style="color: #e6e8f0; margin-bottom: 8px; font-size: 18px;">Matrices de Similitud</h3>
+                <div style="flex: 1; display: flex; align-items: center; justify-content: center; overflow: hidden; border-radius: 8px; background: white; padding: 5px; width: 100%;">
+                    <img src="assets/exp3_qsvc_hw_vs_sim.png" alt="Kernel Sim vs HW" style="max-height: 450px; width: 100%; object-fit: contain;">
+                </div>
+            </div>
+        </div>
+        <div class="reveal d4" style="font-size:12px; margin-top:15px; color:var(--text-light); line-height:1.4;">
+            <strong>SVM:</strong> Support Vector Machine (Máquina de Soporte Vectorial clásica) &nbsp;|&nbsp; 
+            <strong>QPU:</strong> Quantum Processing Unit (Procesador Cuántico)
+        </div>
+    </div>
+    <div class="slide-counter"><span class="c-num">14</span> / <span class="c-total">22</span></div>
+</section>
+
+<!-- ========== SLIDE 13 — EXP 4: TREX DATOS ========== -->
+<section class="slide" id="s15">
+    <div class="s-wrap">
+        <div class="s-header reveal d1"><span class="eyebrow">Experimento 4</span><span class="tag-pill">Mitigación</span><span class="tag-pill presenter-pill">Presenta: Saire Bustamante</span></div>
+        <h2 class="reveal d2">Mitigación de Errores: TREX</h2>
+        <div class="grid-2 flex-grow reveal d3">
+            <div class="flex-col gap-md" style="justify-content:center;">
+                <div class="card" style="text-align:center;">
+                    <p class="eyebrow" style="font-size:14px;">Accuracy post-TREX</p>
+                    <div class="metric-value" style="font-size:64px;color:var(--negative);margin:12px 0;">11.11%</div>
+                    <p class="sub-text">Sin cambio respecto a sin mitigación</p>
+                </div>
+                <div class="highlight-block">
+                    <p class="sub-text" style="color:var(--text);">Se requieren técnicas más agresivas: <strong>ZNE</strong> (Zero Noise Extrapolation) o <strong>PEC</strong> (Probabilistic Error Cancellation) que operen sobre el ruido de compuerta.</p>
+                </div>
+            </div>
+            <div class="card flex-col gap-sm">
+                <h3 style="margin-bottom:12px;">¿Por qué TREX no funcionó?</h3>
+                <ul class="sub-text" style="padding-left:20px;">
+                    <li style="margin-bottom:10px;">TREX corrige <strong>errores de lectura</strong> (SPAM), no ruido de compuerta</li>
+                    <li style="margin-bottom:10px;">El kernel está <strong style="color:var(--negative);">geométricamente colapsado</strong> por ruido coherente + escasez muestral</li>
+                    <li style="margin-bottom:10px;">La corrección de lectura no recupera información perdida en compuertas intermedias</li>
+                    <li>El circuito compute-uncompute acumula errores en toda su profundidad antes de la medición</li>
+                </ul>
+            </div>
+        </div>
+        <div class="reveal d4" style="font-size:12px; margin-top:15px; color:var(--text-light); line-height:1.4;">
+            <strong>TREX:</strong> Twirled Readout Error Extinction &nbsp;|&nbsp; 
+            <strong>SPAM:</strong> State Preparation and Measurement (Lectura) &nbsp;|&nbsp; 
+            <strong>ZNE:</strong> Zero Noise Extrapolation &nbsp;|&nbsp; 
+            <strong>PEC:</strong> Probabilistic Error Cancellation
+        </div>
+    </div>
+    <div class="slide-counter"><span class="c-num">15</span> / <span class="c-total">22</span></div>
+</section>
+
+<!-- ========== SLIDE 14 — EXP 4: GRÁFICO (PÁGINA COMPLETA) ========== -->
+<section class="slide slide-img" id="s16">
+    <div class="s-wrap">
+        <div class="s-header reveal d1"><span class="eyebrow">Experimento 4 — Visualización</span><span class="tag-pill">TREX</span><span class="tag-pill presenter-pill">Presenta: Puma Potosino</span></div>
+        <h2 class="reveal d2">Estabilidad de Predicción Post-TREX</h2>
+        <p class="reveal d2 sub-text">Accuracy invariable (11.11%) respecto al escenario sin mitigación. La corrección SPAM no recupera un kernel colapsado.</p>
+        <div class="reveal-scale d3 img-full"><img src="assets/exp4_error_mitigation.png" alt="Exp 4: Mitigación TREX"></div>
+    </div>
+    <div class="slide-counter"><span class="c-num">16</span> / <span class="c-total">22</span></div>
+</section>
+
+<!-- ========== SLIDE 15 — EXP 5: MNIST DATOS ========== -->
+<section class="slide" id="s17">
+    <div class="s-wrap">
+        <div class="s-header reveal d1"><span class="eyebrow">Experimento 5</span><span class="tag-pill">MNIST Hardware</span><span class="tag-pill presenter-pill">Presenta: Puma Potosino</span></div>
+        <h2 class="reveal d2">MNIST en Hardware: Resultado Atípico</h2>
+        <div class="grid-2 flex-grow reveal d3">
+            <div class="flex-col gap-md">
+                <div class="card">
+                    <h3 style="margin-bottom:14px;">MNIST Binario (0 vs. 1), PCA → 4D</h3>
+                    <table class="data-table"><thead><tr><th>Modelo</th><th>Accuracy</th><th>F1</th><th>Tiempo</th></tr></thead><tbody>
+                        <tr><td>SVM-RBF (clásico)</td><td class="num-pos">100.0%</td><td class="num-pos">1.000</td><td>0.01s</td></tr>
+                        <tr><td>QSVC (simulador)</td><td class="num">77.78%</td><td>0.775</td><td>0.43s</td></tr>
+                        <tr><td>QSVC (ibm_fez)</td><td class="num-pos">88.89%</td><td class="num-pos">0.889</td><td>205s</td></tr>
+                    </tbody></table>
+                </div>
+                <div class="card" style="text-align:center;">
+                    <p class="sub-text">HW superó al Simulador</p>
+                    <div style="display:flex;justify-content:center;gap:40px;align-items:center;margin-top:12px;">
+                        <div><div class="stat-num" style="color:var(--text-muted);font-size:40px;">77.8%</div><p class="meta-text">Simulador</p></div>
+                        <span style="font-size:28px;color:var(--primary);">→</span>
+                        <div><div class="stat-num" style="color:var(--positive);font-size:40px;">88.9%</div><p class="meta-text">ibm_fez</p></div>
+                    </div>
+                </div>
+            </div>
+            <div class="flex-col gap-md" style="justify-content:center;">
+                <div class="highlight-block" style="border-left-color:#d97706;">
+                    <p class="sub-text" style="color:var(--text);"><strong style="color:#d97706;">No es ventaja cuántica.</strong> Con 9 muestras test (±11.1% cada una), el ruido estocástico actuó como regularización implícita. Artefacto estadístico por baja resolución muestral. Con datasets más grandes, el simulador superaría al hardware.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="slide-counter"><span class="c-num">17</span> / <span class="c-total">22</span></div>
+</section>
+
+<!-- ========== SLIDE 16 — EXP 5: GRÁFICO (PÁGINA COMPLETA) ========== -->
+<section class="slide slide-img" id="s18">
+    <div class="s-wrap">
+        <div class="s-header reveal d1"><span class="eyebrow">Experimento 5 — Visualización</span><span class="tag-pill">MNIST</span><span class="tag-pill presenter-pill">Presenta: Puma Potosino</span></div>
+        <h2 class="reveal d2">Clasificación MNIST (0 vs. 1): Clásico, Simulador y Hardware</h2>
+        <p class="reveal d2 sub-text">Dataset binario comprimido con PCA a 4D (73.44% varianza). Resultado atípico: HW (88.9%) supera al simulador (77.8%).</p>
+        <div class="reveal-scale d3 img-full"><img src="assets/exp5_mnist_hardware.png" alt="Exp 5: MNIST Hardware"></div>
+    </div>
+    <div class="slide-counter"><span class="c-num">18</span> / <span class="c-total">22</span></div>
+</section>
+
+<!-- ========== SLIDE 17 — RESUMEN GLOBAL (TABLA) ========== -->
+<section class="slide" id="s19">
+    <div class="s-wrap">
+        <div class="s-header reveal d1"><span class="eyebrow">Resumen Global</span><span class="tag-pill">11 modelos</span><span class="tag-pill presenter-pill">Presenta: Puma Potosino</span></div>
+        <h2 class="reveal d2">Comparación Global de Todos los Modelos</h2>
+        <div class="flex-grow reveal d3" style="overflow:hidden;">
+            <table class="data-table" style="font-size:18px;">
+                <thead><tr><th>Tipo</th><th>Modelo</th><th>Accuracy</th><th>F1 (macro)</th><th>Entorno</th></tr></thead>
+                <tbody>
+                    <tr><td><span class="tag-pill" style="font-size:12px;">Clásico</span></td><td>SVM-RBF (Iris)</td><td class="num-pos">93.33%</td><td class="num-pos">0.933</td><td>Local</td></tr>
+                    <tr><td><span class="tag-pill" style="font-size:12px;">Clásico</span></td><td>MLP (Iris)</td><td class="num-pos">93.33%</td><td class="num-pos">0.933</td><td>Local</td></tr>
+                    <tr><td><span class="tag-pill" style="font-size:12px;">Clásico</span></td><td>KNN (Iris)</td><td class="num-pos">93.33%</td><td class="num-pos">0.933</td><td>Local</td></tr>
+                    <tr style="border-top:2px solid var(--border);"><td><span class="tag-pill" style="font-size:12px;">Simulador</span></td><td>VQC (Iris)</td><td class="num" style="color:#d97706;">60.00%</td><td>0.481</td><td>Statevector</td></tr>
+                    <tr><td><span class="tag-pill" style="font-size:12px;">Simulador</span></td><td>QSVC (Iris full)</td><td class="num">77.78%</td><td class="num">0.777</td><td>Statevector</td></tr>
+                    <tr><td><span class="tag-pill" style="font-size:12px;">Simulador</span></td><td>QSVC (Iris subset)</td><td class="num" style="color:#d97706;">33.33%</td><td>0.324</td><td>Statevector</td></tr>
+                    <tr style="border-top:2px solid rgba(220,38,38,0.2);"><td><span class="tag-pill" style="font-size:12px;background:rgba(220,38,38,0.08);color:var(--negative);">Hardware</span></td><td>QSVC sin mitigación</td><td class="num-neg">11.11%</td><td class="num-neg">0.111</td><td>ibm_fez</td></tr>
+                    <tr><td><span class="tag-pill" style="font-size:12px;background:rgba(220,38,38,0.08);color:var(--negative);">Hardware</span></td><td>QSVC + TREX</td><td class="num-neg">11.11%</td><td class="num-neg">0.111</td><td>ibm_fez</td></tr>
+                    <tr style="border-top:2px solid var(--border);"><td><span class="tag-pill" style="font-size:12px;">Clásico</span></td><td>SVM-RBF (MNIST)</td><td class="num-pos">100.00%</td><td class="num-pos">1.000</td><td>Local</td></tr>
+                    <tr><td><span class="tag-pill" style="font-size:12px;">Simulador</span></td><td>QSVC (MNIST)</td><td class="num">77.78%</td><td>0.775</td><td>Statevector</td></tr>
+                    <tr><td><span class="tag-pill" style="font-size:12px;background:rgba(5,150,105,0.08);color:var(--positive);">Hardware</span></td><td>QSVC (MNIST)</td><td class="num-pos">88.89%</td><td class="num-pos">0.889</td><td>ibm_fez</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="slide-counter"><span class="c-num">19</span> / <span class="c-total">22</span></div>
+</section>
+
+<!-- ========== SLIDE 18 — RESUMEN: RADAR (PÁGINA COMPLETA) ========== -->
+<section class="slide slide-img" id="s20">
+    <div class="s-wrap">
+        <div class="s-header reveal d1"><span class="eyebrow">Resumen Global — Radar</span><span class="tag-pill">Panorámica</span><span class="tag-pill presenter-pill">Presenta: Puma Potosino</span></div>
+        <h2 class="reveal d2">Comparación Global: Clásico vs. Simulador vs. Hardware</h2>
+        <p class="reveal d2 sub-text">Barras de accuracy por modelo y gráfico radar de rendimiento multidimensional (Accuracy Iris, Accuracy MNIST, Fidelidad Kernel).</p>
+        <div class="reveal-scale d3 img-full"><img src="assets/resumen_final_radar.png" alt="Radar: Clásico vs Simulador vs Hardware"></div>
+    </div>
+    <div class="slide-counter"><span class="c-num">20</span> / <span class="c-total">22</span></div>
+</section>
+
+<!-- ========== SLIDE 19 — CONCLUSIONES ========== -->
+<section class="slide" id="s21">
+    <div class="s-wrap">
+        <div class="s-header reveal d1"><span class="eyebrow">Conclusiones</span><span class="tag-pill">Síntesis</span><span class="tag-pill presenter-pill">Presenta: Puma Potosino</span></div>
+        <h2 class="reveal d2">Conclusiones de la Experimentación</h2>
+        <div class="flex-grow reveal d3 flex-col gap-md" style="margin-top:8px;">
+            <div class="card" style="display:flex;gap:20px;align-items:start;"><span class="stat-num" style="font-size:24px;margin-top:2px;">01</span><p class="body-text" style="color:var(--text);"><strong>Viabilidad demostrada:</strong> Se validó la integración completa entre Qiskit y el procesador IBM Heron r2 (ibm_fez, 156 qubits). La fidelidad de Bell de 0.9834 confirma la calidad del hardware.</p></div>
+            <div class="card" style="display:flex;gap:20px;align-items:start;"><span class="stat-num" style="font-size:24px;margin-top:2px;">02</span><p class="body-text" style="color:var(--text);"><strong>Impacto dual cuantificado:</strong> La escasez muestral causa <span class="num-neg">−44 pp</span> y el ruido NISQ causa <span class="num-neg">−22 pp</span> adicionales. Sin mitigación avanzada (ZNE/PEC), los kernels cuánticos son inviables en hardware real.</p></div>
+            <div class="card" style="display:flex;gap:20px;align-items:start;"><span class="stat-num" style="font-size:24px;margin-top:2px;">03</span><p class="body-text" style="color:var(--text);"><strong>Brecha cuántico-clásica:</strong> Los modelos clásicos (SVM-RBF, MLP, KNN = 93.3%) superan al mejor QML (VQC = 60%). Consistente con Bowles et al. (2024): NISQ no ofrece ventaja competitiva actual.</p></div>
+            <div class="card" style="display:flex;gap:20px;align-items:start;"><span class="stat-num" style="font-size:24px;margin-top:2px;">04</span><p class="body-text" style="color:var(--text);"><strong>Reproducibilidad:</strong> Código completo, datasets, matrices de kernel y resultados disponibles en el repositorio público de GitHub.</p></div>
+        </div>
+    </div>
+    <div class="slide-counter"><span class="c-num">21</span> / <span class="c-total">22</span></div>
+</section>
+
+<!-- ========== SLIDE 20 — TRABAJO FUTURO & CIERRE ========== -->
+<section class="slide" id="s22">
+    <div class="cover-deco"></div>
+    <div class="cover-dots" style="bottom:120px;left:100px;"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+    <div class="s-wrap" style="justify-content:center;">
+        <div class="reveal d1" style="display:flex;align-items:center;gap:20px;margin-bottom:24px;">
+            <img src="assets/escudo.png" alt="UNSAAC" style="width: 120px; height: auto; mix-blend-mode: multiply; filter: contrast(1.1) brightness(0.97); margin-left: -15px;">
+            <p style="font-family:var(--font-display);font-weight:600;font-size:15px;color:var(--text);text-transform:uppercase;letter-spacing:0.04em;">Universidad Nacional de San Antonio Abad del Cusco</p>
+        </div>
+        <div class="reveal d2 accent-line" style="margin-bottom:24px;"></div>
+        <h2 class="reveal d3" style="font-size:52px;">Líneas de Trabajo Futuro</h2>
+        <div class="grid-3 reveal d4" style="margin-top:36px;">
+            <div class="card" style="text-align:center;"><div class="stat-num" style="margin-bottom:12px;">01</div><h3 style="font-size:20px;">Escala Muestral</h3><p class="sub-text" style="margin-top:12px;">Migrar a IBM Premium Access para eliminar la restricción de cuota e inyectar datasets completos.</p></div>
+            <div class="card" style="text-align:center;"><div class="stat-num" style="margin-bottom:12px;">02</div><h3 style="font-size:20px;">Mitigación Avanzada</h3><p class="sub-text" style="margin-top:12px;">Implementar ZNE y PEC con la primitiva EstimatorV2 para operar sobre ruido de compuerta.</p></div>
+            <div class="card" style="text-align:center;"><div class="stat-num" style="margin-bottom:12px;">03</div><h3 style="font-size:20px;">Benchmark Justo</h3><p class="sub-text" style="margin-top:12px;">Replicar Bowles et al. (2024) con 160 datasets en hardware real para detectar nichos de ventaja.</p></div>
+        </div>
+        <div class="reveal d5" style="margin-top:auto;text-align:center;">
+            <div style="display:flex;align-items:center;justify-content:center;gap:16px;margin-bottom:12px;">
+                <div class="accent-line" style="width:40px;"></div><span class="eyebrow" style="font-size:13px;">Repositorio Público</span><div class="accent-line" style="width:40px;"></div>
+            </div>
+            <p style="font-family:var(--font-display);font-size:18px;color:var(--primary);font-weight:500;">github.com/milith0kun/Computacion_Cuantica</p>
+            <div style="margin-top:20px;">
+                <p style="font-family:var(--font-display);font-weight:600;font-size:17px;color:var(--text);">Grupo 1</p>
+                <div style="display:flex;gap:40px;justify-content:center;margin-top:8px;">
+                    <p class="body-text" style="font-size:16px;">Saire Bustamante</p>
+                    <p class="body-text" style="font-size:16px;">Lozano Llactahuaman</p>
+                    <p class="body-text" style="font-size:16px;">Puma Potosino</p>
+                </div>
+            </div>
+            <p class="meta-text" style="margin-top:12px;">Junio 2026</p>
+        </div>
+    </div>
+    <div class="slide-counter"><span class="c-num">22</span> / <span class="c-total">22</span></div>
+</section>
+
+</main>
+<div class="progress-track-outer"><div class="progress-fill" id="progressFill" style="width:0%;"></div></div>
+<div class="nav-hint">Usa las flechas del teclado para navegar</div>
+</div>
+
+<div style="position:fixed;top:0;left:0;width:80px;height:80px;z-index:10000;cursor:pointer;" class="edit-hotzone"></div>
+<button id="editToggle" title="Modo edición (E)" style="position:fixed;top:16px;left:16px;opacity:0;pointer-events:none;transition:opacity 0.3s ease;z-index:10001;font-size:14px;background:var(--primary);color:var(--bg);border:none;border-radius:var(--r-pill);padding:10px 20px;cursor:pointer;font-family:var(--font-display);font-weight:600;">Editar</button>
+
+<script>
+class SlidePresentation {
+    constructor() {
+        this.slides = document.querySelectorAll('.slide');
+        this.cur = 0;
+        this.stage = document.getElementById('deckStage');
+        this.pf = document.getElementById('progressFill');
+        this.busy = false;
+        this.scaleStage();
+        window.addEventListener('resize', () => this.scaleStage());
+        document.addEventListener('keydown', e => {
+            if (e.target.isContentEditable) return;
+            if (['ArrowRight',' ','PageDown'].includes(e.key)) { e.preventDefault(); this.go(this.cur + 1); }
+            else if (['ArrowLeft','PageUp'].includes(e.key)) { e.preventDefault(); this.go(this.cur - 1); }
+            else if (e.key === 'Home') { e.preventDefault(); this.go(0); }
+            else if (e.key === 'End') { e.preventDefault(); this.go(this.slides.length - 1); }
+        });
+        let sx = 0;
+        document.addEventListener('touchstart', e => { sx = e.changedTouches[0].screenX; });
+        document.addEventListener('touchend', e => { const d = e.changedTouches[0].screenX - sx; if (Math.abs(d) > 50) d < 0 ? this.go(this.cur+1) : this.go(this.cur-1); });
+        let wt = null;
+        document.addEventListener('wheel', e => { e.preventDefault(); if (wt) return; wt = setTimeout(() => wt = null, 600); e.deltaY > 0 ? this.go(this.cur+1) : this.go(this.cur-1); }, { passive: false });
+        this.go(0);
+    }
+    scaleStage() {
+        const f = Math.min(window.innerWidth / 1920, window.innerHeight / 1080);
+        const x = (window.innerWidth - 1920 * f) / 2, y = (window.innerHeight - 1080 * f) / 2;
+        this.stage.style.transform = `translate(${x}px,${y}px) scale(${f})`;
+    }
+    go(i) {
+        if (this.busy) return;
+        const n = Math.max(0, Math.min(i, this.slides.length - 1));
+        if (n === this.cur && i !== 0) return;
+        this.busy = true; this.cur = n;
+        this.slides.forEach((s, j) => { s.classList.toggle('visible', j === n); });
+        this.pf.style.width = (this.cur / (this.slides.length - 1) * 100) + '%';
+        document.querySelectorAll('.c-num').forEach(el => el.textContent = String(this.cur + 1).padStart(2, '0'));
+        setTimeout(() => this.busy = false, 500);
+    }
+}
+
+class InlineEditor {
+    constructor() {
+        this.on = false;
+        this.btn = document.getElementById('editToggle');
+        const hz = document.querySelector('.edit-hotzone');
+        let ht;
+        hz.addEventListener('mouseenter', () => { clearTimeout(ht); this.btn.style.opacity='1'; this.btn.style.pointerEvents='auto'; });
+        hz.addEventListener('mouseleave', () => { ht = setTimeout(() => { if (!this.on) { this.btn.style.opacity='0'; this.btn.style.pointerEvents='none'; }}, 400); });
+        this.btn.addEventListener('mouseenter', () => clearTimeout(ht));
+        this.btn.addEventListener('mouseleave', () => { ht = setTimeout(() => { if (!this.on) { this.btn.style.opacity='0'; this.btn.style.pointerEvents='none'; }}, 400); });
+        this.btn.addEventListener('click', () => this.toggle());
+        hz.addEventListener('click', () => this.toggle());
+        document.addEventListener('keydown', e => { if ((e.key==='e'||e.key==='E') && !e.target.getAttribute('contenteditable')) this.toggle(); });
+    }
+    toggle() {
+        this.on = !this.on;
+        this.btn.textContent = this.on ? 'Guardar' : 'Editar';
+        this.btn.style.opacity='1'; this.btn.style.pointerEvents='auto';
+        if (this.on) document.querySelectorAll('h1,h2,h3,p,li,td').forEach(el => { if (!el.querySelector('table,div,img,span')) { el.setAttribute('contenteditable','true'); el.style.outline='1px dashed var(--border)'; el.style.outlineOffset='3px'; }});
+        else { document.querySelectorAll('[contenteditable]').forEach(el => { el.removeAttribute('contenteditable'); el.style.outline=''; el.style.outlineOffset=''; }); this.btn.style.opacity='0'; this.btn.style.pointerEvents='none'; }
+    }
+}
+new SlidePresentation();
+new InlineEditor();
+</script>
+</body>
+</html>

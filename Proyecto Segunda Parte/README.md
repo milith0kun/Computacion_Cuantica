@@ -3,7 +3,7 @@
 Este subproyecto documenta la ejecución de algoritmos de Machine Learning Cuántico (VQC y QSVC) sobre procesadores físicos ruidosos de la era NISQ, a través de la plataforma en la nube **IBM Quantum**.
 
 ## 1. Backend Utilizado
-Para el desarrollo de los experimentos se utilizó el backend `ibm_fez`. 
+Para el desarrollo de los experimentos se utilizó el backend `ibm_marrakesh`. 
 * **Arquitectura:** Procesador de grado de utilidad IBM Heron r2.
 * **Topología:** Acoplamiento hexagonal pesado enfocado en reducir la interferencia de canal (*cross-talk*).
 * **Qubits:** 156 qubits físicos disponibles.

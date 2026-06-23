@@ -1,4 +1,4 @@
-﻿\section{Marco Te\'orico}
+\section{Marco Te\'orico}
 \label{sec:marco_teorico}
 
 Para contextualizar el impacto de las variaciones operativas durante la experimentaci\'on en QPU, se fundamentan te\'oricamente los m\'etodos de evaluaci\'on del error de la plataforma.
@@ -192,6 +192,29 @@ arquitectura del circuito cu\'antico previsto.
 \textit{ansatz} RealAmplitudes (rotaciones $R_Y$ parametrizadas +
 $\mathrm{CNOT}$) y medici\'on en la base computacional.}
 \label{fig:circuito}
+\end{figure}
+
+\noindent Las Figuras~\ref{fig:zzfm_decomp}--\ref{fig:vqc_completo} muestran los circuitos reales generados por Qiskit, descompuestos en puertas b\'asicas.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\linewidth]{graficos/vis3_zzfeaturemap_2.png}
+    \caption{ZZFeatureMap descompuesto en puertas b\'asicas (H, P, CX). Se observan las rotaciones de fase $P(2x_i)$ que codifican cada \textit{feature} y las interacciones $ZZ$ implementadas mediante pares CNOT-P-CNOT entre qubits vecinos (entrelazamiento lineal, 2 repeticiones).}
+    \label{fig:zzfm_decomp}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\linewidth]{graficos/vis4_realamplitudes_vqc_2.png}
+    \caption{Circuito VQC completo: ZZFeatureMap (codificaci\'on de datos) $+$ barrera $+$ RealAmplitudes (16 par\'ametros entrenables $\theta$) $+$ medici\'on. El flujo es: $|0000\rangle \to U_\phi(\mathbf{x}) \to U_W(\boldsymbol{\theta}) \to$ Medici\'on.}
+    \label{fig:vqc_completo}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\linewidth]{graficos/vis5_codificacion_datos_3.png}
+    \caption{ZZFeatureMap con datos reales del dataset Iris inyectados: cada valor num\'erico ($x_0{=}0.70$, $x_1{=}0.65$, $x_2{=}1.06$, $x_3{=}1.31$~rad) se convierte en un \'angulo de rotaci\'on de fase en las compuertas del circuito cu\'antico.}
+    \label{fig:codificacion_real}
 \end{figure}
 Los circuitos demasiado profundos pueden sufrir el
 fen\'omeno de \emph{barren plateaus} \citep{mcclean2018, larocca2025},
